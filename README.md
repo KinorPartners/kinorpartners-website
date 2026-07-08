@@ -39,6 +39,28 @@ The form on `/pages/contact/` posts to **Formspree**. Before it works you must:
 
 Until then, the page still shows the direct email link (oz@kinorpartners.com).
 
+## Preserved URLs & redirects
+
+Every address from the old Shopify site still works, so QR codes and inbound
+links never break:
+- Content pages keep their exact old URLs.
+- Dropped product/collection pages and Shopify `/policies/*` URLs are tiny
+  redirect pages (e.g. `products/<handle>/index.html`) that forward to the
+  right place (Services, home, shirt-tucker.com, or the matching `/pages/` policy).
+
+To retarget a redirect, edit the `url=` and `location.replace(...)` in that file.
+
+## Windows note
+
+One product redirect folder has a very long name. If you clone this repo on
+Windows, first run:
+
+```
+git config --global core.longpaths true
+```
+
+Otherwise git cannot check out that file. (Not needed on macOS/Linux.)
+
 ## Analytics
 
 Google Analytics 4 (`G-H6T60VVJ27`) is included on every page.
