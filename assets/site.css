@@ -74,12 +74,15 @@ a:hover{text-decoration:underline}
 main{display:block}
 .kp-container{max-width:var(--wrap);margin:0 auto;padding:44px 24px 8px}
 .kp-container--narrow{max-width:880px}
-.kp-rte{overflow-wrap:break-word}
+.kp-rte{overflow-wrap:break-word;color:var(--text)}
 
-/* Base typography for migrated content that relies on theme defaults */
-.kp-rte h1{font-size:2.15rem;line-height:1.2;color:var(--ink);font-weight:800;margin:.2em 0 .5em}
-.kp-rte h2{font-size:1.55rem;line-height:1.25;color:var(--ink);font-weight:750;margin:1.6em 0 .5em}
-.kp-rte h3{font-size:1.2rem;color:var(--ink);font-weight:700;margin:1.4em 0 .4em}
+/* Base typography for migrated content that relies on theme defaults.
+   Note: headings intentionally DO NOT set an explicit color - they inherit it.
+   This lets migrated dark hero sections (which set color:#fff on their own
+   container) show white headings, while normal pages inherit the dark body color. */
+.kp-rte h1{font-size:2.15rem;line-height:1.2;font-weight:800;margin:.2em 0 .5em}
+.kp-rte h2{font-size:1.55rem;line-height:1.25;font-weight:750;margin:1.6em 0 .5em}
+.kp-rte h3{font-size:1.2rem;font-weight:700;margin:1.4em 0 .4em}
 .kp-rte p{margin:0 0 1em}
 .kp-rte ul,.kp-rte ol{margin:0 0 1em;padding-left:1.3em}
 .kp-rte li{margin:.35em 0}
@@ -134,15 +137,22 @@ main{display:block}
 .card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
 .card h3{margin:0 0 10px;color:var(--ink);font-size:1.25rem}
 .card p{margin:0;color:var(--text)}
-.card .ico{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#0767dd,#00a1ff);color:#fff;font-size:22px;margin-bottom:16px}
+.card .ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0767dd,#00a1ff);color:#fff;margin-bottom:16px}
+.card .ico svg{width:26px;height:26px}
 .card ul{margin:14px 0 0;padding-left:18px}
 .card li{margin:.3em 0}
 
-/* client logos */
-.logos{display:flex;flex-wrap:wrap;gap:38px 56px;align-items:center;justify-content:center}
-.logos img{height:46px;width:auto;opacity:.85;filter:grayscale(.15)}
-.logos img:hover{opacity:1;filter:none}
+/* client logo marquee (auto-scrolling) */
+.logo-marquee{overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.logo-track{display:flex;width:max-content;align-items:center;gap:70px;animation:logo-scroll 30s linear infinite}
+.logo-marquee:hover .logo-track{animation-play-state:paused}
+.logo-track img{height:44px;width:auto;flex:0 0 auto;opacity:.9}
+.logo-track img:hover{opacity:1}
+@keyframes logo-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.logo-track{animation:none;flex-wrap:wrap;justify-content:center;width:100%;gap:40px}}
 
 /* plans */
 .plan{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
@@ -195,7 +205,8 @@ main{display:block}
 .footer__brand img{height:40px;margin-bottom:6px}
 .footer__socials{display:flex;gap:14px;flex-wrap:wrap}
 .footer__socials a{display:inline-flex;width:38px;height:38px;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.18);border-radius:50%;color:#fff;font-size:14px}
+  border:1px solid rgba(255,255,255,.18);border-radius:50%;color:#fff}
+.footer__socials a svg{width:17px;height:17px}
 .footer__socials a:hover{background:var(--blue);border-color:var(--blue)}
 .footer__bottom{max-width:var(--wrap);margin:34px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
   display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13px;color:#8ea3c0}
