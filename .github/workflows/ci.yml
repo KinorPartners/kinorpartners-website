@@ -1,0 +1,23 @@
+name: Site checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Shared header/footer are in sync
+        run: python tools/sync_partials.py --check
+
+      - name: Links, JSON-LD, images, tag balance, page weight
+        run: python tools/check_site.py

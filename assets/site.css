@@ -263,3 +263,17 @@ main{display:block}
   .nav__links a.nav__cta--icon{justify-content:center}
   .nav__cta--icon .nav__cta-text{display:inline}
 }
+
+/* --- inline icons that replaced decorative emoji ---
+   Sized in em so each one inherits the type size of whatever contains it
+   (.rh-section-icon is 22px, .pp-icon 1.5rem, .stw-tt 12px, list items 1rem). */
+.kp-i{width:1em;height:1em;vertical-align:-.125em;display:inline-block;flex-shrink:0}
+li > .kp-i{margin-right:.5em}
+h3 > .kp-i,h4 > .kp-i,p > .kp-i{margin-right:.4em}
+
+/* keep the tinted icon chips colour-coded now that the emoji are gone */
+.rh-section-icon.blue .kp-i{color:#1d4ed8}
+.rh-section-icon.green .kp-i{color:#15803d}
+.rh-section-icon.purple .kp-i{color:#6d28d9}
+.rh-section-icon.orange .kp-i{color:#c2410c}
+.pp-icon .kp-i{color:var(--blue)}
