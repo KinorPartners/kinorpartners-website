@@ -203,11 +203,6 @@ main{display:block}
 .site-footer li{margin:9px 0;font-size:14.5px}
 .footer__brand p{font-size:14.5px;color:#9fb2cc;max-width:320px;margin:14px 0 18px}
 .footer__brand img{height:40px;margin-bottom:6px}
-.footer__socials{display:flex;gap:14px;flex-wrap:wrap}
-.footer__socials a{display:inline-flex;width:38px;height:38px;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.18);border-radius:50%;color:#fff}
-.footer__socials a svg{width:17px;height:17px}
-.footer__socials a:hover{background:var(--blue);border-color:var(--blue)}
 .footer__bottom{max-width:var(--wrap);margin:34px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
   display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13px;color:#8ea3c0}
 
@@ -247,3 +242,24 @@ main{display:block}
 .pdp-desc{margin-top:56px;border-top:1px solid var(--line);padding-top:36px}
 .pdp-desc h2{font-size:1.4rem;color:var(--ink);margin:0 0 14px}
 .pdp-desc img{border-radius:10px;margin:14px 0}
+
+
+/* --- nav Contact CTA as phone icon --- */
+/* `.nav__links a` (0,1,1) outranks `.nav__cta` (0,1,0), so the pill was
+   inheriting --ink instead of white. Match it at (0,2,1) to win. */
+.nav__links a.nav__cta,.nav__links a.nav__cta:hover{color:#fff}
+.nav__cta--icon{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px}
+.nav__cta--icon svg{width:18px;height:18px;display:block;flex-shrink:0}
+.nav__cta--icon .nav__cta-text{display:none}
+
+/* --- inline SVG icons replacing emoji --- */
+.icon-wrapper svg{width:24px;height:24px;display:block}
+.modal-icon svg{width:32px;height:32px;display:block;margin:0 auto;color:var(--blue)}
+.success-icon svg{width:44px;height:44px;display:block;margin:0 auto;color:var(--green)}
+.modal-close svg{width:20px;height:20px;display:block}
+
+@media(max-width:860px){
+  /* stacked mobile menu: show the label again so the row isn't a bare icon */
+  .nav__links a.nav__cta--icon{justify-content:center}
+  .nav__cta--icon .nav__cta-text{display:inline}
+}
