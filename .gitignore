@@ -4,3 +4,6 @@ desktop.ini
 
 # local dev helper (Claude Code preview server)
 .claude/
+
+node_modules/
+_site/

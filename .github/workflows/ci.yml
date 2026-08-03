@@ -1,4 +1,4 @@
-name: Site checks
+name: Build and deploy
 
 on:
   push:
@@ -6,18 +6,58 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  check:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build site
+        run: npm run build
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Shared header/footer are in sync
-        run: python tools/sync_partials.py --check
-
       - name: Links, JSON-LD, images, tag balance, page weight
-        run: python tools/check_site.py
+        run: python tools/check_site.py _site
+
+      - name: Custom domain survived the build
+        run: |
+          test -f _site/CNAME || { echo "_site/CNAME missing - custom domain would be dropped"; exit 1; }
+          grep -qx 'kinorpartners.com' _site/CNAME || { echo "unexpected CNAME contents:"; cat _site/CNAME; exit 1; }
+          test -f _site/404.html || { echo "_site/404.html missing"; exit 1; }
+          echo "CNAME and 404.html present"
+
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Pre-flight checks for the static site. Run locally or in CI.
 
-    python tools/check_site.py
+    python tools/check_site.py _site
+
+Takes the directory to check (defaults to _site, the Eleventy output). Always
+check the BUILT output rather than src/, so the layout-rendered head and the
+passthrough assets are covered.
 
 Fails (exit 1) on anything that would be visibly broken in production:
 broken internal links, malformed JSON-LD, missing images, or a page-weight
@@ -11,8 +15,12 @@ but do not fail the build.
 import glob, io, json, os, re, sys
 from urllib.parse import urlparse, unquote
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.chdir(ROOT)
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TARGET = sys.argv[1] if len(sys.argv) > 1 else '_site'
+root = TARGET if os.path.isabs(TARGET) else os.path.join(REPO, TARGET)
+if not os.path.isdir(root):
+    sys.exit('no such directory: %s (run `npm run build` first)' % root)
+os.chdir(root)
 
 IMG_BUDGET_MB = 6.0          # total weight of assets/img
 PAGE_BUDGET_KB = 120.0       # largest single HTML document
