@@ -6,146 +6,105 @@ canonical: "https://kinorpartners.com/pages/contact/"
 jsonld:
   - "{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https://kinorpartners.com/pages/contact/#webpage\",\"url\":\"https://kinorpartners.com/pages/contact/\",\"name\":\"Contact Kinor Partners | AI eCommerce & Growth Agency\",\"description\":\"Get in touch with Kinor Partners to scale your eCommerce or Amazon business with AI-driven marketing, sales, and store optimization. Let's talk growth.\",\"isPartOf\":{\"@id\":\"https://kinorpartners.com/#website\"},\"publisher\":{\"@id\":\"https://kinorpartners.com/#organization\"}},{\"@type\":\"BreadcrumbList\",\"@id\":\"https://kinorpartners.com/pages/contact/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https://kinorpartners.com/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Pages\",\"item\":\"https://kinorpartners.com/pages/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Contact Kinor Partners | AI eCommerce & Growth Agency\",\"item\":\"https://kinorpartners.com/pages/contact/\"}]}]}"
 ---
-<div class="kp-container kp-container--narrow"><div class="kp-rte rte"><style>
-  .contact-page-wrapper {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    max-width: 1200px;
-    margin: 0 auto 80px;
-    padding: 0 20px;
-    color: #4a4a4a;
+<style>
+  /* Contact page - single-screen layout.
+     The wrapper is sized to the viewport so the hero, the three detail cards,
+     the form and the scheduler are all visible without scrolling. The two
+     columns flex to absorb whatever height is left over, so the Calendly embed
+     grows on tall screens instead of pushing everything below the fold. */
+  .contact-page-wrapper{
+    --kp-header:69px;
+    max-width:1240px;margin:0 auto;padding:10px 20px 12px;
+    min-height:calc(100vh - var(--kp-header));
+    display:flex;flex-direction:column;gap:8px;box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  .contact-hero{text-align:center;padding:0;background:none}
+  .contact-hero .hero-badge{
+    display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:#007bff;background:rgba(0,123,255,.09);
+    padding:4px 12px;border-radius:50px;
+  }
+  .contact-hero h1{font-size:clamp(1.35rem,2.2vw,1.8rem);line-height:1.12;margin:5px 0 3px;color:#0f172a}
+  .contact-hero p{max-width:860px;margin:0 auto;font-size:.82rem;line-height:1.35;color:#5a6474}
+
+  .contact-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .info-card{
+    display:flex;gap:11px;align-items:flex-start;background:#fff;
+    border:1px solid #e6e9ef;border-radius:12px;padding:8px 10px;margin:0;
+    box-shadow:0 1px 2px rgba(16,24,40,.04);
+  }
+  .icon-wrapper{
+    flex-shrink:0;width:30px;height:30px;background:rgba(0,123,255,.08);
+    border-radius:9px;display:flex;align-items:center;justify-content:center;
+    color:#007bff;font-size:1rem;
+  }
+  .card-label{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#007bff}
+  .card-title{font-size:.95rem;font-weight:700;margin:1px 0 2px;color:#0f172a;line-height:1.2}
+  .card-text{font-size:11.5px;line-height:1.35;color:#5a6474;margin:0}
+
+  .contact-grid{
+    flex:1 1 auto;min-height:0;display:grid;
+    grid-template-columns:1fr 1fr;gap:12px;
+  }
+  .contact-col{
+    display:flex;flex-direction:column;min-height:0;background:#fff;
+    border:1px solid #e6e9ef;border-radius:12px;padding:11px 13px;
+    box-shadow:0 1px 2px rgba(16,24,40,.04);
+  }
+  .contact-col > h2{font-size:.95rem;font-weight:700;margin:0 0 7px;color:#0f172a}
+
+  .kp-form{display:flex;flex-direction:column;gap:5px;flex:1 1 auto;min-height:0}
+  .kp-form label{display:block;font-size:11px;font-weight:600;color:#3d4757;margin-bottom:2px}
+  .kp-form input,.kp-form textarea{
+    width:100%;box-sizing:border-box;padding:6px 9px;border:1px solid #d8dee7;
+    border-radius:8px;font:inherit;font-size:12.5px;background:#fff;
+  }
+  .kp-form input:focus,.kp-form textarea:focus{outline:2px solid rgba(0,123,255,.35);outline-offset:1px;border-color:#007bff}
+  .kp-form > div:has(textarea){flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+  .kp-form textarea{flex:1 1 auto;min-height:46px;resize:none}
+  .kp-form .btn{align-self:flex-start;padding:8px 18px;font-size:13px}
+  .kp-form > p{font-size:11.5px !important;margin:2px 0 0 !important}
+
+  /* let the embed fill the column instead of a fixed 700px block */
+  .calendly-inline-widget{flex:1 1 auto;min-height:0;height:auto}
+
+  /* Short desktop viewports (e.g. 1366x768 chrome-inclusive ~660px): the form's
+     intrinsic height is what stops the grid shrinking, so trim the type and
+     padding a further notch rather than letting the CTA drop below the fold. */
+  @media (min-width:981px) and (max-height:760px){
+    /* Pin to the viewport rather than just setting a minimum, so the grid row
+       takes exactly the leftover space. The columns then scroll internally in
+       the worst case instead of pushing the CTA past the fold. */
+    .contact-page-wrapper{
+      height:calc(100vh - var(--kp-header));min-height:0;
+      padding:6px 20px 6px;gap:5px;
+    }
+    .contact-col{overflow:auto}
+    .contact-hero h1{font-size:1.3rem;margin:3px 0 2px}
+    .contact-hero p{font-size:.78rem;line-height:1.3}
+    .info-card{padding:6px 9px;gap:9px}
+    .icon-wrapper{width:26px;height:26px}
+    .card-text{font-size:11px;line-height:1.28}
+    .contact-col{padding:8px 10px}
+    .contact-col > h2{margin:0 0 4px}
+    .kp-form{gap:4px}
+    .kp-form label{font-size:10.5px;margin-bottom:1px}
+    .kp-form textarea{min-height:26px}
+    .kp-form .btn{padding:7px 16px}
+    .audit-cta-box{padding:6px 14px}
+    .audit-button{padding:7px 16px}
   }
 
-  /* Modern Hero Header */
-  .contact-hero {
-    background: radial-gradient(circle at center, #001f3f 0%, #000a1a 100%);
-    color: #fff;
-    text-align: center;
-    padding: 80px 40px;
-    border-radius: 20px;
-    margin-bottom: 60px;
-    border-bottom: 2px solid #002d5a;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  }
-
-  .contact-hero h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0 0 20px;
-    letter-spacing: -0.03em;
-    color: #ffffff;
-  }
-
-  .contact-hero p {
-    font-size: 1.15rem;
-    color: #d1d1d1;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 20px;
-    border-radius: 100px;
-    background: rgba(0, 123, 255, 0.12);
-    border: 1px solid rgba(0, 123, 255, 0.35);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    color: #4dabff;
-  }
-
-  /* Grid Layout */
-  .contact-grid {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .contact-info {
-    flex: 1;
-    min-width: 320px;
-  }
-
-  /* Stylized Info Cards */
-  .info-card {
-    background: #ffffff;
-    border: 1px solid #eef2f6;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0,31,63,0.03);
-  }
-
-  .info-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(0,31,63,0.08);
-    border-color: #007bff;
-  }
-
-  .icon-wrapper {
-    flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    background: rgba(0, 123, 255, 0.08);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #007bff;
-    font-size: 1.4rem;
-  }
-
-  .card-content {
-    flex: 1;
-  }
-
-  .card-label {
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #007bff;
-    margin-bottom: 4px;
-    display: block;
-  }
-
-  .card-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #001f3f;
-    margin: 0 0 8px 0;
-  }
-
-  .card-text {
-    font-size: 0.92rem;
-    line-height: 1.5;
-    color: #5a6b7d;
-    margin: 0;
-  }
-
-  /* Form Container */
-  .contact-form-wrapper {
-    flex: 1.2;
-    min-width: 350px;
-    background: #f8fbff;
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid #e1e8f0;
-  }
-
-  @media (max-width: 768px) {
-    .contact-hero h1 { font-size: 2.2rem; }
-    .contact-hero { padding: 60px 20px; }
-    .contact-grid { flex-direction: column; }
-    .contact-form-wrapper { width: 100%; box-sizing: border-box; }
+  /* Below this width the single-screen constraint stops helping: let the page
+     scroll normally so nothing is squashed. */
+  @media (max-width:980px){
+    .contact-page-wrapper{min-height:0;gap:14px}
+    .contact-info{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr}
+    .calendly-inline-widget{height:620px;min-height:620px}
+    .audit-cta-box{flex-direction:column;text-align:center}
+    .audit-cta-box p{flex:none}
   }
 </style>
 <div class="contact-page-wrapper">
@@ -154,7 +113,6 @@ jsonld:
 <h1>Let’s Engineer Your Growth</h1>
 <p>Whether you're ready to scale with AI or have questions about our methodology, our strategy team is here to provide the answers.</p>
 </div>
-<div class="contact-grid">
 <div class="contact-info">
 <div class="info-card">
 <div class="icon-wrapper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
@@ -181,303 +139,9 @@ jsonld:
 </div>
 </div>
 </div>
-<div id="contact-form-inner"></div>
-</div>
-</div>
-  
-
-
-
-
-
-
-
-  </div>
-</div>
-
-
-</div><div id="shopify-section-template--18377997910112__section_8w3Rq9" class="shopify-section section-wrapper">
-
-
-
-<div class="section-background color-scheme-1"></div>
-<div
-  class="section section--page-width color-scheme-1"
-  data-testid="ui-test-section"
-
-  
-
-  style="
-    
-
-    
-  "
->
-  <div class="custom-section-background">
-    
-
-
-
-  </div>
-
-  <div
-    class="border-style custom-section-content"
-    style="--border-width: 1px; --border-style: none; --border-color:
-rgb(var(--color-border-rgb) / 1.0); --border-radius:
-0px; 
-"
-  >
-    
-
-    <div
-      class="
-        spacing-style
-        layout-panel-flex
-        layout-panel-flex--column
-        section-content-wrapper
-         mobile-column
-      "
-      style="
-        --flex-direction: column; --flex-wrap: nowrap; --flex-wrap-mobile: wrap;
-
---gap: 0px;
-
---horizontal-alignment: center; --vertical-alignment: center;
---vertical-alignment-mobile: center;
-
-        --padding-block-start: 0px;--padding-block-end: 0px;
-      "
-      data-testid="section-content"
-    >
-      
-  
-
-
-
-
-
-
-
-
-  
-    <h3>Schedule a Meeting</h3>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-</div><div id="shopify-section-template--18377997910112__custom_liquid_dm8JAW" class="shopify-section">
-
-<div class="section-background color-scheme-1"></div>
-<div
-  class="section section--page-width spacing-style color-scheme-1"
-    style="padding-block-start: 0px; padding-block-end: 0px;"
->
-  <!-- Calendly inline widget begin -->
-<div class="calendly-inline-widget" data-url="https://calendly.com/ozbarhama/30min?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<!-- Calendly inline widget end -->
-</div>
-
-
-</div><div id="shopify-section-template--18377997910112__section_Rz7xVT" class="shopify-section section-wrapper">
-
-
-
-<div class="section-background color-scheme-1"></div>
-<div
-  class="section section--page-width color-scheme-1"
-  data-testid="ui-test-section"
-
-  
-
-  style="
-    
-
-    
-  "
->
-  <div class="custom-section-background">
-    
-
-
-
-  </div>
-
-  <div
-    class="border-style custom-section-content"
-    style="--border-width: 1px; --border-style: none; --border-color:
-rgb(var(--color-border-rgb) / 1.0); --border-radius:
-0px; 
-"
-  >
-    
-
-    <div
-      class="
-        spacing-style
-        layout-panel-flex
-        layout-panel-flex--column
-        section-content-wrapper
-         mobile-column
-      "
-      style="
-        --flex-direction: column; --flex-wrap: nowrap; --flex-wrap-mobile: wrap;
-
---gap: 0px;
-
---horizontal-alignment: center; --vertical-alignment: center;
---vertical-alignment-mobile: center;
-
-        --padding-block-start: 0px;--padding-block-end: 0px;
-      "
-      data-testid="section-content"
-    >
-      
-  
-
-
-
-
-
-
-
-
-  
-    <p>or</p>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <h3>Email Us</h3>
-  
-
-
-
-
-
-
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-</div><div id="shopify-section-template--18377997910112__form" class="shopify-section section-wrapper">
-
-
-
-<div class="section-background color-scheme-1"></div>
-<div
-  class="section section--page-width color-scheme-1"
-  data-testid="ui-test-section"
-
-  
-
-  style="
-    
-
-    
-  "
->
-  <div class="custom-section-background">
-    
-
-
-
-  </div>
-
-  <div
-    class="border-style custom-section-content"
-    style="--border-width: 1px; --border-style: none; --border-color:
-rgb(var(--color-border-rgb) / 1.0); --border-radius:
-0px; 
-"
-  >
-    
-
-    <div
-      class="
-        spacing-style
-        layout-panel-flex
-        layout-panel-flex--column
-        section-content-wrapper
-         mobile-column
-      "
-      style="
-        --flex-direction: column; --flex-wrap: nowrap; --flex-wrap-mobile: wrap;
-
---gap: max(24px, calc(var(--gap-scale, 1.0) * 32px));
-
---horizontal-alignment: center; --vertical-alignment: center;
---vertical-alignment-mobile: center;
-
-        --padding-block-start: max(20px, calc(var(--spacing-scale) * 32px));--padding-block-end: max(20px, calc(var(--spacing-scale) * 84px));
-      "
-      data-testid="section-content"
-    >
-      
-  
-
-
-
-<div
-  class="
-    contact-form
-    spacing-style size-style
-    
-  "
-  style="
-    --padding-block-start: 0px;--padding-block-end: 0px;--padding-inline-start: 0px;--padding-inline-end: 0px;
-    --size-style-width: fit-content;--size-style-height: ;
-  --size-style-width-mobile:100%; --size-style-width-mobile-min:100%;
-  "
-  
->
-  
+<div class="contact-grid">
+<section class="contact-col">
+<h2>Email Us</h2>
 <form class="kp-form" action="https://formsubmit.co/info@kinorpartners.com" method="POST">
   <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
   <input type="hidden" name="_subject" value="New inquiry from kinorpartners.com">
@@ -489,33 +153,20 @@ rgb(var(--color-border-rgb) / 1.0); --border-radius:
   <div><label for="cf-message">How can we help?</label><textarea id="cf-message" name="message" required></textarea></div>
   <button class="btn" type="submit">Send message</button>
   <p style="font-size:14px;color:var(--muted);margin:4px 0 0">Prefer email? Write to <a href="mailto:info@kinorpartners.com">info@kinorpartners.com</a>.</p>
-</form></div>
-
-
-
-
-
-
-    </div>
-  </div>
+</form>
+</section>
+<section class="contact-col">
+<h2>Schedule a Meeting</h2>
+<div class="calendly-inline-widget" data-url="https://calendly.com/ozbarhama/30min?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:280px"></div>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</section>
 </div>
-
-
-
-
-
-<style> #shopify-section-template--18377997910112__form #contact-form {scroll-margin-top: 100px;} </style></div><div id="shopify-section-template--18377997910112__custom_liquid_atepE9" class="shopify-section">
-
-<div class="section-background color-scheme-1"></div>
-<div
-  class="section section--page-width spacing-style color-scheme-1"
-    style="padding-block-start: 0px; padding-block-end: 0px;"
->
-  <div class="audit-cta-box">
-  <div class="glow"></div>
-  <h4>Ready for a Free Audit?</h4>
-  <p>We'll identify exactly where your Amazon spend is being wasted and where your competitors are winning.</p>
-  <button class="audit-button" onclick="openAuditModal()">Claim Your Free Audit</button>
+<div class="audit-cta-box">
+<div class="glow"></div>
+<h4>Ready for a Free Audit?</h4>
+<p>We'll identify exactly where your Amazon spend is being wasted and where your competitors are winning.</p>
+<button class="audit-button" onclick="openAuditModal()">Claim Your Free Audit</button>
+</div>
 </div>
 
 <!-- Modal Overlay -->
@@ -751,6 +402,23 @@ rgb(var(--color-border-rgb) / 1.0); --border-radius:
   }
 </style>
 
+<style>
+  /* slim CTA bar so it fits on the first screen */
+  .audit-cta-box{
+    display:flex;align-items:center;gap:16px;text-align:left;
+    padding:9px 16px;margin:0;max-width:none;width:100%;
+    box-shadow:0 6px 16px rgba(0,123,255,.22);
+  }
+  .audit-cta-box .glow{display:none}
+  .audit-cta-box h4{margin:0;font-size:clamp(14px,1.4vw,15.5px);flex-shrink:0}
+  .audit-cta-box p{margin:0;flex:1 1 auto;font-size:12.5px;line-height:1.35}
+  .audit-button{padding:9px 20px;white-space:nowrap;flex-shrink:0;font-size:12px}
+  @media (max-width:980px){
+    .audit-cta-box{flex-direction:column;text-align:center;padding:18px}
+    .audit-cta-box p{flex:none}
+  }
+</style>
+
 <script>
   function openAuditModal() {
     document.getElementById('auditModal').classList.add('open');
@@ -774,7 +442,7 @@ rgb(var(--color-border-rgb) / 1.0); --border-radius:
     btn.textContent = 'Sending…';
     const subject = encodeURIComponent('Free Amazon Audit Request');
     const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    window.location.href = `mailto:hello@yourdomain.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@kinorpartners.com?subject=${subject}&body=${body}`;
     setTimeout(() => {
       document.querySelector('.modal-form').innerHTML = `
         <div class="modal-success">
@@ -787,7 +455,3 @@ rgb(var(--color-border-rgb) / 1.0); --border-radius:
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuditModal(); });
 </script>
-</div>
-
-
-</div></div></div>
