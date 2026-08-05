@@ -202,7 +202,7 @@ main{display:block}
 .site-footer ul{list-style:none;margin:0;padding:0}
 .site-footer li{margin:9px 0;font-size:14.5px}
 .footer__brand p{font-size:14.5px;color:#9fb2cc;max-width:320px;margin:14px 0 18px}
-.footer__brand img{height:40px;margin-bottom:6px}
+.footer__brand img{height:40px;width:auto;display:block;margin-bottom:6px}
 .footer__bottom{max-width:var(--wrap);margin:34px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
   display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13px;color:#8ea3c0}
 
