@@ -302,3 +302,13 @@ h3 > .kp-i,h4 > .kp-i,p > .kp-i{margin-right:.4em}
 .rh-section-icon.purple .kp-i{color:#6d28d9}
 .rh-section-icon.orange .kp-i{color:#c2410c}
 .pp-icon .kp-i{color:var(--blue)}
+
+/* Comparison tables (.kp-compare) are defined in each page's own <style>, but
+   they all share one flaw: width:100% cannot pull a table below its
+   min-content width, so on phones they push past the container and scroll the
+   whole page sideways. Wrap them so the table scrolls inside its own box.
+   A wrapper rather than display:block on the table itself, which would make
+   the rows an anonymous shrink-to-fit table and render them narrower than the
+   container at mid widths. The 24px margin moves here so spacing is unchanged. */
+.kp-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:24px 0}
+.kp-tablewrap > .kp-compare{margin:0}
