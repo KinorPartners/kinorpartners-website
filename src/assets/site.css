@@ -311,4 +311,4 @@ h3 > .kp-i,h4 > .kp-i,p > .kp-i{margin-right:.4em}
    the rows an anonymous shrink-to-fit table and render them narrower than the
    container at mid widths. The 24px margin moves here so spacing is unchanged. */
 .kp-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:24px 0}
-.kp-tablewrap > .kp-compare{margin:0}
+.kp-tablewrap > table{margin:0}
