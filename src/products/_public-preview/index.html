@@ -1,12 +1,35 @@
 ---
 layout: base.njk
-title: "NoTrip Leash - 12 in Dog Leash Stiffener, Anti-Tangle Snap-On Sleeve - Kinor Partners"
-description: "NoTrip Leash keeps the lower 12 inches of your dog's leash straight and clear of its legs. Snaps on without unclipping. Fits 5/8 to 1 inch webbing, leather, padded and rope leads."
+title: "No-Trip Leash - 12 in Dog Leash Stiffener, Anti-Tangle Snap-On Sleeve - Kinor Partners"
+description: "No-Trip Leash keeps the lower 12 inches of your dog's leash straight and clear of its legs. Snaps on without unclipping. Fits 5/8 to 1 inch webbing, leather, padded and rope leads."
 permalink: "/d/9b3332a5300a/"
 eleventyExcludeFromCollections: true
 ---
 <meta name="robots" content="noindex,nofollow">
 <style>
+/* --- rotating CAD viewer ------------------------------------------------ */
+.spin-sec{margin:46px 0 8px}
+.spin-sec h2{margin:0 0 4px}
+.spin-sub{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+.spin{position:relative;border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;background:linear-gradient(180deg,#f6f7f9,#e9ecf1);
+  touch-action:pan-y;cursor:grab;user-select:none}
+.spin.dragging{cursor:grabbing}
+.spin img{display:block;width:100%;height:auto;pointer-events:none}
+.spin-bar{position:absolute;left:0;right:0;bottom:0;display:flex;
+  align-items:center;gap:10px;padding:9px 12px;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.85))}
+.spin-btn{border:1px solid var(--line);background:#fff;border-radius:8px;
+  width:34px;height:30px;font-size:13px;line-height:1;cursor:pointer;
+  color:var(--navy);flex:0 0 auto}
+.spin-btn:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.spin-track{flex:1 1 auto;height:4px;border-radius:3px;background:#d7dbe2;
+  position:relative}
+.spin-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:3px;
+  background:var(--navy)}
+.spin-hint{font-size:12.5px;color:var(--muted);flex:0 0 auto}
+@media (max-width:640px){.spin-hint{display:none}}
+
 /* size picker - two cards, the chosen one takes the brand blue */
 .sizes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 6px}
 .size{position:relative;text-align:left;padding:14px 16px;border:2px solid var(--line);
@@ -52,11 +75,11 @@ eleventyExcludeFromCollections: true
 <div class="kp-container">
   <div class="draft-note"><b>Preview.</b> Imagery is AI-generated concept work, not photography of a manufactured unit. Pricing and specification are provisional and the product is not yet on sale.</div>
   <div class="crumbs" style="font-size:13.5px;color:var(--muted);margin-bottom:18px">
-    <a href="/">Home</a> / NoTrip Leash</div>
+    <a href="/">Home</a> / No-Trip Leash</div>
   <div class="pdp">
     <div class="pdp-gallery">
       <div class="pdp-main"><img id="pdp-main-img"
-        alt="NoTrip Leash fitted to a lead, holding it rigid" decoding="async"></div>
+        alt="No-Trip Leash fitted to a lead, holding it rigid" decoding="async"></div>
       <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1"><img alt=""></button><button class="thumb" aria-label="View image 2"><img alt=""></button><button class="thumb" aria-label="View image 3"><img alt=""></button><button class="thumb" aria-label="View image 4"><img alt=""></button><button class="thumb" aria-label="View image 5"><img alt=""></button><button class="thumb" aria-label="View image 6"><img alt=""></button><button class="thumb" aria-label="View image 7"><img alt=""></button></div>
       <p class="render-note">Concept imagery: the first four are AI-generated
         visualisations, the last two are CAD renders of the production geometry.
@@ -64,7 +87,7 @@ eleventyExcludeFromCollections: true
         the first moulded run.</p>
     </div>
     <div class="pdp-info">
-      <h1>NoTrip Leash</h1>
+      <h1>No-Trip Leash</h1>
       <div class="hr-rule"></div>
       <p class="pdp-sub">Stops your dog tripping over its own lead.</p>
       <div class="sizes" role="radiogroup" aria-label="Choose a size"><button class="size" role="radio" aria-checked="false" data-i="0"><div class="nm">Standard</div><div class="ln">6.3 in &middot; 1 piece</div><div class="pr">$9.99</div></button><button class="size" role="radio" aria-checked="true" data-i="1"><div class="nm">Large</div><div class="ln">12.0 in &middot; 2 pieces</div><div class="pr">$19.99</div></button></div>
@@ -90,7 +113,7 @@ eleventyExcludeFromCollections: true
       Both are worst on tall, long-legged breeds - retrievers, shepherds,
       doodles - because the lead has further to fall before it reaches the
       ground.</p>
-      <p><strong>NoTrip Leash</strong> makes the last foot of the lead behave like a
+      <p><strong>No-Trip Leash</strong> makes the last foot of the lead behave like a
       short, semi-rigid rod. That section stays pointed out and away from the
       dog rather than hanging down, so the leash simply is not where the legs
       are. The rest of your lead is untouched, and still coils and stores
@@ -143,8 +166,26 @@ eleventyExcludeFromCollections: true
       </div>
     </div>
   </div>
+  
+  <section class="spin-sec" id="spin">
+    <h2>Turn it over</h2>
+    <p class="spin-sub">The production geometry itself, rendered from the CAD
+      model - not an illustration. Drag it, or let it turn.</p>
+    <div class="spin" id="spin-stage">
+      <img id="spin-img" alt="The sleeve rotating about its long axis, showing
+        the engraved back face, both sides and the open channel the lead sits in"
+        decoding="async" width="1100" height="380">
+      <div class="spin-bar">
+        <button class="spin-btn" id="spin-btn" type="button"
+          aria-label="Pause rotation">&#9208;</button>
+        <div class="spin-track"><div class="spin-fill" id="spin-fill"></div></div>
+        <span class="spin-hint">drag to spin</span>
+      </div>
+    </div>
+  </section>
 </div>
 <script>const IMGS=["/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/section.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.3 oz / 36 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.5 oz / 72 g",b:"Two sleeves"}];const DEF=1;
+const SPIN=["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"];
 (function(){
 var m=document.getElementById('pdp-main-img'),
     t=document.querySelectorAll('.pdp-thumbs button');
@@ -169,4 +210,55 @@ t.forEach(function(b,i){
     b.classList.add('active');
   });
 });
-})();</script>
+})();
+
+(function(){
+  var stage=document.getElementById('spin-stage');
+  if(!stage||!SPIN.length)return;
+  var img=document.getElementById('spin-img'),
+      btn=document.getElementById('spin-btn'),
+      fill=document.getElementById('spin-fill'),
+      i=0,timer=null,drag=false,x0=0,i0=0,seen=0;
+  // Preload every frame before spinning, otherwise the first revolution
+  // stutters as each one is fetched.
+  SPIN.forEach(function(u){var im=new Image();im.onload=function(){seen++};im.src=u});
+  img.src=SPIN[0];
+  function show(n){
+    i=((n%SPIN.length)+SPIN.length)%SPIN.length;
+    img.src=SPIN[i];
+    fill.style.width=(100*i/(SPIN.length-1))+'%';
+  }
+  function playing(){return timer!==null}
+  function play(){
+    if(playing())return;
+    timer=setInterval(function(){show(i+1)},110);
+    btn.innerHTML='&#9208;';btn.setAttribute('aria-label','Pause rotation');
+  }
+  function pause(){
+    if(!playing())return;
+    clearInterval(timer);timer=null;
+    btn.innerHTML='&#9654;';btn.setAttribute('aria-label','Play rotation');
+  }
+  btn.addEventListener('click',function(){playing()?pause():play()});
+  // drag to scrub: one full width of travel is one full revolution
+  stage.addEventListener('pointerdown',function(e){
+    drag=true;x0=e.clientX;i0=i;pause();stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove',function(e){
+    if(!drag)return;
+    show(i0+Math.round((e.clientX-x0)/(stage.clientWidth/SPIN.length)));
+  });
+  ['pointerup','pointercancel'].forEach(function(ev){
+    stage.addEventListener(ev,function(){drag=false;stage.classList.remove('dragging')});
+  });
+  // only spin while it is on screen and the reader has not asked for less motion
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(still){pause();return}
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es[0].isIntersecting?play():pause();
+    },{threshold:.25}).observe(stage);
+  }else{play()}
+})();
+</script>
