@@ -14,8 +14,14 @@ eleventyExcludeFromCollections: true
   touch-action:pan-y;cursor:grab;user-select:none}
 .spin[hidden]{display:none}
 .spin.dragging{cursor:grabbing}
-.spin img{display:block;width:100%;height:100%;object-fit:contain;
-  pointer-events:none}
+.spin-frames{position:absolute;inset:0}
+/* Every frame is in the DOM and only one is visible. Swapping the src of a
+   single <img> makes the browser blank the element between paints, which is
+   what made this flicker; toggling visibility on already-decoded images does
+   not repaint anything. */
+.spin-frames img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;visibility:hidden;pointer-events:none}
+.spin-frames img.on{visibility:visible}
 .spin-bar{position:absolute;left:0;right:0;bottom:0;display:flex;
   align-items:center;gap:10px;padding:9px 12px;
   background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.85))}
@@ -84,10 +90,10 @@ eleventyExcludeFromCollections: true
     <div class="pdp-gallery">
       <div class="pdp-main"><img id="pdp-main-img"
         alt="No-Trip Leash fitted to a lead, holding it rigid" decoding="async">
-      <div class="spin" id="spin-stage" hidden>
-        <img id="spin-img" alt="The sleeve rotating about its long axis, showing
-          the engraved back face, both sides and the open channel the lead sits in"
-          decoding="async" width="1100" height="380">
+      <div class="spin" id="spin-stage" hidden
+        role="img" aria-label="The sleeve rotating about its long axis, showing
+        the engraved back face, both sides and the open channel the lead sits in">
+        <div class="spin-frames" id="spin-frames"></div>
         <div class="spin-bar">
           <button class="spin-btn" id="spin-btn" type="button"
             aria-label="Pause rotation">&#9208;</button>
@@ -219,26 +225,36 @@ t.forEach(function(b,i){
 (function(){
   var stage=document.getElementById('spin-stage');
   if(!stage||!SPIN.length)return;
-  var img=document.getElementById('spin-img'),
+  var wrap=document.getElementById('spin-frames'),
       btn=document.getElementById('spin-btn'),
       fill=document.getElementById('spin-fill'),
-      i=0,timer=null,drag=false,x0=0,i0=0,primed=false;
-  function prime(){
-    // Only fetch the frames once the reader actually opens the view - it is
-    // 36 files, and most visitors never leave the first photograph.
-    if(primed)return; primed=true;
-    SPIN.forEach(function(u){var im=new Image();im.src=u});
+      els=[],i=0,timer=null,drag=false,x0=0,i0=0,built=false;
+  var STEP=200;   // ms per frame: 36 frames -> about 7 s a revolution
+
+  function build(){
+    // Built on first open, not on page load: 36 images that most visitors
+    // never reach. Each one stays in the DOM so switching frames only flips
+    // visibility - nothing is fetched, decoded or repainted mid-spin.
+    if(built)return; built=true;
+    var frag=document.createDocumentFragment();
+    SPIN.forEach(function(u,n){
+      var im=new Image();
+      im.src=u; im.alt=''; im.decoding='async';
+      if(n===0)im.className='on';
+      els.push(im); frag.appendChild(im);
+    });
+    wrap.appendChild(frag);
   }
-  img.src=SPIN[0];
   function show(n){
-    i=((n%SPIN.length)+SPIN.length)%SPIN.length;
-    img.src=SPIN[i];
+    n=((n%SPIN.length)+SPIN.length)%SPIN.length;
+    if(!els.length||n===i)return;
+    els[i].className=''; els[n].className='on'; i=n;
     fill.style.width=(100*i/(SPIN.length-1))+'%';
   }
   function playing(){return timer!==null}
   function play(){
     if(playing()||stage.hidden)return;
-    timer=setInterval(function(){show(i+1)},110);
+    timer=setInterval(function(){show(i+1)},STEP);
     btn.innerHTML='&#9208;';btn.setAttribute('aria-label','Pause rotation');
   }
   function pause(){
@@ -262,7 +278,7 @@ t.forEach(function(b,i){
   window.NTSpin={
     show:function(on){
       stage.hidden=!on;
-      if(on){prime();if(!still)play();}else{pause();}
+      if(on){build();if(!still)play();}else{pause();}
     },
     play:play, pause:pause
   };
