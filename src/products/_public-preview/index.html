@@ -53,7 +53,24 @@ eleventyExcludeFromCollections: true
 .size .ln{color:var(--muted);font-size:13px;margin-top:2px;font-variant-numeric:tabular-nums}
 .size .pr{margin-top:8px;font-weight:800;font-size:17px;color:var(--navy);
   font-variant-numeric:tabular-nums}
-.size-for{font-size:13.5px;color:var(--muted);margin:2px 0 20px;min-height:38px}
+.size .scale{margin:10px 0 2px;height:26px;display:flex;align-items:center}
+.size .scale img{display:block;height:auto;max-width:100%}
+.size .fits{font-size:12.5px;line-height:1.45;color:var(--muted);margin-top:8px;
+  padding-top:8px;border-top:1px solid var(--line)}
+.size .fits b{color:var(--navy);font-weight:750}
+.sizes{margin-bottom:18px}
+@media (max-width:520px){.sizes{grid-template-columns:1fr}}
+/* click to zoom */
+.pdp-main img{cursor:zoom-in}
+.zoom{position:fixed;inset:0;z-index:9999;background:rgba(12,16,24,.92);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  cursor:zoom-out}
+.zoom[hidden]{display:none}
+.zoom img{max-width:100%;max-height:100%;object-fit:contain;
+  border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.zoom-x{position:absolute;top:14px;right:18px;background:none;border:0;
+  color:#fff;font-size:30px;line-height:1;cursor:pointer;padding:6px 10px}
+.zoom-x:focus-visible{outline:2px solid #fff;outline-offset:2px}
 
 /* spec strip - the four numbers, before any prose */
 .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
@@ -104,7 +121,7 @@ eleventyExcludeFromCollections: true
           <span class="spin-hint">drag to spin</span>
         </div>
       </div></div>
-      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1"><img alt=""></button><button class="thumb" aria-label="View image 2"><img alt=""></button><button class="thumb" aria-label="View image 3"><img alt=""></button><button class="thumb" aria-label="View image 4"><img alt=""></button><button class="thumb" aria-label="View image 5"><img alt=""></button><button class="thumb" aria-label="View image 6"><img alt=""></button><button class="thumb" aria-label="View image 7"><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
+      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1"><img alt=""></button><button class="thumb" aria-label="View image 2"><img alt=""></button><button class="thumb" aria-label="View image 3"><img alt=""></button><button class="thumb" aria-label="View image 4"><img alt=""></button><button class="thumb" aria-label="View image 5"><img alt=""></button><button class="thumb" aria-label="View image 6"><img alt=""></button><button class="thumb" aria-label="View image 7"><img alt=""></button><button class="thumb" aria-label="View image 8"><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
       <p class="render-note">Concept imagery: the first four are AI-generated
         visualisations, the next two are CAD renders of the production geometry,
         and the last thumbnail rotates the CAD model itself. None are
@@ -115,8 +132,7 @@ eleventyExcludeFromCollections: true
       <h1>No-Trip Leash</h1>
       <div class="hr-rule"></div>
       <p class="pdp-sub">Stops your dog tripping over its own lead.</p>
-      <div class="sizes" role="radiogroup" aria-label="Choose a size"><button class="size" role="radio" aria-checked="false" data-i="0"><div class="nm">Standard</div><div class="ln">6.3 in &middot; 1 piece</div><div class="pr">$9.99</div></button><button class="size" role="radio" aria-checked="true" data-i="1"><div class="nm">Large</div><div class="ln">12.0 in &middot; 2 pieces</div><div class="pr">$19.99</div></button></div>
-      <p class="size-for" id="size-for"></p>
+      <div class="sizes" role="radiogroup" aria-label="Choose a size"><button class="size" role="radio" aria-checked="false" data-i="0"><div class="nm">Standard</div><div class="ln">6.0 in &middot; 1 piece</div><div class="scale"><img src="/assets/img/notrip-leash/size-standard.jpg" alt="" style="width:52.6%" decoding="async"></div><div class="pr">$9.99</div><div class="fits"><b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.</div></button><button class="size" role="radio" aria-checked="true" data-i="1"><div class="nm">Large</div><div class="ln">11.4 in &middot; 2 pieces</div><div class="scale"><img src="/assets/img/notrip-leash/size-large.jpg" alt="" style="width:100.0%" decoding="async"></div><div class="pr">$19.99</div><div class="fits"><b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.</div></button></div>
       <div class="pdp-buy"><a class="btn" href="#details">See how it works</a></div>
       <p class="pdp-note" id="size-box"></p>
       <p class="pdp-note pick-hint"><b>Between the two, or not sure?</b> Take
@@ -192,7 +208,11 @@ eleventyExcludeFromCollections: true
     </div>
   </div>
 </div>
-<script>const IMGS=["/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/section.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.3 oz / 36 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.5 oz / 72 g",b:"Two sleeves"}];const DEF=1;
+<div class="zoom" id="zoom" hidden>
+  <button class="zoom-x" id="zoom-x" type="button" aria-label="Close">&times;</button>
+  <img id="zoom-img" alt="">
+</div>
+<script>const IMGS=["/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/lifestyle-doodle.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/section.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.3 oz / 36 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.5 oz / 72 g",b:"Two sleeves"}];const DEF=1;
 const SPIN=["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"];
 (function(){
 var m=document.getElementById('pdp-main-img'),
@@ -200,11 +220,9 @@ var m=document.getElementById('pdp-main-img'),
 m.src=IMGS[0];
 
 var sizes=document.querySelectorAll('.size'),
-    forEl=document.getElementById('size-for'),
     boxEl=document.getElementById('size-box');
 function pick(i){
   sizes.forEach(function(b,j){b.setAttribute('aria-checked', j===i?'true':'false')});
-  forEl.innerHTML=SKUS[i].d;
   boxEl.textContent='In the box: '+SKUS[i].b+'. Ships flat. '+SKUS[i].w+'.';
 }
 sizes.forEach(function(b,i){b.addEventListener('click',function(){pick(i)})});
@@ -222,6 +240,25 @@ t.forEach(function(b,i){
     m.hidden=isSpin;
     if(window.NTSpin) window.NTSpin.show(isSpin);
   });
+});
+
+// click to zoom. The rotating view is deliberately excluded: it is already
+// interactive, and swallowing its drag to open an overlay would break it.
+var z=document.getElementById('zoom'),
+    zi=document.getElementById('zoom-img'),
+    zx=document.getElementById('zoom-x');
+function openZoom(src,alt){
+  zi.src=src; zi.alt=alt||''; z.hidden=false;
+  document.body.style.overflow='hidden'; zx.focus();
+}
+function closeZoom(){
+  z.hidden=true; zi.removeAttribute('src');
+  document.body.style.overflow='';
+}
+m.addEventListener('click',function(){ if(!m.hidden) openZoom(m.src,m.alt) });
+z.addEventListener('click',closeZoom);
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&!z.hidden)closeZoom();
 });
 })();
 
