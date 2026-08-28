@@ -14,14 +14,16 @@ eleventyExcludeFromCollections: true
   touch-action:pan-y;cursor:grab;user-select:none}
 .spin[hidden]{display:none}
 .spin.dragging{cursor:grabbing}
-.spin-frames{position:absolute;inset:0}
-/* Every frame is in the DOM and only one is visible. Swapping the src of a
-   single <img> makes the browser blank the element between paints, which is
-   what made this flicker; toggling visibility on already-decoded images does
-   not repaint anything. */
-.spin-frames img{position:absolute;inset:0;width:100%;height:100%;
-  object-fit:contain;visibility:hidden;pointer-events:none}
-.spin-frames img.on{visibility:visible}
+/* One canvas, never swapped. Every earlier attempt showed a frame by putting
+   a different <img> in front - changing a src, then toggling visibility on a
+   stack. Both leave a window where the browser has nothing decoded to paint,
+   and that window is the flicker. drawImage() paints synchronously from an
+   image that is already in memory, so there is no such window. */
+.spin canvas{display:block;width:100%;height:auto;pointer-events:none}
+.spin-load{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:13px;color:var(--muted);
+  background:linear-gradient(180deg,#f6f7f9,#e9ecf1)}
+.spin-load[hidden]{display:none}
 .spin-bar{position:absolute;left:0;right:0;bottom:0;display:flex;
   align-items:center;gap:10px;padding:9px 12px;
   background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.85))}
@@ -93,7 +95,8 @@ eleventyExcludeFromCollections: true
       <div class="spin" id="spin-stage" hidden
         role="img" aria-label="The sleeve rotating about its long axis, showing
         the engraved back face, both sides and the open channel the lead sits in">
-        <div class="spin-frames" id="spin-frames"></div>
+        <canvas id="spin-canvas" width="1100" height="380"></canvas>
+        <div class="spin-load" id="spin-load">loading the model&hellip;</div>
         <div class="spin-bar">
           <button class="spin-btn" id="spin-btn" type="button"
             aria-label="Pause rotation">&#9208;</button>
@@ -225,36 +228,43 @@ t.forEach(function(b,i){
 (function(){
   var stage=document.getElementById('spin-stage');
   if(!stage||!SPIN.length)return;
-  var wrap=document.getElementById('spin-frames'),
+  var cv=document.getElementById('spin-canvas'),
+      ctx=cv.getContext('2d'),
+      load=document.getElementById('spin-load'),
       btn=document.getElementById('spin-btn'),
       fill=document.getElementById('spin-fill'),
-      els=[],i=0,timer=null,drag=false,x0=0,i0=0,built=false;
+      ims=[],got=0,i=0,timer=null,drag=false,x0=0,i0=0,built=false,ready=false;
   var STEP=200;   // ms per frame: 36 frames -> about 7 s a revolution
 
+  function draw(n){
+    n=((n%SPIN.length)+SPIN.length)%SPIN.length;
+    var im=ims[n];
+    if(!im||!im.complete||!im.naturalWidth)return;   // never paint a blank
+    i=n;
+    ctx.drawImage(im,0,0,cv.width,cv.height);
+    fill.style.width=(100*i/(SPIN.length-1))+'%';
+  }
+  function done(){
+    ready=true; load.hidden=true;
+    if(!still)play();
+  }
   function build(){
-    // Built on first open, not on page load: 36 images that most visitors
-    // never reach. Each one stays in the DOM so switching frames only flips
-    // visibility - nothing is fetched, decoded or repainted mid-spin.
+    // Fetched on first open, not on page load - 36 files most visitors never
+    // reach. Nothing rotates until all of them are decoded: starting early is
+    // what made this flicker, because a frame that has not arrived paints as
+    // nothing.
     if(built)return; built=true;
-    var frag=document.createDocumentFragment();
     SPIN.forEach(function(u,n){
       var im=new Image();
-      im.src=u; im.alt=''; im.decoding='async';
-      if(n===0)im.className='on';
-      els.push(im); frag.appendChild(im);
+      im.onload=function(){ if(n===0)draw(0); if(++got===SPIN.length)done(); };
+      im.onerror=function(){ if(++got===SPIN.length)done(); };
+      im.src=u; ims[n]=im;
     });
-    wrap.appendChild(frag);
-  }
-  function show(n){
-    n=((n%SPIN.length)+SPIN.length)%SPIN.length;
-    if(!els.length||n===i)return;
-    els[i].className=''; els[n].className='on'; i=n;
-    fill.style.width=(100*i/(SPIN.length-1))+'%';
   }
   function playing(){return timer!==null}
   function play(){
-    if(playing()||stage.hidden)return;
-    timer=setInterval(function(){show(i+1)},STEP);
+    if(playing()||stage.hidden||!ready)return;
+    timer=setInterval(function(){draw(i+1)},STEP);
     btn.innerHTML='&#9208;';btn.setAttribute('aria-label','Pause rotation');
   }
   function pause(){
@@ -264,12 +274,13 @@ t.forEach(function(b,i){
   }
   btn.addEventListener('click',function(e){e.stopPropagation();playing()?pause():play()});
   stage.addEventListener('pointerdown',function(e){
+    if(!ready)return;
     drag=true;x0=e.clientX;i0=i;pause();stage.classList.add('dragging');
     stage.setPointerCapture(e.pointerId);
   });
   stage.addEventListener('pointermove',function(e){
     if(!drag)return;
-    show(i0+Math.round((e.clientX-x0)/(stage.clientWidth/SPIN.length)));
+    draw(i0+Math.round((e.clientX-x0)/(stage.clientWidth/SPIN.length)));
   });
   ['pointerup','pointercancel'].forEach(function(ev){
     stage.addEventListener(ev,function(){drag=false;stage.classList.remove('dragging')});
@@ -278,7 +289,7 @@ t.forEach(function(b,i){
   window.NTSpin={
     show:function(on){
       stage.hidden=!on;
-      if(on){build();if(!still)play();}else{pause();}
+      if(on){build();play();}else{pause();}
     },
     play:play, pause:pause
   };
