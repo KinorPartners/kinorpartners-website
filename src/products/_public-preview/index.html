@@ -7,15 +7,15 @@ eleventyExcludeFromCollections: true
 ---
 <meta name="robots" content="noindex,nofollow">
 <style>
-/* --- rotating CAD viewer ------------------------------------------------ */
-.spin-sec{margin:46px 0 8px}
-.spin-sec h2{margin:0 0 4px}
-.spin-sub{margin:0 0 14px;color:var(--muted);font-size:14.5px}
-.spin{position:relative;border:1px solid var(--line);border-radius:14px;
-  overflow:hidden;background:linear-gradient(180deg,#f6f7f9,#e9ecf1);
+/* --- rotating CAD viewer, inside the gallery ---------------------------- */
+.pdp-main{position:relative}
+.spin{position:absolute;inset:0;border-radius:inherit;overflow:hidden;
+  background:linear-gradient(180deg,#f6f7f9,#e9ecf1);
   touch-action:pan-y;cursor:grab;user-select:none}
+.spin[hidden]{display:none}
 .spin.dragging{cursor:grabbing}
-.spin img{display:block;width:100%;height:auto;pointer-events:none}
+.spin img{display:block;width:100%;height:100%;object-fit:contain;
+  pointer-events:none}
 .spin-bar{position:absolute;left:0;right:0;bottom:0;display:flex;
   align-items:center;gap:10px;padding:9px 12px;
   background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.85))}
@@ -29,7 +29,11 @@ eleventyExcludeFromCollections: true
   background:var(--navy)}
 .spin-hint{font-size:12.5px;color:var(--muted);flex:0 0 auto}
 @media (max-width:640px){.spin-hint{display:none}}
-
+.thumb{position:relative}
+.thumb-spin .badge{position:absolute;right:4px;bottom:4px;
+  background:rgba(17,24,39,.82);color:#fff;font-size:9.5px;font-weight:700;
+  letter-spacing:.03em;border-radius:5px;padding:2px 4px;line-height:1;
+  pointer-events:none}
 /* size picker - two cards, the chosen one takes the brand blue */
 .sizes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 6px}
 .size{position:relative;text-align:left;padding:14px 16px;border:2px solid var(--line);
@@ -79,12 +83,24 @@ eleventyExcludeFromCollections: true
   <div class="pdp">
     <div class="pdp-gallery">
       <div class="pdp-main"><img id="pdp-main-img"
-        alt="No-Trip Leash fitted to a lead, holding it rigid" decoding="async"></div>
-      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1"><img alt=""></button><button class="thumb" aria-label="View image 2"><img alt=""></button><button class="thumb" aria-label="View image 3"><img alt=""></button><button class="thumb" aria-label="View image 4"><img alt=""></button><button class="thumb" aria-label="View image 5"><img alt=""></button><button class="thumb" aria-label="View image 6"><img alt=""></button><button class="thumb" aria-label="View image 7"><img alt=""></button></div>
+        alt="No-Trip Leash fitted to a lead, holding it rigid" decoding="async">
+      <div class="spin" id="spin-stage" hidden>
+        <img id="spin-img" alt="The sleeve rotating about its long axis, showing
+          the engraved back face, both sides and the open channel the lead sits in"
+          decoding="async" width="1100" height="380">
+        <div class="spin-bar">
+          <button class="spin-btn" id="spin-btn" type="button"
+            aria-label="Pause rotation">&#9208;</button>
+          <div class="spin-track"><div class="spin-fill" id="spin-fill"></div></div>
+          <span class="spin-hint">drag to spin</span>
+        </div>
+      </div></div>
+      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1"><img alt=""></button><button class="thumb" aria-label="View image 2"><img alt=""></button><button class="thumb" aria-label="View image 3"><img alt=""></button><button class="thumb" aria-label="View image 4"><img alt=""></button><button class="thumb" aria-label="View image 5"><img alt=""></button><button class="thumb" aria-label="View image 6"><img alt=""></button><button class="thumb" aria-label="View image 7"><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
       <p class="render-note">Concept imagery: the first four are AI-generated
-        visualisations, the last two are CAD renders of the production geometry.
-        None are photographs of a manufactured unit. Real photography follows
-        the first moulded run.</p>
+        visualisations, the next two are CAD renders of the production geometry,
+        and the last thumbnail rotates the CAD model itself. None are
+        photographs of a manufactured unit. Real photography follows the first
+        moulded run.</p>
     </div>
     <div class="pdp-info">
       <h1>No-Trip Leash</h1>
@@ -166,23 +182,6 @@ eleventyExcludeFromCollections: true
       </div>
     </div>
   </div>
-  
-  <section class="spin-sec" id="spin">
-    <h2>Turn it over</h2>
-    <p class="spin-sub">The production geometry itself, rendered from the CAD
-      model - not an illustration. Drag it, or let it turn.</p>
-    <div class="spin" id="spin-stage">
-      <img id="spin-img" alt="The sleeve rotating about its long axis, showing
-        the engraved back face, both sides and the open channel the lead sits in"
-        decoding="async" width="1100" height="380">
-      <div class="spin-bar">
-        <button class="spin-btn" id="spin-btn" type="button"
-          aria-label="Pause rotation">&#9208;</button>
-        <div class="spin-track"><div class="spin-fill" id="spin-fill"></div></div>
-        <span class="spin-hint">drag to spin</span>
-      </div>
-    </div>
-  </section>
 </div>
 <script>const IMGS=["/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/section.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.3 oz / 36 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.5 oz / 72 g",b:"Two sleeves"}];const DEF=1;
 const SPIN=["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"];
@@ -202,12 +201,17 @@ function pick(i){
 sizes.forEach(function(b,i){b.addEventListener('click',function(){pick(i)})});
 pick(DEF);
 
+// The last thumbnail is the rotating view, not a still, so it has no entry in
+// IMGS: it swaps the whole main panel rather than the image inside it.
 t.forEach(function(b,i){
-  b.querySelector('img').src=IMGS[i];
+  var isSpin=b.classList.contains('thumb-spin');
+  if(!isSpin) b.querySelector('img').src=IMGS[i];
   b.addEventListener('click',function(){
-    m.src=IMGS[i];
     t.forEach(function(x){x.classList.remove('active')});
     b.classList.add('active');
+    if(!isSpin) m.src=IMGS[i];
+    m.hidden=isSpin;
+    if(window.NTSpin) window.NTSpin.show(isSpin);
   });
 });
 })();
@@ -218,10 +222,13 @@ t.forEach(function(b,i){
   var img=document.getElementById('spin-img'),
       btn=document.getElementById('spin-btn'),
       fill=document.getElementById('spin-fill'),
-      i=0,timer=null,drag=false,x0=0,i0=0,seen=0;
-  // Preload every frame before spinning, otherwise the first revolution
-  // stutters as each one is fetched.
-  SPIN.forEach(function(u){var im=new Image();im.onload=function(){seen++};im.src=u});
+      i=0,timer=null,drag=false,x0=0,i0=0,primed=false;
+  function prime(){
+    // Only fetch the frames once the reader actually opens the view - it is
+    // 36 files, and most visitors never leave the first photograph.
+    if(primed)return; primed=true;
+    SPIN.forEach(function(u){var im=new Image();im.src=u});
+  }
   img.src=SPIN[0];
   function show(n){
     i=((n%SPIN.length)+SPIN.length)%SPIN.length;
@@ -230,7 +237,7 @@ t.forEach(function(b,i){
   }
   function playing(){return timer!==null}
   function play(){
-    if(playing())return;
+    if(playing()||stage.hidden)return;
     timer=setInterval(function(){show(i+1)},110);
     btn.innerHTML='&#9208;';btn.setAttribute('aria-label','Pause rotation');
   }
@@ -239,8 +246,7 @@ t.forEach(function(b,i){
     clearInterval(timer);timer=null;
     btn.innerHTML='&#9654;';btn.setAttribute('aria-label','Play rotation');
   }
-  btn.addEventListener('click',function(){playing()?pause():play()});
-  // drag to scrub: one full width of travel is one full revolution
+  btn.addEventListener('click',function(e){e.stopPropagation();playing()?pause():play()});
   stage.addEventListener('pointerdown',function(e){
     drag=true;x0=e.clientX;i0=i;pause();stage.classList.add('dragging');
     stage.setPointerCapture(e.pointerId);
@@ -252,13 +258,13 @@ t.forEach(function(b,i){
   ['pointerup','pointercancel'].forEach(function(ev){
     stage.addEventListener(ev,function(){drag=false;stage.classList.remove('dragging')});
   });
-  // only spin while it is on screen and the reader has not asked for less motion
   var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(still){pause();return}
-  if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){
-      es[0].isIntersecting?play():pause();
-    },{threshold:.25}).observe(stage);
-  }else{play()}
+  window.NTSpin={
+    show:function(on){
+      stage.hidden=!on;
+      if(on){prime();if(!still)play();}else{pause();}
+    },
+    play:play, pause:pause
+  };
 })();
 </script>
