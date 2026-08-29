@@ -161,7 +161,7 @@ eleventyExcludeFromCollections: true
           <span class="spin-hint">drag to spin</span>
         </div>
       </div></div>
-      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 2" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 3" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 4" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 5" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 6" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 7" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 8" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 9" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 10" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 11" data-sku=""><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
+      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 2" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 3" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 4" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 5" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 6" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 7" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 8" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 9" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 10" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 11" data-sku=""><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img id="spin-thumb-img" alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
       <p class="render-note">Showing imagery for the selected size. The dog
         photographs are AI-generated visualisations; the pale ones are CAD
         renders of the production geometry, and the last thumbnail rotates the
@@ -276,7 +276,7 @@ eleventyExcludeFromCollections: true
   <img id="zoom-img" alt="">
 </div>
 <script>const IMGS=["/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/lifestyle-doodle.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/before-after-small.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/fit-explained.jpg","/assets/img/notrip-leash/lead-seated.jpg","/assets/img/notrip-leash/section.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.3 oz / 36 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.5 oz / 72 g",b:"Two sleeves"}];const DEF=1;
-const SPIN=["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"];
+const SPIN=[["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"],["/assets/img/notrip-leash/spin-large/spin-00.webp","/assets/img/notrip-leash/spin-large/spin-01.webp","/assets/img/notrip-leash/spin-large/spin-02.webp","/assets/img/notrip-leash/spin-large/spin-03.webp","/assets/img/notrip-leash/spin-large/spin-04.webp","/assets/img/notrip-leash/spin-large/spin-05.webp","/assets/img/notrip-leash/spin-large/spin-06.webp","/assets/img/notrip-leash/spin-large/spin-07.webp","/assets/img/notrip-leash/spin-large/spin-08.webp","/assets/img/notrip-leash/spin-large/spin-09.webp","/assets/img/notrip-leash/spin-large/spin-10.webp","/assets/img/notrip-leash/spin-large/spin-11.webp","/assets/img/notrip-leash/spin-large/spin-12.webp","/assets/img/notrip-leash/spin-large/spin-13.webp","/assets/img/notrip-leash/spin-large/spin-14.webp","/assets/img/notrip-leash/spin-large/spin-15.webp","/assets/img/notrip-leash/spin-large/spin-16.webp","/assets/img/notrip-leash/spin-large/spin-17.webp","/assets/img/notrip-leash/spin-large/spin-18.webp","/assets/img/notrip-leash/spin-large/spin-19.webp","/assets/img/notrip-leash/spin-large/spin-20.webp","/assets/img/notrip-leash/spin-large/spin-21.webp","/assets/img/notrip-leash/spin-large/spin-22.webp","/assets/img/notrip-leash/spin-large/spin-23.webp","/assets/img/notrip-leash/spin-large/spin-24.webp","/assets/img/notrip-leash/spin-large/spin-25.webp","/assets/img/notrip-leash/spin-large/spin-26.webp","/assets/img/notrip-leash/spin-large/spin-27.webp","/assets/img/notrip-leash/spin-large/spin-28.webp","/assets/img/notrip-leash/spin-large/spin-29.webp","/assets/img/notrip-leash/spin-large/spin-30.webp","/assets/img/notrip-leash/spin-large/spin-31.webp","/assets/img/notrip-leash/spin-large/spin-32.webp","/assets/img/notrip-leash/spin-large/spin-33.webp","/assets/img/notrip-leash/spin-large/spin-34.webp","/assets/img/notrip-leash/spin-large/spin-35.webp"]];
 const MINI=[["/assets/img/notrip-leash/mini-standard/00.webp","/assets/img/notrip-leash/mini-standard/01.webp","/assets/img/notrip-leash/mini-standard/02.webp","/assets/img/notrip-leash/mini-standard/03.webp","/assets/img/notrip-leash/mini-standard/04.webp","/assets/img/notrip-leash/mini-standard/05.webp","/assets/img/notrip-leash/mini-standard/06.webp","/assets/img/notrip-leash/mini-standard/07.webp","/assets/img/notrip-leash/mini-standard/08.webp","/assets/img/notrip-leash/mini-standard/09.webp","/assets/img/notrip-leash/mini-standard/10.webp","/assets/img/notrip-leash/mini-standard/11.webp","/assets/img/notrip-leash/mini-standard/12.webp","/assets/img/notrip-leash/mini-standard/13.webp","/assets/img/notrip-leash/mini-standard/14.webp","/assets/img/notrip-leash/mini-standard/15.webp","/assets/img/notrip-leash/mini-standard/16.webp","/assets/img/notrip-leash/mini-standard/17.webp","/assets/img/notrip-leash/mini-standard/18.webp","/assets/img/notrip-leash/mini-standard/19.webp","/assets/img/notrip-leash/mini-standard/20.webp","/assets/img/notrip-leash/mini-standard/21.webp","/assets/img/notrip-leash/mini-standard/22.webp","/assets/img/notrip-leash/mini-standard/23.webp"],["/assets/img/notrip-leash/mini-large/00.webp","/assets/img/notrip-leash/mini-large/01.webp","/assets/img/notrip-leash/mini-large/02.webp","/assets/img/notrip-leash/mini-large/03.webp","/assets/img/notrip-leash/mini-large/04.webp","/assets/img/notrip-leash/mini-large/05.webp","/assets/img/notrip-leash/mini-large/06.webp","/assets/img/notrip-leash/mini-large/07.webp","/assets/img/notrip-leash/mini-large/08.webp","/assets/img/notrip-leash/mini-large/09.webp","/assets/img/notrip-leash/mini-large/10.webp","/assets/img/notrip-leash/mini-large/11.webp","/assets/img/notrip-leash/mini-large/12.webp","/assets/img/notrip-leash/mini-large/13.webp","/assets/img/notrip-leash/mini-large/14.webp","/assets/img/notrip-leash/mini-large/15.webp","/assets/img/notrip-leash/mini-large/16.webp","/assets/img/notrip-leash/mini-large/17.webp","/assets/img/notrip-leash/mini-large/18.webp","/assets/img/notrip-leash/mini-large/19.webp","/assets/img/notrip-leash/mini-large/20.webp","/assets/img/notrip-leash/mini-large/21.webp","/assets/img/notrip-leash/mini-large/22.webp","/assets/img/notrip-leash/mini-large/23.webp"]];
 const IMGSKU=[1,0,1,0,1,-1,-1,-1,-1,-1,-1];const LEAD=[1,0];
 (function(){
@@ -298,7 +298,7 @@ function pick(i){
   var lead=LEAD[i];
   if(lead>=0&&IMGS[lead]){
     m.src=IMGS[lead]; m.alt=''; m.hidden=false;
-    if(window.NTSpin)window.NTSpin.show(false);
+    if(window.NTSpin){window.NTSpin.sku(i);window.NTSpin.show(false);}
     t.forEach(function(x){x.classList.remove('active')});
     if(t[lead])t[lead].classList.add('active');
   }
@@ -342,43 +342,49 @@ document.addEventListener('keydown',function(e){
 
 (function(){
   var stage=document.getElementById('spin-stage');
-  if(!stage||!SPIN.length)return;
+  if(!stage||!SPIN.length||!SPIN[0].length)return;
   var cv=document.getElementById('spin-canvas'),
       ctx=cv.getContext('2d'),
       load=document.getElementById('spin-load'),
       btn=document.getElementById('spin-btn'),
       fill=document.getElementById('spin-fill'),
-      ims=[],got=0,i=0,timer=null,drag=false,x0=0,i0=0,built=false,ready=false;
-  var STEP=200;   // ms per frame: 36 frames -> about 7 s a revolution
+      cur=0,i=0,timer=null,drag=false,x0=0,i0=0,
+      sets={};              // sku -> {ims, got, ready}
+  var STEP=200;
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function frames(){return SPIN[cur]||[]}
   function draw(n){
-    n=((n%SPIN.length)+SPIN.length)%SPIN.length;
-    var im=ims[n];
+    var f=frames(); if(!f.length)return;
+    n=((n%f.length)+f.length)%f.length;
+    var st=sets[cur], im=st&&st.ims[n];
     if(!im||!im.complete||!im.naturalWidth)return;   // never paint a blank
-    i=n;
-    ctx.drawImage(im,0,0,cv.width,cv.height);
-    fill.style.width=(100*i/(SPIN.length-1))+'%';
+    i=n; ctx.drawImage(im,0,0,cv.width,cv.height);
+    fill.style.width=(100*i/(f.length-1))+'%';
   }
-  function done(){
-    ready=true; load.hidden=true;
-    if(!still)play();
-  }
-  function build(){
-    // Fetched on first open, not on page load - 36 files most visitors never
-    // reach. Nothing rotates until all of them are decoded: starting early is
-    // what made this flicker, because a frame that has not arrived paints as
-    // nothing.
-    if(built)return; built=true;
-    SPIN.forEach(function(u,n){
+  function build(k){
+    // Each set is fetched the first time that size is opened, and nothing
+    // rotates until every frame of it has decoded - starting early is what
+    // made this flicker.
+    if(sets[k])return sets[k];
+    var st={ims:[],got:0,ready:false};
+    sets[k]=st;
+    (SPIN[k]||[]).forEach(function(u,n){
       var im=new Image();
-      im.onload=function(){ if(n===0)draw(0); if(++got===SPIN.length)done(); };
-      im.onerror=function(){ if(++got===SPIN.length)done(); };
-      im.src=u; ims[n]=im;
+      im.onload=function(){
+        if(k===cur&&n===0&&!st.ready)draw(0);
+        if(++st.got===SPIN[k].length){st.ready=true;if(k===cur)settle();}
+      };
+      im.onerror=function(){if(++st.got===SPIN[k].length){st.ready=true;if(k===cur)settle();}};
+      im.src=u; st.ims[n]=im;
     });
+    return st;
   }
+  function settle(){ load.hidden=true; if(!still)play(); }
   function playing(){return timer!==null}
   function play(){
-    if(playing()||stage.hidden||!ready)return;
+    var st=sets[cur];
+    if(playing()||stage.hidden||!st||!st.ready)return;
     timer=setInterval(function(){draw(i+1)},STEP);
     btn.innerHTML='&#9208;';btn.setAttribute('aria-label','Pause rotation');
   }
@@ -389,22 +395,35 @@ document.addEventListener('keydown',function(e){
   }
   btn.addEventListener('click',function(e){e.stopPropagation();playing()?pause():play()});
   stage.addEventListener('pointerdown',function(e){
-    if(!ready)return;
+    var st=sets[cur]; if(!st||!st.ready)return;
     drag=true;x0=e.clientX;i0=i;pause();stage.classList.add('dragging');
     stage.setPointerCapture(e.pointerId);
   });
   stage.addEventListener('pointermove',function(e){
     if(!drag)return;
-    draw(i0+Math.round((e.clientX-x0)/(stage.clientWidth/SPIN.length)));
+    draw(i0+Math.round((e.clientX-x0)/(stage.clientWidth/frames().length)));
   });
   ['pointerup','pointercancel'].forEach(function(ev){
     stage.addEventListener(ev,function(){drag=false;stage.classList.remove('dragging')});
   });
-  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   window.NTSpin={
     show:function(on){
       stage.hidden=!on;
-      if(on){build();play();}else{pause();}
+      if(on){var st=build(cur); i=0; if(st.ready){load.hidden=true;draw(0);play();}
+             else{load.hidden=false;}}
+      else{pause();}
+    },
+    sku:function(k){
+      if(k===cur||!SPIN[k]||!SPIN[k].length)return;
+      pause(); cur=k; i=0;
+      var st=build(k);
+      var th=document.getElementById('spin-thumb-img');
+      if(th)th.src=SPIN[k][0];
+      if(!stage.hidden){
+        if(st.ready){load.hidden=true;draw(0);play();}
+        else{load.hidden=false;}
+      }
     },
     play:play, pause:pause
   };
