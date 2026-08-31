@@ -7,6 +7,23 @@ eleventyExcludeFromCollections: true
 ---
 <meta name="robots" content="noindex,nofollow">
 <style>
+/* --- colour picker ------------------------------------------------------ */
+.col-wrap{margin:4px 0 18px}
+.col-head{display:flex;align-items:baseline;gap:8px;margin-bottom:9px}
+.col-head .lbl{font-size:13px;font-weight:750;color:var(--navy);
+  text-transform:uppercase;letter-spacing:.04em}
+.col-head .val{font-size:13.5px;color:var(--muted)}
+.swatches{display:flex;flex-wrap:wrap;gap:9px}
+.sw{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);
+  cursor:pointer;padding:0;position:relative;transition:transform .08s}
+.sw:hover{transform:scale(1.08)}
+.sw[aria-checked="true"]{border-color:var(--navy);
+  box-shadow:0 0 0 3px rgba(7,103,221,.16)}
+.sw:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.sw .tick{position:absolute;inset:0;display:none;align-items:center;
+  justify-content:center;font-size:15px;font-weight:800;line-height:1}
+.sw[aria-checked="true"] .tick{display:flex}
+
 /* --- tabbed sections ---------------------------------------------------- */
 .ic{width:19px;height:19px;flex:0 0 auto}
 .tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);
@@ -161,7 +178,7 @@ eleventyExcludeFromCollections: true
           <span class="spin-hint">drag to spin</span>
         </div>
       </div></div>
-      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 2" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 3" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 4" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 5" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 6" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 7" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 8" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 9" data-sku=""><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img id="spin-thumb-img" alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
+      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 2" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 3" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 4" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 5" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 6" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 7" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 8" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 9" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 10" data-sku=""><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img id="spin-thumb-img" alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
       <p class="render-note">Showing imagery for the selected size. The dog
         photographs are AI-generated visualisations; the pale ones are CAD
         renders of the production geometry, and the last thumbnail rotates the
@@ -173,6 +190,11 @@ eleventyExcludeFromCollections: true
       <div class="hr-rule"></div>
       <p class="pdp-sub">Stops your dog tripping over its own lead.</p>
       <div class="sizes" role="radiogroup" aria-label="Choose a size"><button class="size" role="radio" aria-checked="false" data-i="0"><div class="size-head"><div class="txt"><div class="nm">Standard</div><div class="ln">6.0 in &middot; 1 piece</div></div><div class="mini"><canvas width="222" height="222" data-mini="0"></canvas></div></div><div class="pr">$9.99</div><div class="fits"><b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.</div></button><button class="size" role="radio" aria-checked="true" data-i="1"><div class="size-head"><div class="txt"><div class="nm">Large</div><div class="ln">11.4 in &middot; 2 pieces</div></div><div class="mini"><canvas width="222" height="222" data-mini="1"></canvas></div></div><div class="pr">$19.99</div><div class="fits"><b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.</div></button></div>
+      <div class="col-wrap">
+        <div class="col-head"><span class="lbl">Colour</span>
+          <span class="val" id="col-name"></span></div>
+        <div class="swatches" role="radiogroup" aria-label="Choose a colour"><button class="sw" role="radio" aria-checked="true" data-c="0" style="background:#2B2E33" title="Black" aria-label="Black"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="1" style="background:#ECEBE6" title="White" aria-label="White"><span class="tick" style="color:#333">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="2" style="background:#6E747C" title="Grey" aria-label="Grey"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="3" style="background:#C13B2E" title="Red" aria-label="Red"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="4" style="background:#E2652B" title="Orange" aria-label="Orange"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="5" style="background:#EDC220" title="Yellow" aria-label="Yellow"><span class="tick" style="color:#333">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="6" style="background:#5CBE38" title="Green" aria-label="Green"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="7" style="background:#159C93" title="Teal" aria-label="Teal"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="8" style="background:#2E7FD2" title="Blue" aria-label="Blue"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="9" style="background:#9A6FCE" title="Purple" aria-label="Purple"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="10" style="background:#E77CA6" title="Pink" aria-label="Pink"><span class="tick" style="color:#fff">&#10003;</span></button></div>
+      </div>
       <div class="pdp-buy"><a class="btn" href="#details">See how it works</a></div>
       <p class="pdp-note" id="size-box"></p>
       <p class="pdp-note pick-hint"><b>Between the two, or not sure?</b> Take
@@ -278,20 +300,24 @@ eleventyExcludeFromCollections: true
   <button class="zoom-x" id="zoom-x" type="button" aria-label="Close">&times;</button>
   <img id="zoom-img" alt="">
 </div>
-<script>const IMGS=["/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/lifestyle-doodle.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/before-after-small.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/lead-seated.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.3 oz / 36 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.5 oz / 72 g",b:"Two sleeves"}];const DEF=1;
+<script>const IMGS=["/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/lifestyle-doodle.jpg","/assets/img/notrip-leash/before-after.jpg","/assets/img/notrip-leash/before-after-small.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/lifestyle-hand.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/colours.jpg","/assets/img/notrip-leash/lead-seated.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.1 oz / 31 g",b:"One sleeve"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.2 oz / 63 g",b:"Two sleeves"}];const DEF=1;
 const SPIN=[["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"],["/assets/img/notrip-leash/spin-large/spin-00.webp","/assets/img/notrip-leash/spin-large/spin-01.webp","/assets/img/notrip-leash/spin-large/spin-02.webp","/assets/img/notrip-leash/spin-large/spin-03.webp","/assets/img/notrip-leash/spin-large/spin-04.webp","/assets/img/notrip-leash/spin-large/spin-05.webp","/assets/img/notrip-leash/spin-large/spin-06.webp","/assets/img/notrip-leash/spin-large/spin-07.webp","/assets/img/notrip-leash/spin-large/spin-08.webp","/assets/img/notrip-leash/spin-large/spin-09.webp","/assets/img/notrip-leash/spin-large/spin-10.webp","/assets/img/notrip-leash/spin-large/spin-11.webp","/assets/img/notrip-leash/spin-large/spin-12.webp","/assets/img/notrip-leash/spin-large/spin-13.webp","/assets/img/notrip-leash/spin-large/spin-14.webp","/assets/img/notrip-leash/spin-large/spin-15.webp","/assets/img/notrip-leash/spin-large/spin-16.webp","/assets/img/notrip-leash/spin-large/spin-17.webp","/assets/img/notrip-leash/spin-large/spin-18.webp","/assets/img/notrip-leash/spin-large/spin-19.webp","/assets/img/notrip-leash/spin-large/spin-20.webp","/assets/img/notrip-leash/spin-large/spin-21.webp","/assets/img/notrip-leash/spin-large/spin-22.webp","/assets/img/notrip-leash/spin-large/spin-23.webp","/assets/img/notrip-leash/spin-large/spin-24.webp","/assets/img/notrip-leash/spin-large/spin-25.webp","/assets/img/notrip-leash/spin-large/spin-26.webp","/assets/img/notrip-leash/spin-large/spin-27.webp","/assets/img/notrip-leash/spin-large/spin-28.webp","/assets/img/notrip-leash/spin-large/spin-29.webp","/assets/img/notrip-leash/spin-large/spin-30.webp","/assets/img/notrip-leash/spin-large/spin-31.webp","/assets/img/notrip-leash/spin-large/spin-32.webp","/assets/img/notrip-leash/spin-large/spin-33.webp","/assets/img/notrip-leash/spin-large/spin-34.webp","/assets/img/notrip-leash/spin-large/spin-35.webp"]];
 const MINI=[["/assets/img/notrip-leash/mini-standard/00.webp","/assets/img/notrip-leash/mini-standard/01.webp","/assets/img/notrip-leash/mini-standard/02.webp","/assets/img/notrip-leash/mini-standard/03.webp","/assets/img/notrip-leash/mini-standard/04.webp","/assets/img/notrip-leash/mini-standard/05.webp","/assets/img/notrip-leash/mini-standard/06.webp","/assets/img/notrip-leash/mini-standard/07.webp","/assets/img/notrip-leash/mini-standard/08.webp","/assets/img/notrip-leash/mini-standard/09.webp","/assets/img/notrip-leash/mini-standard/10.webp","/assets/img/notrip-leash/mini-standard/11.webp","/assets/img/notrip-leash/mini-standard/12.webp","/assets/img/notrip-leash/mini-standard/13.webp","/assets/img/notrip-leash/mini-standard/14.webp","/assets/img/notrip-leash/mini-standard/15.webp","/assets/img/notrip-leash/mini-standard/16.webp","/assets/img/notrip-leash/mini-standard/17.webp","/assets/img/notrip-leash/mini-standard/18.webp","/assets/img/notrip-leash/mini-standard/19.webp","/assets/img/notrip-leash/mini-standard/20.webp","/assets/img/notrip-leash/mini-standard/21.webp","/assets/img/notrip-leash/mini-standard/22.webp","/assets/img/notrip-leash/mini-standard/23.webp"],["/assets/img/notrip-leash/mini-large/00.webp","/assets/img/notrip-leash/mini-large/01.webp","/assets/img/notrip-leash/mini-large/02.webp","/assets/img/notrip-leash/mini-large/03.webp","/assets/img/notrip-leash/mini-large/04.webp","/assets/img/notrip-leash/mini-large/05.webp","/assets/img/notrip-leash/mini-large/06.webp","/assets/img/notrip-leash/mini-large/07.webp","/assets/img/notrip-leash/mini-large/08.webp","/assets/img/notrip-leash/mini-large/09.webp","/assets/img/notrip-leash/mini-large/10.webp","/assets/img/notrip-leash/mini-large/11.webp","/assets/img/notrip-leash/mini-large/12.webp","/assets/img/notrip-leash/mini-large/13.webp","/assets/img/notrip-leash/mini-large/14.webp","/assets/img/notrip-leash/mini-large/15.webp","/assets/img/notrip-leash/mini-large/16.webp","/assets/img/notrip-leash/mini-large/17.webp","/assets/img/notrip-leash/mini-large/18.webp","/assets/img/notrip-leash/mini-large/19.webp","/assets/img/notrip-leash/mini-large/20.webp","/assets/img/notrip-leash/mini-large/21.webp","/assets/img/notrip-leash/mini-large/22.webp","/assets/img/notrip-leash/mini-large/23.webp"]];
-const IMGSKU=[1,0,1,0,1,-1,-1,-1,-1];const LEAD=[1,0];
+const IMGSKU=[1,0,1,0,1,-1,-1,-1,-1,-1];const LEAD=[1,0];
+const COLS=["Black","White","Grey","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"];const DEFC=0;
 (function(){
 var m=document.getElementById('pdp-main-img'),
     t=[].slice.call(document.querySelectorAll('.pdp-thumbs button'));
 m.src=IMGS[0];
 
+var curCol=DEFC, curSize=0;
 var sizes=document.querySelectorAll('.size'),
     boxEl=document.getElementById('size-box');
 function pick(i){
   sizes.forEach(function(b,j){b.setAttribute('aria-checked', j===i?'true':'false')});
-  boxEl.textContent='In the box: '+SKUS[i].b+'. Ships flat. '+SKUS[i].w+'.';
+  curSize=i;
+  boxEl.textContent='In the box: '+SKUS[i].b+'. Ships flat. '+SKUS[i].w
+    +'. Colour: '+COLS[curCol]+'.';
   // Hide the pictures that belong to the other size, and open on the dog this
   // size is actually for. -1 means the picture applies to both.
   t.forEach(function(b,k){
@@ -308,6 +334,19 @@ function pick(i){
 }
 sizes.forEach(function(b,i){b.addEventListener('click',function(){pick(i)})});
 pick(DEF);
+
+// Colour is presentation only - one part, one price, so it changes the label
+// and nothing else. No price recalculation, no stock logic.
+var sws=[].slice.call(document.querySelectorAll('.sw')),
+    colName=document.getElementById('col-name');
+function pickCol(i){
+  sws.forEach(function(b,j){b.setAttribute('aria-checked', j===i?'true':'false')});
+  curCol=i;
+  if(colName) colName.textContent=COLS[i];
+  pick(curSize);
+}
+sws.forEach(function(b,i){b.addEventListener('click',function(){pickCol(i)})});
+if(sws.length) pickCol(DEFC);
 
 // The last thumbnail is the rotating view, not a still, so it has no entry in
 // IMGS: it swaps the whole main panel rather than the image inside it.
