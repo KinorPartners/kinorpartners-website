@@ -75,24 +75,28 @@ main{display:block}
 .kp-container{max-width:var(--wrap);margin:0 auto;padding:44px 24px 8px}
 .kp-container--narrow{max-width:880px}
 .kp-rte{overflow-wrap:break-word;color:var(--text)}
+/* The PatchDesign embed (<patch-designer>, /pages/patch-design-ai-tool/) sits
+   inside .kp-rte and brings its own styles. These element rules outranked
+   them (the round chat avatar went square), so they skip it. :where() keeps
+   each selector's specificity exactly what it was everywhere else. */
 
 /* Base typography for migrated content that relies on theme defaults.
    Note: headings intentionally DO NOT set an explicit color - they inherit it.
    This lets migrated dark hero sections (which set color:#fff on their own
    container) show white headings, while normal pages inherit the dark body color. */
-.kp-rte h1{font-size:2.15rem;line-height:1.2;font-weight:800;margin:.2em 0 .5em}
-.kp-rte h2{font-size:1.55rem;line-height:1.25;font-weight:750;margin:1.6em 0 .5em}
-.kp-rte h3{font-size:1.2rem;font-weight:700;margin:1.4em 0 .4em}
-.kp-rte p{margin:0 0 1em}
-.kp-rte ul,.kp-rte ol{margin:0 0 1em;padding-left:1.3em}
-.kp-rte li{margin:.35em 0}
-.kp-rte a{color:var(--blue-d);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
-.kp-rte img{border-radius:10px}
-.kp-rte table{width:100%;border-collapse:collapse;margin:1.2em 0;font-size:.96em}
-.kp-rte th,.kp-rte td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
-.kp-rte th{background:var(--soft);font-weight:700;color:var(--ink)}
-.kp-rte blockquote{margin:1.2em 0;padding:.6em 1.2em;border-left:4px solid var(--blue);background:var(--soft);border-radius:0 8px 8px 0}
-.kp-rte hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+.kp-rte h1:not(:where(patch-designer *)){font-size:2.15rem;line-height:1.2;font-weight:800;margin:.2em 0 .5em}
+.kp-rte h2:not(:where(patch-designer *)){font-size:1.55rem;line-height:1.25;font-weight:750;margin:1.6em 0 .5em}
+.kp-rte h3:not(:where(patch-designer *)){font-size:1.2rem;font-weight:700;margin:1.4em 0 .4em}
+.kp-rte p:not(:where(patch-designer *)){margin:0 0 1em}
+.kp-rte ul:not(:where(patch-designer *)),.kp-rte ol:not(:where(patch-designer *)){margin:0 0 1em;padding-left:1.3em}
+.kp-rte li:not(:where(patch-designer *)){margin:.35em 0}
+.kp-rte a:not(:where(patch-designer *)){color:var(--blue-d);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+.kp-rte img:not(:where(patch-designer *)){border-radius:10px}
+.kp-rte table:not(:where(patch-designer *)){width:100%;border-collapse:collapse;margin:1.2em 0;font-size:.96em}
+.kp-rte th:not(:where(patch-designer *)),.kp-rte td:not(:where(patch-designer *)){border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+.kp-rte th:not(:where(patch-designer *)){background:var(--soft);font-weight:700;color:var(--ink)}
+.kp-rte blockquote:not(:where(patch-designer *)){margin:1.2em 0;padding:.6em 1.2em;border-left:4px solid var(--blue);background:var(--soft);border-radius:0 8px 8px 0}
+.kp-rte hr:not(:where(patch-designer *)){border:0;border-top:1px solid var(--line);margin:2em 0}
 .kp-rte>*:first-child{margin-top:0}
 
 /* ---------- Buttons ---------- */
