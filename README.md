@@ -63,4 +63,4 @@ Otherwise git cannot check out that file. (Not needed on macOS/Linux.)
 
 ## Analytics
 
-Google Analytics 4 (`G-H6T60VVJ27`) is included on every page.
+Google Analytics 4 (`G-H6T60VVJ27`) is included on every page, except when the browser sends a Global Privacy Control signal.
