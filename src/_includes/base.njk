@@ -23,8 +23,23 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0767dd">
 <link rel="stylesheet" href="/assets/site.css">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H6T60VVJ27"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H6T60VVJ27');</script>
+<script>
+(function () {
+  var id = 'G-H6T60VVJ27';
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  if (navigator.globalPrivacyControl === true) {
+    window['ga-disable-' + id] = true;
+    return;
+  }
+  var script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+  document.head.appendChild(script);
+  window.gtag('js', new Date());
+  window.gtag('config', id);
+})();
+</script>
 {% for block in jsonld %}<script type="application/ld+json">{{ block | safe }}</script>
 {% endfor %}</head>
 <body>{% include "header.njk" %}<main>{{ content | safe }}</main>{% include "footer.njk" %}
