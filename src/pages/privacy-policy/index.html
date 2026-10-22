@@ -32,7 +32,16 @@ jsonld:
 .kpl-cta{background:linear-gradient(135deg,#f0f6ff,#e8f0fe);border:1px solid #d6e6ff;border-radius:12px;padding:20px 22px;margin-top:24px;text-align:center}
 .kpl-cta h3{margin:0 0 6px;font-size:1rem;color:#0a2540;font-weight:800}
 .kpl-cta p{margin:0;font-size:0.92rem;color:#3a4757}
-@media(max-width:600px){.kpl-hero{padding:30px 20px}.kpl-hero h1{font-size:1.5rem}.kpl-body{padding:8px 20px 20px}}
+@media(max-width:600px){
+.kpl-hero{padding:30px 20px}.kpl-hero h1{font-size:1.5rem}.kpl-body{padding:8px 20px 20px}
+.kpl-table{min-width:0}
+.kpl-table thead{display:none}
+.kpl-table,.kpl-table tbody,.kpl-table tr,.kpl-table td{display:block;width:100%}
+.kpl-table tr{padding:10px 0;border-bottom:1px solid #eef2f7}
+.kpl-table tr:last-child{border-bottom:0}
+.kpl-table td{border:0;padding:4px 14px}
+.kpl-table td::before{content:attr(data-label);display:block;font-weight:700;color:#0a2540;font-size:0.75rem;margin-bottom:2px}
+}
 @media(max-width:360px){.kpl-hero{padding:24px 14px}.kpl-hero h1{font-size:1.35rem}.kpl-body{padding:8px 14px 18px}.kpl-toc,.kpl-note,.kpl-cta{padding-left:14px;padding-right:14px}}
 </style>
 <div class="kpl">
@@ -125,11 +134,11 @@ jsonld:
 <div class="kpl-tablewrap"><table class="kpl-table">
 <thead><tr><th>Category</th><th>Examples on this site</th><th>Why we use it</th><th>Who receives it</th></tr></thead>
 <tbody>
-<tr><td>Identifiers and contact data</td><td>Name, email address, company or website, and the message you send</td><td>Reply to you, provide services you ask about, and keep a record</td><td>Kinor LLC. FormSubmit, to email us the form. Calendly, if you book a meeting.</td></tr>
-<tr><td>Customer records and communications</td><td>Emails you send us, and meeting notes you submit through Calendly</td><td>Respond, schedule, and support an order or a service question</td><td>Kinor LLC. Calendly, for bookings you make.</td></tr>
-<tr><td>Internet or network activity</td><td>Pages viewed, referring site, and general visit timing, via Google Analytics</td><td>See how the site is used and improve it</td><td>Google, as our analytics provider.</td></tr>
-<tr><td>Device and approximate location</td><td>Browser, device type, and city or region inferred from IP address</td><td>The same analytics purpose</td><td>Google, as our analytics provider.</td></tr>
-<tr><td>Design inputs</td><td>Artwork or text you enter in the patch designer</td><td>Run the design tool you chose to open</td><td>PatchDesign, on those two pages only.</td></tr>
+<tr><td data-label="Category">Identifiers and contact data</td><td data-label="Examples on this site">Name, email address, company or website, and the message you send</td><td data-label="Why we use it">Reply to you, provide services you ask about, and keep a record</td><td data-label="Who receives it">Kinor LLC. FormSubmit, to email us the form. Calendly, if you book a meeting.</td></tr>
+<tr><td data-label="Category">Customer records and communications</td><td data-label="Examples on this site">Emails you send us, and meeting notes you submit through Calendly</td><td data-label="Why we use it">Respond, schedule, and support an order or a service question</td><td data-label="Who receives it">Kinor LLC. Calendly, for bookings you make.</td></tr>
+<tr><td data-label="Category">Internet or network activity</td><td data-label="Examples on this site">Pages viewed, referring site, and general visit timing, via Google Analytics</td><td data-label="Why we use it">See how the site is used and improve it</td><td data-label="Who receives it">Google, as our analytics provider.</td></tr>
+<tr><td data-label="Category">Device and approximate location</td><td data-label="Examples on this site">Browser, device type, and city or region inferred from IP address</td><td data-label="Why we use it">The same analytics purpose</td><td data-label="Who receives it">Google, as our analytics provider.</td></tr>
+<tr><td data-label="Category">Design inputs</td><td data-label="Examples on this site">Artwork or text you enter in the patch designer</td><td data-label="Why we use it">Run the design tool you chose to open</td><td data-label="Who receives it">PatchDesign, on those two pages only.</td></tr>
 </tbody>
 </table></div>
 <p>CCPA categories that match the rows above include identifiers, customer records, internet or network activity, and approximate geolocation. We do not collect precise geolocation, commercial payment-card data, or government identifiers on this site.</p>
