@@ -133,8 +133,10 @@ for f in pages:
                         % (f, '; '.join(b.bad[:2]) or 'unclosed ' + ','.join(left[:3])))
 
 # ---------- weight ----------
+# */amazon/ folders hold marketplace listing images that Amazon fetches once;
+# no page loads them, so they do not count against page weight.
 img_bytes = sum(os.path.getsize(p) for p in glob.glob('assets/img/**/*', recursive=True)
-                if os.path.isfile(p))
+                if os.path.isfile(p) and '/amazon/' not in p.replace(os.sep, '/'))
 if img_bytes / 1048576 > IMG_BUDGET_MB:
     errors.append('assets/img is %.1f MB, over the %.1f MB budget'
                   % (img_bytes / 1048576, IMG_BUDGET_MB))
