@@ -239,12 +239,24 @@ def colours():
     return band(c)
 
 
+# In-use MAIN images that replace the product-alone shot for a SKU. Already 2000x2000 on
+# pure white: the dog, leash and hand are greyed so only the sleeve is in colour, which is
+# how the listing says they are not included. Text-free apart from what is moulded on it.
+# recolour_main.py writes one per colour from main-in-use-master.jpg. Large stays product-only:
+# it ships two pieces and the scene shows one.
+MAIN_IN_USE = {f'KP-NT-S-{code}': f'main-in-use-standard-{name}.jpg' for code, name in COLOURS.items()}
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     q = dict(quality=90, optimize=True, progressive=True)
     for code, colour in COLOURS.items():
         for sz, size in SIZES.items():
-            main_image(f'hero-{size}-{colour}.jpg').save(OUT / f'KP-NT-{sz}-{code}.MAIN.jpg', **q)
+            sku = f'KP-NT-{sz}-{code}'
+            if sku in MAIN_IN_USE:
+                Image.open(HERE / 'in-use' / MAIN_IN_USE[sku]).convert('RGB').save(OUT / f'{sku}.MAIN.jpg', **q)
+            else:
+                main_image(f'hero-{size}-{colour}.jpg').save(OUT / f'{sku}.MAIN.jpg', **q)
     main_image('hero-large-black.jpg').save(OUT / 'KP-NT.MAIN.jpg', **q)
 
     slots = {
