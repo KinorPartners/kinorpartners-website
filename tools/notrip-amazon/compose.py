@@ -7,6 +7,7 @@ image URLs:
 
     KP-NT-<S|L>-<COLOUR>.MAIN.jpg   one per child SKU, plus KP-NT.MAIN.jpg for the parent
     KP-NT.PT01.jpg .. PT08.jpg      shared by every SKU (sharedImageSlots)
+    KP-NT-<S|L>-<COLOUR>.SWCH.jpg   the colour-picker thumbnail: one bare piece, for both sizes
 
 MAIN is the product alone on pure white (255,255,255): Amazon suppresses a
 listing whose main image carries text, logos or badges, so the Cadenza wordmark
@@ -83,12 +84,12 @@ def fill_holes(mask):
     return Image.fromarray(np.where(o == 128, 0, 255).astype(np.uint8))
 
 
-def main_image(src_name):
+def main_image(src_name, fill=0.86):
     im = load(src_name)
     mask = cutout(im)
     box = mask.getbbox()
     part, m = im.crop(box), mask.crop(box)
-    scale = (S * 0.86) / max(part.size)
+    scale = (S * fill) / max(part.size)
     size = (round(part.width * scale), round(part.height * scale))
     part, m = part.resize(size, Image.LANCZOS), m.resize(size, Image.LANCZOS)
     canvas = Image.new('RGB', (S, S), WHITE)
@@ -258,6 +259,14 @@ def main():
             else:
                 main_image(f'hero-{size}-{colour}.jpg').save(OUT / f'{sku}.MAIN.jpg', **q)
     main_image('hero-large-black.jpg').save(OUT / 'KP-NT.MAIN.jpg', **q)
+
+    # Swatches. Without one Amazon shrinks MAIN into the colour picker, and the Standard
+    # MAIN is the in-use scene, which is a grey dog at that size. One bare piece reads as
+    # the colour at a glance, so Large gets it too rather than its two-piece shot.
+    for code, colour in COLOURS.items():
+        sw = main_image(f'hero-standard-{colour}.jpg', fill=0.94)
+        for sz in SIZES:
+            sw.save(OUT / f'KP-NT-{sz}-{code}.SWCH.jpg', **q)
 
     slots = {
         'PT01': band(on_white(load('before-after-labelled.jpg'), pad=40)),
