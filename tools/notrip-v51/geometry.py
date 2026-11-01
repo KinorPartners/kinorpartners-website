@@ -23,8 +23,8 @@ import numpy as np
 HERE = pathlib.Path(__file__).resolve().parent
 BUILD = HERE / 'build'
 SRC = pathlib.Path(os.environ.get('NOTRIP_V51_SRC', pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents'
-                   / '1. Kinor Partners' / 'Clients' / '8. NoTrip Sleeve' / '3D-print'
-                   / 'v5.1 connector - Oct 29 2026' / 'src'))
+                   / '1. Kinor Partners' / 'Clients & Products' / '8. NoTrip Sleeve' / '3D-print'
+                   / 'v5.2 connector on end - Nov 1 2026' / 'src'))   # v5.2 = v5.1 body + connector shape
 sys.path.insert(0, str(SRC))
 
 import notrip_v5 as N  # noqa: E402

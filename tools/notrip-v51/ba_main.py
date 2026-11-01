@@ -16,7 +16,7 @@ from PIL import Image, ImageFilter
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-NOTRIP = pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents' / '1. Kinor Partners' / 'Clients' / '8. NoTrip Sleeve'
+NOTRIP = pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents' / '1. Kinor Partners' / 'Clients & Products' / '8. NoTrip Sleeve'
 S, M = 2000, 70          # canvas, outer margin
 
 

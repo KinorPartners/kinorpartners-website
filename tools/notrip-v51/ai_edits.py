@@ -27,7 +27,7 @@ from PIL import Image
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 IMG = REPO / 'src' / 'assets' / 'img' / 'notrip-leash'
-NOTRIP = pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents' / '1. Kinor Partners' / 'Clients' / '8. NoTrip Sleeve'
+NOTRIP = pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents' / '1. Kinor Partners' / 'Clients & Products' / '8. NoTrip Sleeve'
 SRC = NOTRIP / 'marketing' / 'images'
 OUT = HERE / 'ai'
 MODEL = os.environ.get('EVAL_MODEL', 'gemini-3.1-flash-image')

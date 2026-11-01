@@ -17,7 +17,7 @@ from PIL import Image
 HERE = pathlib.Path(__file__).resolve().parent
 AI = HERE / 'ai'
 OUT = HERE / 'build' / 'plain'
-NOTRIP = pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents' / '1. Kinor Partners' / 'Clients' / '8. NoTrip Sleeve'
+NOTRIP = pathlib.Path.home() / 'OneDrive' / 'Attachments' / 'Documents' / '1. Kinor Partners' / 'Clients & Products' / '8. NoTrip Sleeve'
 IMG = NOTRIP / 'marketing' / 'images'
 
 PAIRS = [
