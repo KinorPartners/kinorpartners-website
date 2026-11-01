@@ -7,3 +7,8 @@ desktop.ini
 
 node_modules/
 _site/
+
+# No-Trip v5.1 image pipeline working files (AI candidates, renders, review pages)
+tools/notrip-v51/ai/
+tools/notrip-v51/build/
+__pycache__/
