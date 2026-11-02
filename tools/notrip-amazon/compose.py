@@ -7,6 +7,7 @@ image URLs:
 
     KP-NT-<S|L>-<COLOUR>.MAIN.jpg   one per child SKU, plus KP-NT.MAIN.jpg for the parent
     KP-NT.PT01.jpg .. PT08.jpg      shared by every SKU (sharedImageSlots)
+    KP-NT-<S|L>-<COLOUR>.SWCH.jpg   the colour-picker thumbnail: one bare piece, for both sizes
 
 MAIN is the product alone on pure white (255,255,255): Amazon suppresses a
 listing whose main image carries text, logos or badges, so the Cadenza wordmark
@@ -83,12 +84,15 @@ def fill_holes(mask):
     return Image.fromarray(np.where(o == 128, 0, 255).astype(np.uint8))
 
 
-def main_image(src_name):
-    im = load(src_name)
+def main_image(src_name, fill=0.86):
+    return main_image_from(load(src_name), fill)
+
+
+def main_image_from(im, fill=0.86):
     mask = cutout(im)
     box = mask.getbbox()
     part, m = im.crop(box), mask.crop(box)
-    scale = (S * 0.86) / max(part.size)
+    scale = (S * fill) / max(part.size)
     size = (round(part.width * scale), round(part.height * scale))
     part, m = part.resize(size, Image.LANCZOS), m.resize(size, Image.LANCZOS)
     canvas = Image.new('RGB', (S, S), WHITE)
@@ -195,10 +199,10 @@ def sizing():
     headline(c, 'WHICH SIZE?', 'Measure from the floor to the top of the shoulder')
     d = ImageDraw.Draw(c)
     cols = [
-        ('STANDARD', '1 piece  ·  6.0 in', 'Up to 20 in at the shoulder',
+        ('STANDARD', '1 piece, 2 clips  ·  6 in', 'Up to 20 in at the shoulder',
          ['Dachshund  9 in', 'French Bulldog  12 in', 'Cavalier  13 in', 'Mini Schnauzer  13 in',
           'Beagle  14 in', 'Cocker Spaniel  16 in'], 'hero-standard-black.jpg'),
-        ('LARGE', '2 pieces  ·  11.4 in', '20 to 30 in at the shoulder',
+        ('LARGE', '2 pieces, 3 clips  ·  12 in', '20 to 30 in at the shoulder',
          ['Australian Shepherd  21 in', 'Standard Poodle  21 in', 'Labrador  23 in',
           'Golden Retriever  23 in', 'German Shepherd  24 in', 'Rottweiler / Boxer  24 in'], 'hero-large-black.jpg'),
     ]
@@ -215,23 +219,36 @@ def sizing():
         d.text((cx, 1000), rng, font=B(56), fill=MUTED, anchor='mt')
         for j, b in enumerate(breeds):
             d.text((cx, 1110 + j * 88), b, font=B(56), fill=NAVY, anchor='mt')
-    d.text((S // 2, 1740), 'Between the two? Take Large: it is two of the same piece.', font=B(56), fill=MUTED, anchor='mt')
+    d.text((S // 2, 1740), 'Between the two? Take Large: two of the same piece.', font=B(56), fill=MUTED, anchor='mt')
     return band(c)
 
 
-def pair():
-    c = Image.new('RGB', (S, S), WHITE)
-    headline(c, 'TWO CLICK TOGETHER', 'Slots face opposite ways, so the leash is held captive')
-    im = main_image('pair-joined.jpg')
+def cut(name, box):
+    """A CAD render lifted off its backdrop and fitted to box."""
+    im = main_image(name)
     im = im.crop(im.convert('L').point(lambda v: 255 if v < 250 else 0).getbbox())
-    im = contain(im, (S - 160, S - BAND - 400))
-    c.paste(im, ((S - im.width) // 2, 360 + (S - BAND - 360 - im.height) // 2))
+    return contain(im, box)
+
+
+def personalise():
+    """v5.1: the clip carries the dog's name, or nothing; and it can be any of the colours."""
+    c = Image.new('RGB', (S, S), WHITE)
+    headline(c, "YOUR DOG'S NAME ON THE CLIPS", 'Optional: add a name, pick a clip color, or leave them plain')
+    d = ImageDraw.Draw(c)
+    big = cut('clip-name.jpg', (1300, 560))
+    c.paste(big, ((S - big.width) // 2, 350 + (560 - big.height) // 2))
+    for i, (img, label) in enumerate((('clip-blank.jpg', 'LEFT BLANK'), ('clip-match.jpg', 'OR CLIPS TO MATCH'))):
+        x0 = 120 + i * 900
+        im = cut(img, (760, 480))
+        c.paste(im, (x0 + (760 - im.width) // 2, 1110 + (440 - im.height) // 2))
+        d.text((x0 + 380, 1590), label, font=H(64), fill=NAVY, anchor='mt')
+    d.text((S // 2, 950), 'Sunk into every clip, so it never wears off', font=B(54), fill=MUTED, anchor='mt')
     return band(c)
 
 
 def colours():
     c = Image.new('RGB', (S, S), WHITE)
-    headline(c, '11 COLORS', 'The same part in every color')
+    headline(c, '11 COLORS', 'Clip to match, or in any of the 11')
     im = load('colours.jpg')
     im = im.crop((0, 24, im.width, im.height))   # drop the page's small caption
     im = contain(im, (S - 120, S - BAND - 420))
@@ -244,33 +261,67 @@ def colours():
 # how the listing says they are not included. Text-free apart from what is moulded on it.
 # recolour_main.py writes one per colour from main-in-use-master.jpg. Large stays product-only:
 # it ships two pieces and the scene shows one.
-MAIN_IN_USE = {f'KP-NT-S-{code}': f'main-in-use-standard-{name}.jpg' for code, name in COLOURS.items()}
+# MAIN (owner, 2026-10-30): a no-text before/after on white - grey dog with the leash pooled round
+# its paws, then the same dog with the sleeve propping it clear, the sleeve the only colour.
+# Standard uses the doodle (1 sleeve, 2 clips), Large the golden (2 sleeves, 3 clips), so the
+# picture matches what each listing sells. Built by tools/notrip-v51/ba_main.py.
+BA = HERE.parent / 'notrip-v51' / 'build'
+
+
+PLAIN = HERE.parent / 'notrip-v51' / 'build' / 'plain'   # plain_set.py
+
+
+def photo_im(im):
+    c = Image.new('RGB', (S, S), WHITE)
+    c.paste(cover(im.convert('RGB')), (0, 0))
+    return band(c)
 
 
 def main():
+    """One PDP (owner, 2026-10-31): the KP-NT family, 24 children.
+    Black S/L        plain - black before/after MAIN, blank-top swatch, the six-slide black gallery (KP-NT.PT01-06)
+    10 colours S/L   personalised - their colour's before/after MAIN and swatch, gallery KP-NT-CUSTOM.PT01-08
+    BKP S/L          Black - Personalized - the black MAIN, a swatch with the example name, the custom gallery"""
     OUT.mkdir(parents=True, exist_ok=True)
     q = dict(quality=90, optimize=True, progressive=True)
-    for code, colour in COLOURS.items():
-        for sz, size in SIZES.items():
-            sku = f'KP-NT-{sz}-{code}'
-            if sku in MAIN_IN_USE:
-                Image.open(HERE / 'in-use' / MAIN_IN_USE[sku]).convert('RGB').save(OUT / f'{sku}.MAIN.jpg', **q)
-            else:
-                main_image(f'hero-{size}-{colour}.jpg').save(OUT / f'{sku}.MAIN.jpg', **q)
-    main_image('hero-large-black.jpg').save(OUT / 'KP-NT.MAIN.jpg', **q)
+    ba = lambda size, colour: Image.open(BA / f'ba-main-{size}-{colour}.png').convert('RGB')
+    named_black = Image.open(HERE.parent / 'notrip-v51' / 'build' / 'hero-standard-black-name.png').convert('RGB')
 
-    slots = {
-        'PT01': band(on_white(load('before-after-labelled.jpg'), pad=40)),
-        'PT02': photo('lifestyle-hand-labelled.jpg'),
-        'PT03': photo('lifestyle-golden.jpg'),
-        'PT04': pair(),
+    for f in OUT.glob('*.jpg'):                # the set is rebuilt whole
+        f.unlink()
+    for sz, size in SIZES.items():
+        for code, colour in COLOURS.items():
+            ba(size, colour).save(OUT / f'KP-NT-{sz}-{code}.MAIN.jpg', **q)
+            main_image(f'hero-standard-{colour}.jpg', fill=0.94).save(OUT / f'KP-NT-{sz}-{code}.SWCH.jpg', **q)
+        ba(size, 'black').save(OUT / f'KP-NT-{sz}-BKP.MAIN.jpg', **q)
+        main_image_from(named_black, 0.94).save(OUT / f'KP-NT-{sz}-BKP.SWCH.jpg', **q)
+    ba('large', 'black').save(OUT / 'KP-NT.MAIN.jpg', **q)
+
+    pl = lambda f: Image.open(PLAIN / f)
+    plain = {
+        'PT01': band(on_white(pl('before-after-slack-small-plain-labelled.png'), pad=40)),
+        'PT02': band(on_white(pl('before-after-slack-plain-labelled.png'), pad=40)),
+        'PT03': photo_im(pl('plain-lead-slack.png')),
+        'PT04': sizing(),
+        'PT05': photo_im(pl('plain-detail-clip.png')),
+        'PT06': photo_im(pl('plain-lead-slack-small.png')),
+    }
+    for slot, im in plain.items():
+        im.save(OUT / f'KP-NT.{slot}.jpg', **q)
+
+    custom = {
+        # owner, 2026-10-30: the slack-leash shots carry the message; walking shots are out
+        'PT01': band(on_white(load('before-after-slack-small-labelled.jpg'), pad=40)),
+        'PT02': band(on_white(load('before-after-slack-labelled.jpg'), pad=40)),
+        'PT03': photo('lead-slack.jpg'),
+        'PT04': personalise(),
         'PT05': sizing(),
         'PT06': photo('detail-clip.jpg'),
-        'PT07': band(on_white(load('before-after-small-labelled.jpg'), pad=40)),
+        'PT07': photo('lead-slack-small.jpg'),
         'PT08': colours(),
     }
-    for slot, im in slots.items():
-        im.save(OUT / f'KP-NT.{slot}.jpg', **q)
+    for slot, im in custom.items():
+        im.save(OUT / f'KP-NT-CUSTOM.{slot}.jpg', **q)
     print(f'wrote {len(list(OUT.glob("*.jpg")))} images to {OUT}')
 
 

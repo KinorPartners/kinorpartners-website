@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: "No-Trip Sleeve - Dog Leash Stiffener, Anti-Tangle Snap-On Sleeve - Kinor Partners"
-description: "No-Trip Sleeve keeps the lower stretch of your dog's leash straight and clear of its legs. Snaps on without unclipping. 6 or 11.4 inches. Fits 5/8 and 3/4 inch webbing, leather, padded and rope leashes."
+description: "No-Trip Sleeve keeps the lower stretch of your dog's leash straight and clear of its legs. Presses on without unclipping, and the clips that lock it can carry your dog's name. 6 or 12 inches."
 permalink: "/d/9b3332a5300a/"
 eleventyExcludeFromCollections: true
 ---
@@ -157,6 +157,52 @@ eleventyExcludeFromCollections: true
 .fit-n:before{content:"✕ ";color:#b91c1c;font-weight:800}
 .fits{padding-left:0;margin:.6em 0 0}
 .render-note{font-size:13px;color:var(--muted);margin:10px 0 0;font-style:italic}
+
+/* --- plain or personalised, then a row per clip -------------------------- */
+.ver{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:2px 0 16px}
+@media(max-width:520px){.ver{grid-template-columns:1fr}}
+.ver-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:12px 14px;border:2px solid var(--line);
+  border-radius:12px;background:#fff;cursor:pointer;font:inherit;color:var(--ink)}
+.ver-opt:hover{border-color:#c3d3ea}
+.ver-opt[aria-checked="true"]{border-color:var(--blue);box-shadow:0 0 0 3px rgba(7,103,221,.10)}
+.ver-opt:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.ver-sw{flex:0 0 22px;height:22px;border-radius:50%;margin-top:1px;border:1px solid rgba(0,0,0,.15)}
+.ver-multi{background:conic-gradient(#C13B2E 0 25%,#EDC220 0 50%,#2E7FD2 0 75%,#5CBE38 0)}
+.ver-txt{display:flex;flex-direction:column;gap:2px;font-size:12.5px;color:var(--muted);line-height:1.35}
+.ver-txt b{font-size:14.5px;color:var(--navy)}
+.cust{border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;margin:0 0 18px}
+.cust .col-wrap{margin:0 0 16px}
+.cust .hint{font-size:12.5px;color:var(--muted);margin:2px 0 12px;line-height:1.4}
+.clips{display:flex;flex-direction:column;gap:10px}
+.clip-row{display:grid;grid-template-columns:132px 1fr;gap:12px;align-items:center}
+@media(max-width:420px){.clip-row{grid-template-columns:104px 1fr}}
+.clip-pv{position:relative;container-type:inline-size;border-radius:8px;overflow:hidden;background:#eef1f5}
+.clip-pv img{display:block;width:100%;height:auto}
+/* the flat top of the clip, from render_all.py's clip-top framing */
+.clip-pv-name{position:absolute;left:11%;right:11%;top:28%;bottom:28%;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  font-family:"DejaVu Sans",Verdana,Geneva,sans-serif;font-weight:700;line-height:1.02;
+  text-align:center;white-space:nowrap;letter-spacing:.02em;
+  color:rgba(0,0,0,.16);text-shadow:0 1px 0 rgba(255,255,255,.38),0 -1px 0 rgba(0,0,0,.30)}
+.clip-pv-name.light{color:rgba(0,0,0,.12);text-shadow:0 1px 0 rgba(255,255,255,.6),0 -1px 0 rgba(0,0,0,.22)}
+.clip-pv-name.dark{color:rgba(0,0,0,.40);text-shadow:0 1px 0 rgba(255,255,255,.20),0 -1px 0 rgba(0,0,0,.55)}
+.clip-f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.clip-f .fld-lbl{font-size:12.5px;font-weight:750;color:var(--navy);margin:0}
+.clip-f .row2{display:flex;gap:8px;min-width:0}
+.clip-f input{flex:1 1 auto;min-width:0;box-sizing:border-box;font:inherit;font-size:16px;padding:8px 10px;
+  border:1.5px solid var(--line);border-radius:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink)}
+.clip-f input::placeholder{text-transform:none;letter-spacing:0;color:#9aa3ad}
+.clip-f input:focus,.clip-f select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(7,103,221,.12)}
+.clip-f select{flex:0 0 auto;max-width:46%;font:inherit;font-size:14px;padding:8px 6px;border:1.5px solid var(--line);
+  border-radius:9px;background:#fff;color:var(--ink)}
+.cust-sum{font-size:13px;color:var(--ink);margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line)}
+.each{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:12px 0 0;font-size:13.5px;font-weight:650;
+  color:var(--navy);cursor:pointer}
+.each input{width:17px;height:17px;margin:0;accent-color:var(--blue)}
+.each-pr{font-weight:500;color:var(--muted);font-size:12.5px}
+.clip-extra{font-size:11.5px;font-weight:750;color:#0b6b3a;background:#e5f5ec;border-radius:6px;padding:1px 6px;margin-left:6px}
+.price-line{font-size:14px;margin:8px 0 0}
+.price-line b{color:var(--navy)}
 </style>
 <div class="kp-container">
   <div class="draft-note"><b>Preview.</b> Imagery is AI-generated concept work, not photography of a manufactured unit. Pricing and specification are provisional and the product is not yet on sale.</div>
@@ -165,7 +211,7 @@ eleventyExcludeFromCollections: true
   <div class="pdp">
     <div class="pdp-gallery">
       <div class="pdp-main"><img id="pdp-main-img"
-        alt="The leash held clear of a golden retriever's legs" decoding="async">
+        alt="The sleeve propping a slack leash clear of a dog's front paws" decoding="async">
       <div class="spin" id="spin-stage" hidden
         role="img" aria-label="The sleeve rotating about its long axis, showing
         the engraved back face, both sides and the open channel the leash sits in">
@@ -178,7 +224,7 @@ eleventyExcludeFromCollections: true
           <span class="spin-hint">drag to spin</span>
         </div>
       </div></div>
-      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 2" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 3" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 4" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 5" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 6" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 7" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 8" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 9" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 10" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 11" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 12" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 13" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 14" data-sku=""><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img id="spin-thumb-img" alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
+      <div class="pdp-thumbs"><button class="thumb active" aria-label="View image 1" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 2" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 3" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 4" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 5" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 6" data-sku="0"><img alt=""></button><button class="thumb" aria-label="View image 7" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 8" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 9" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 10" data-sku="1"><img alt=""></button><button class="thumb" aria-label="View image 11" data-sku=""><img alt=""></button><button class="thumb" aria-label="View image 12" data-sku=""><img alt=""></button><button class="thumb thumb-spin" aria-label="Rotate the model"><img id="spin-thumb-img" alt="" src="/assets/img/notrip-leash/spin/spin-00.webp" decoding="async"><span class="badge">360&deg;</span></button></div>
       <p class="render-note">Showing imagery for the selected size. The dog
         photographs are AI-generated visualisations; the pale ones are CAD
         renders of the production geometry, and the last thumbnail rotates the
@@ -189,25 +235,44 @@ eleventyExcludeFromCollections: true
       <h1>No-Trip Sleeve</h1>
       <div class="hr-rule"></div>
       <p class="pdp-sub">Stops your dog tripping over its own leash.</p>
-      <div class="sizes" role="radiogroup" aria-label="Choose a size"><button class="size" role="radio" aria-checked="false" data-i="0"><div class="size-head"><div class="txt"><div class="nm">Standard</div><div class="ln">6.0 in &middot; 1 piece</div></div><div class="mini"><canvas width="222" height="222" data-mini="0"></canvas></div></div><div class="pr">$9.99</div><div class="fits"><b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.</div></button><button class="size" role="radio" aria-checked="true" data-i="1"><div class="size-head"><div class="txt"><div class="nm">Large</div><div class="ln">11.4 in &middot; 2 pieces</div></div><div class="mini"><canvas width="222" height="222" data-mini="1"></canvas></div></div><div class="pr">$19.99</div><div class="fits"><b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.</div></button></div>
-      <div class="col-wrap">
-        <div class="col-head"><span class="lbl">Colour</span>
+      <div class="sizes" role="radiogroup" aria-label="Choose a size"><button class="size" role="radio" aria-checked="false" data-i="0"><div class="size-head"><div class="txt"><div class="nm">Standard</div><div class="ln">6 in &middot; 1 piece</div></div><div class="mini"><canvas width="222" height="222" data-mini="0"></canvas></div></div><div class="pr">$9.99</div><div class="fits"><b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.</div></button><button class="size" role="radio" aria-checked="true" data-i="1"><div class="size-head"><div class="txt"><div class="nm">Large</div><div class="ln">12 in &middot; 2 pieces</div></div><div class="mini"><canvas width="222" height="222" data-mini="1"></canvas></div></div><div class="pr">$15.98</div><div class="fits"><b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.</div></button></div>
+      <div class="ver" role="radiogroup" aria-label="Choose plain or personalised">
+        <button class="ver-opt" role="radio" aria-checked="true" data-v="plain" type="button">
+          <span class="ver-sw" style="background:#2B2E33"></span>
+          <span class="ver-txt"><b>Plain black</b><span>Black sleeve and clips, no name. Ready to ship.</span></span></button>
+        <button class="ver-opt" role="radio" aria-checked="false" data-v="custom" type="button">
+          <span class="ver-sw ver-multi"></span>
+          <span class="ver-txt"><b>Personalised</b><span>Pick the colours and a name for every clip. Made to order.</span></span></button>
+      </div>
+      <p class="price-line" id="price-line" aria-live="polite"></p>
+      <div class="cust" id="cust" hidden>
+        <div class="col-wrap">
+        <div class="col-head"><span class="lbl">Sleeve colour</span>
           <span class="val" id="col-name"></span></div>
         <div class="swatches" role="radiogroup" aria-label="Choose a colour"><button class="sw" role="radio" aria-checked="true" data-c="0" style="background:#2B2E33" title="Black" aria-label="Black"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="1" style="background:#ECEBE6" title="White" aria-label="White"><span class="tick" style="color:#333">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="2" style="background:#6E747C" title="Grey" aria-label="Grey"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="3" style="background:#C13B2E" title="Red" aria-label="Red"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="4" style="background:#E2652B" title="Orange" aria-label="Orange"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="5" style="background:#EDC220" title="Yellow" aria-label="Yellow"><span class="tick" style="color:#333">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="6" style="background:#5CBE38" title="Green" aria-label="Green"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="7" style="background:#159C93" title="Teal" aria-label="Teal"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="8" style="background:#2E7FD2" title="Blue" aria-label="Blue"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="9" style="background:#9A6FCE" title="Purple" aria-label="Purple"><span class="tick" style="color:#fff">&#10003;</span></button><button class="sw" role="radio" aria-checked="false" data-c="10" style="background:#E77CA6" title="Pink" aria-label="Pink"><span class="tick" style="color:#fff">&#10003;</span></button></div>
+      </div>
+        <div class="col-head"><span class="lbl">Clips</span>
+          <span class="val" id="clips-note"></span></div>
+        <p class="hint">Every clip gets the same text and colour. Up to 10 letters or numbers - a name,
+          or a phone number - sunk into the top. Leave it blank for plain tops.</p>
+        <div class="clips" id="clips"></div>
+        <label class="each"><input type="checkbox" id="each"> Design each clip differently
+          <span class="each-pr">+$5 for each clip that differs from clip 1</span></label>
+        <p class="cust-sum" id="cust-sum" aria-live="polite"></p>
       </div>
       <div class="pdp-buy"><a class="btn" href="#details">See how it works</a></div>
       <p class="pdp-note" id="size-box"></p>
       <p class="pdp-note pick-hint"><b>Between the two, or not sure?</b> Take
-        Large. It is two of the identical piece - fit one now, and click the
-        second on whenever you want more of the leash covered. You cannot buy
-        the wrong one.</p>
-      <ul class="pdp-features"><li>Stops the leash draping across your dog's front legs</li><li>Snaps on anywhere along its length - no unclipping the dog</li><li>Fits 5/8 and 3/4 inch webbing, leather, padded and 8-10 mm rope</li><li>Semi-rigid: holds its shape, still flexes on impact</li><li>Join two and the leash is captive - the slots face opposite ways</li><li>Same piece every time - start with one, add another whenever you like</li></ul>
+        Large. It is two of the same piece and three clips - use one
+        now, and add the second whenever you want more of the leash covered.
+        You cannot buy the wrong one.</p>
+      <ul class="pdp-features"><li>Stops the leash draping across your dog's front legs</li><li>Presses on from the top, anywhere along the leash - no unclipping the dog</li><li>A snap-on clip at each end locks the leash in, with your dog's name on it if you like</li><li>Fits round rope leashes 10 to 13.5 mm and flat webbing up to 1/2 in</li><li>Semi-rigid: holds its shape, still flexes on impact</li><li>Same piece every time - two in a row, one clip bridges the join</li></ul>
     </div>
   </div>
 
   <div class="pdp-desc" id="details">
     <h2>Product details</h2>
-    <dl class="strip"><div><dt>Section</dt><dd>26 x 18.5 mm</dd></div><div><dt>Wall</dt><dd>3.0 mm TPU 60D</dd></div><div><dt>Snap-on slot</dt><dd>0.00 mm</dd></div><div><dt>Joined, the leash is</dt><dd>captive</dd></div></dl>
+    <dl class="strip"><div><dt>Section</dt><dd>18.8 x 18 mm</dd></div><div><dt>Leash channel</dt><dd>14.2 x 13.4 mm</dd></div><div><dt>Top opening</dt><dd>12.2 mm</dd></div><div><dt>On the clips</dt><dd>your dog's name</dd></div></dl>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" aria-selected="true" data-p="works">
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17c4-6 8-9 16-11"/><circle cx="18" cy="6" r="2"/><path d="M4 17v3"/></svg>How it works</button>
@@ -235,30 +300,40 @@ eleventyExcludeFromCollections: true
       exactly as it did before.</p>
 
       <h3>How it goes on</h3>
-      <p>A 5/16 in (7.9 mm) slot runs the full length. Press the leash into it anywhere -
-      no unclipping your dog, no threading from the end.</p>
-      <p><strong>The slot is narrower than every leash it is meant to hold, and
-      that is the whole retention mechanism.</strong> Flat webbing is 25 mm
-      across a 5/16 in slot, so it has to fold to get in and cannot come back
-      out flat. A round rope has to squeeze: a 10 mm rope compresses about a
-      quarter to pass, then springs back inside the channel. Anything that
-      drops in without resistance would drop out the same way.</p>
-      <p>There is only one part. Every sleeve has a connector at each end, so
-      two of them push together with a detent you can feel click home. There is
-      no left and right and no separate long version to buy - if you need more
-      length later, you add another of the same piece.</p>
-      <p><strong>The two halves go on facing opposite ways, and that is
-      deliberate.</strong> One slot points up, the other points down, so the
-      leash would have to escape upward and downward at the same time. Where
-      they overlap the sleeve is a fully closed tube with no slot at all. Once
-      two pieces are joined, the leash is captive - it comes off the end or not
-      at all. A moulded key makes sure they can only go together that way.</p>
+      <p>The sleeve is an open channel. Press the leash down into it from the
+      top, anywhere along its length - no unclipping your dog, no threading
+      from the end. The 12.2 mm opening is a little narrower than a 1/2 in
+      rope, so the leash squeezes past the lips and then sits loose in the
+      channel.</p>
+      <p><strong>Then the clips go on, and they are what keeps it there.</strong>
+      One snaps over the top of the channel at each end, closing the opening,
+      and its four fingers lock into the two windows in each side wall at that
+      end. To take one off, spread the two thumb tabs at the bottom of its
+      arms.</p>
+
+      <h3>Your dog's name on the clips</h3>
+      <p>Each clip has a flat top about 1/2 in wide and 1.6 in long, and it
+      can carry your dog's name, sunk into the surface rather than printed on,
+      so it does not wear off. Up to 10 letters; short names get letters about
+      1/4 in tall, and two words go on two lines. Leave the name blank and the
+      clips are plain. They come in the sleeve's colour unless you pick
+      another one.</p>
+      <p>Every clip gets the same name and colour at no extra charge. Want a
+      different design on a clip - a phone number on one and the name on the
+      other, or a clip in a second colour? Each clip that differs from the first
+      is $5: up to $5 on Standard, $5 or $10 on Large.</p>
+
+      <h3>One piece or two</h3>
+      <p>Standard is one 6 in piece and two clips, one at each end. Large is
+      two of the same piece and three clips: lay the pieces end to end on the
+      leash, one clip bridges the join with a pair of fingers in each piece,
+      and the other two lock the far ends. There is no left and right, and no separate long
+      version - if you need more length later, you add another piece.</p>
 
       <h3>Semi-rigid, on purpose</h3>
-      <p>Stiff enough to hold the leash straight under its own weight - it sags
-      under 5 mm across the full 11.4 inches - but soft enough to flex and spring
+      <p>Stiff enough to hold the leash straight under its own weight, but soft enough to flex and spring
       back if your dog runs into it or you knock it against a gate. It is a
-      moulded TPU channel, not a rod: there is no hard edge and nothing to
+      moulded channel, not a rod: there is no hard edge and nothing to
       snap.</p>
 
     </div>
@@ -273,18 +348,18 @@ eleventyExcludeFromCollections: true
         <tr><th>Breed</th><th>At the shoulder</th><th>Size</th></tr><tr><td>Dachshund</td><td>9"</td><td class="pick">Standard</td></tr><tr><td>French Bulldog</td><td>12"</td><td class="pick">Standard</td></tr><tr><td>Cavalier / Mini Schnauzer</td><td>13"</td><td class="pick">Standard</td></tr><tr><td>Beagle</td><td>14"</td><td class="pick">Standard</td></tr><tr><td>Cocker Spaniel</td><td>16"</td><td class="pick">Standard</td></tr><tr><td>Australian Shepherd</td><td>21"</td><td class="pick">Large</td></tr><tr><td>Standard Poodle</td><td>21"</td><td class="pick">Large</td></tr><tr><td>Labrador Retriever</td><td>23"</td><td class="pick">Large</td></tr><tr><td>Golden Retriever</td><td>23"</td><td class="pick">Large</td></tr><tr><td>German Shepherd</td><td>24"</td><td class="pick">Large</td></tr><tr><td>Rottweiler / Boxer</td><td>24"</td><td class="pick">Large</td></tr><tr><td>Great Dane</td><td>31"</td><td class="pick">Large</td></tr>
       </table>
       <p>Still unsure? Large is simply two of the same piece, so you can fit
-      one now and click the second on later. It is never the wrong choice.</p>
+      one now and add the second later. It is never the wrong choice.</p>
 
     </div>
 
     <div class="kp-rte panel" role="tabpanel" data-p="fits" hidden>
       <h3>Leashes it fits</h3>
-      <ul class="fits"><li class="fit-y">5/8 in nylon webbing</li><li class="fit-y">3/4 in nylon webbing</li><li class="fit-y">3/4 in leather</li><li class="fit-y">3/4 in padded / neoprene</li><li class="fit-y">8 to 10 mm round rope - captured, not just resting in the channel</li><li class="fit-n">1 in webbing - too wide for the channel</li><li class="fit-n">Rope thicker than 10 mm - deeper than the channel</li><li class="fit-n">Rope thinner than 8 mm - slips back through the slot</li></ul>
+      <ul class="fits"><li class="fit-y">Round rope 10 to 13.5 mm (3/8 to 1/2 in) - the clips press it into the channel</li><li class="fit-y">Flat webbing up to 1/2 in (13 mm) wide</li><li class="fit-n">Rope thicker than 13.5 mm - bigger than the channel</li><li class="fit-n">Flat webbing wider than the 14.2 mm channel (5/8 in and up) - still being tested on the v5.1 part</li></ul>
     </div>
 
     <div class="kp-rte panel" role="tabpanel" data-p="spec" hidden>
       <h3>Specifications</h3>
-      <table><tr><th>Length, one piece</th><td>6.0 in / 152.4 mm</td></tr><tr><th>Length, two pieces</th><td>11.4 in / 289.8 mm</td></tr><tr><th>Each extra piece adds</th><td>5.4 in / 137.4 mm</td></tr><tr><th>Section</th><td>1.02 x 0.73 in / 26 x 18.5 mm</td></tr><tr><th>Leash channel</th><td>1.06 x 0.39 in / 27 x 10 mm</td></tr><tr><th>Snap-on slot</th><td>5/16 in / 7.9 mm</td></tr><tr><th>Weight</th><td>1.3 oz each piece / 2.5 oz a pair</td></tr><tr><th>Material</th><td>TPU 60D, matte charcoal</td></tr></table>
+      <table><tr><th>Length, one piece</th><td>6.0 in / 152.4 mm</td></tr><tr><th>Length, two pieces</th><td>12.0 in / 304.8 mm, end to end</td></tr><tr><th>Section</th><td>0.74 x 0.71 in / 18.8 x 18 mm</td></tr><tr><th>Leash channel</th><td>0.56 x 0.53 in / 14.2 x 13.4 mm</td></tr><tr><th>Top opening</th><td>0.48 in / 12.2 mm</td></tr><tr><th>Clip</th><td>1.57 x 0.93 in / 40 x 23.6 mm; 2 with Standard, 3 with Large</td></tr><tr><th>Name on the clip</th><td>Optional, up to 10 letters, sunk 0.6 mm</td></tr><tr><th>Weight</th><td>About 1.0 oz Standard, 1.9 oz Large</td></tr><tr><th>Colours</th><td>11; the clip matches, or pick any of the 11</td></tr></table>
     </div>
 
     <div class="kp-rte panel" role="tabpanel" data-p="says" hidden>
@@ -300,13 +375,13 @@ eleventyExcludeFromCollections: true
   <button class="zoom-x" id="zoom-x" type="button" aria-label="Close">&times;</button>
   <img id="zoom-img" alt="">
 </div>
-<script>const IMGS=["/assets/img/notrip-leash/lifestyle-golden.jpg","/assets/img/notrip-leash/lifestyle-doodle.jpg","/assets/img/notrip-leash/before-after-labelled.jpg","/assets/img/notrip-leash/before-after-small-labelled.jpg","/assets/img/notrip-leash/before-after-slack-labelled.jpg","/assets/img/notrip-leash/before-after-slack-small-labelled.jpg","/assets/img/notrip-leash/lead-slack.jpg","/assets/img/notrip-leash/lead-slack-small.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/lifestyle-hand-labelled.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/colours.jpg","/assets/img/notrip-leash/lead-seated.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"1.1 oz / 31 g",b:"One sleeve",n:"Standard"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"2.2 oz / 63 g",b:"Two sleeves",n:"Large"}];const DEF=0;
+<script>const IMGS=["/assets/img/notrip-leash/plain-before-after-small.jpg","/assets/img/notrip-leash/plain-before-after.jpg","/assets/img/notrip-leash/plain-detail-clip.jpg","/assets/img/notrip-leash/before-after-slack-small-labelled.jpg","/assets/img/notrip-leash/before-after-slack-labelled.jpg","/assets/img/notrip-leash/lead-slack-small.jpg","/assets/img/notrip-leash/lead-slack.jpg","/assets/img/notrip-leash/detail-clip.jpg","/assets/img/notrip-leash/clip-name.jpg","/assets/img/notrip-leash/pair-joined.jpg","/assets/img/notrip-leash/hero.jpg","/assets/img/notrip-leash/colours.jpg"];const SKUS=[{d:"<b>Dogs up to 20 inches at the shoulder.</b> French Bulldog, Beagle, Cavalier, Miniature Schnauzer, Dachshund, Cocker Spaniel.",w:"About 1.0 oz / 29 g",b:"One sleeve and two clips",n:"Standard"},{d:"<b>Dogs 20 to 30 inches at the shoulder.</b> Labrador, Golden Retriever, German Shepherd, Standard Poodle, Doodle, Boxer, Rottweiler.",w:"About 1.9 oz / 53 g",b:"Two sleeves and three clips",n:"Large"}];const DEF=0;
 const SPIN=[["/assets/img/notrip-leash/spin/spin-00.webp","/assets/img/notrip-leash/spin/spin-01.webp","/assets/img/notrip-leash/spin/spin-02.webp","/assets/img/notrip-leash/spin/spin-03.webp","/assets/img/notrip-leash/spin/spin-04.webp","/assets/img/notrip-leash/spin/spin-05.webp","/assets/img/notrip-leash/spin/spin-06.webp","/assets/img/notrip-leash/spin/spin-07.webp","/assets/img/notrip-leash/spin/spin-08.webp","/assets/img/notrip-leash/spin/spin-09.webp","/assets/img/notrip-leash/spin/spin-10.webp","/assets/img/notrip-leash/spin/spin-11.webp","/assets/img/notrip-leash/spin/spin-12.webp","/assets/img/notrip-leash/spin/spin-13.webp","/assets/img/notrip-leash/spin/spin-14.webp","/assets/img/notrip-leash/spin/spin-15.webp","/assets/img/notrip-leash/spin/spin-16.webp","/assets/img/notrip-leash/spin/spin-17.webp","/assets/img/notrip-leash/spin/spin-18.webp","/assets/img/notrip-leash/spin/spin-19.webp","/assets/img/notrip-leash/spin/spin-20.webp","/assets/img/notrip-leash/spin/spin-21.webp","/assets/img/notrip-leash/spin/spin-22.webp","/assets/img/notrip-leash/spin/spin-23.webp","/assets/img/notrip-leash/spin/spin-24.webp","/assets/img/notrip-leash/spin/spin-25.webp","/assets/img/notrip-leash/spin/spin-26.webp","/assets/img/notrip-leash/spin/spin-27.webp","/assets/img/notrip-leash/spin/spin-28.webp","/assets/img/notrip-leash/spin/spin-29.webp","/assets/img/notrip-leash/spin/spin-30.webp","/assets/img/notrip-leash/spin/spin-31.webp","/assets/img/notrip-leash/spin/spin-32.webp","/assets/img/notrip-leash/spin/spin-33.webp","/assets/img/notrip-leash/spin/spin-34.webp","/assets/img/notrip-leash/spin/spin-35.webp"],["/assets/img/notrip-leash/spin-large/spin-00.webp","/assets/img/notrip-leash/spin-large/spin-01.webp","/assets/img/notrip-leash/spin-large/spin-02.webp","/assets/img/notrip-leash/spin-large/spin-03.webp","/assets/img/notrip-leash/spin-large/spin-04.webp","/assets/img/notrip-leash/spin-large/spin-05.webp","/assets/img/notrip-leash/spin-large/spin-06.webp","/assets/img/notrip-leash/spin-large/spin-07.webp","/assets/img/notrip-leash/spin-large/spin-08.webp","/assets/img/notrip-leash/spin-large/spin-09.webp","/assets/img/notrip-leash/spin-large/spin-10.webp","/assets/img/notrip-leash/spin-large/spin-11.webp","/assets/img/notrip-leash/spin-large/spin-12.webp","/assets/img/notrip-leash/spin-large/spin-13.webp","/assets/img/notrip-leash/spin-large/spin-14.webp","/assets/img/notrip-leash/spin-large/spin-15.webp","/assets/img/notrip-leash/spin-large/spin-16.webp","/assets/img/notrip-leash/spin-large/spin-17.webp","/assets/img/notrip-leash/spin-large/spin-18.webp","/assets/img/notrip-leash/spin-large/spin-19.webp","/assets/img/notrip-leash/spin-large/spin-20.webp","/assets/img/notrip-leash/spin-large/spin-21.webp","/assets/img/notrip-leash/spin-large/spin-22.webp","/assets/img/notrip-leash/spin-large/spin-23.webp","/assets/img/notrip-leash/spin-large/spin-24.webp","/assets/img/notrip-leash/spin-large/spin-25.webp","/assets/img/notrip-leash/spin-large/spin-26.webp","/assets/img/notrip-leash/spin-large/spin-27.webp","/assets/img/notrip-leash/spin-large/spin-28.webp","/assets/img/notrip-leash/spin-large/spin-29.webp","/assets/img/notrip-leash/spin-large/spin-30.webp","/assets/img/notrip-leash/spin-large/spin-31.webp","/assets/img/notrip-leash/spin-large/spin-32.webp","/assets/img/notrip-leash/spin-large/spin-33.webp","/assets/img/notrip-leash/spin-large/spin-34.webp","/assets/img/notrip-leash/spin-large/spin-35.webp"]];
 const MINI=[["/assets/img/notrip-leash/mini-standard/00.webp","/assets/img/notrip-leash/mini-standard/01.webp","/assets/img/notrip-leash/mini-standard/02.webp","/assets/img/notrip-leash/mini-standard/03.webp","/assets/img/notrip-leash/mini-standard/04.webp","/assets/img/notrip-leash/mini-standard/05.webp","/assets/img/notrip-leash/mini-standard/06.webp","/assets/img/notrip-leash/mini-standard/07.webp","/assets/img/notrip-leash/mini-standard/08.webp","/assets/img/notrip-leash/mini-standard/09.webp","/assets/img/notrip-leash/mini-standard/10.webp","/assets/img/notrip-leash/mini-standard/11.webp","/assets/img/notrip-leash/mini-standard/12.webp","/assets/img/notrip-leash/mini-standard/13.webp","/assets/img/notrip-leash/mini-standard/14.webp","/assets/img/notrip-leash/mini-standard/15.webp","/assets/img/notrip-leash/mini-standard/16.webp","/assets/img/notrip-leash/mini-standard/17.webp","/assets/img/notrip-leash/mini-standard/18.webp","/assets/img/notrip-leash/mini-standard/19.webp","/assets/img/notrip-leash/mini-standard/20.webp","/assets/img/notrip-leash/mini-standard/21.webp","/assets/img/notrip-leash/mini-standard/22.webp","/assets/img/notrip-leash/mini-standard/23.webp"],["/assets/img/notrip-leash/mini-large/00.webp","/assets/img/notrip-leash/mini-large/01.webp","/assets/img/notrip-leash/mini-large/02.webp","/assets/img/notrip-leash/mini-large/03.webp","/assets/img/notrip-leash/mini-large/04.webp","/assets/img/notrip-leash/mini-large/05.webp","/assets/img/notrip-leash/mini-large/06.webp","/assets/img/notrip-leash/mini-large/07.webp","/assets/img/notrip-leash/mini-large/08.webp","/assets/img/notrip-leash/mini-large/09.webp","/assets/img/notrip-leash/mini-large/10.webp","/assets/img/notrip-leash/mini-large/11.webp","/assets/img/notrip-leash/mini-large/12.webp","/assets/img/notrip-leash/mini-large/13.webp","/assets/img/notrip-leash/mini-large/14.webp","/assets/img/notrip-leash/mini-large/15.webp","/assets/img/notrip-leash/mini-large/16.webp","/assets/img/notrip-leash/mini-large/17.webp","/assets/img/notrip-leash/mini-large/18.webp","/assets/img/notrip-leash/mini-large/19.webp","/assets/img/notrip-leash/mini-large/20.webp","/assets/img/notrip-leash/mini-large/21.webp","/assets/img/notrip-leash/mini-large/22.webp","/assets/img/notrip-leash/mini-large/23.webp"]];
-const IMGSKU=[1,0,1,0,1,0,1,0,1,-1,-1,-1,-1,-1];const LEAD=[1,0];
-// Standard opens on the in-use picture (the Amazon MAIN, greyed dog and leash).
+const IMGSKU=[0,1,-1,0,1,0,1,-1,-1,1,-1,-1];const IMGMODE=["plain","plain","plain","custom","custom","custom","custom","custom","custom","","","custom"];
+// Both sizes open on the CAD hero in the chosen colour, clips matching the sleeve.
 const COLS=["Black","White","Grey","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"];const DEFC=0;
-const HERO=[["/assets/img/notrip-leash/amazon/KP-NT-S-BLK.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-WHT.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-GRY.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-RED.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-ORG.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-YEL.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-GRN.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-TEL.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-BLU.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-PUR.MAIN.jpg","/assets/img/notrip-leash/amazon/KP-NT-S-PNK.MAIN.jpg"],["/assets/img/notrip-leash/hero-large-black.jpg","/assets/img/notrip-leash/hero-large-white.jpg","/assets/img/notrip-leash/hero-large-grey.jpg","/assets/img/notrip-leash/hero-large-red.jpg","/assets/img/notrip-leash/hero-large-orange.jpg","/assets/img/notrip-leash/hero-large-yellow.jpg","/assets/img/notrip-leash/hero-large-green.jpg","/assets/img/notrip-leash/hero-large-teal.jpg","/assets/img/notrip-leash/hero-large-blue.jpg","/assets/img/notrip-leash/hero-large-purple.jpg","/assets/img/notrip-leash/hero-large-pink.jpg"]];
+const HERO=[["/assets/img/notrip-leash/hero-standard-black.jpg","/assets/img/notrip-leash/hero-standard-white.jpg","/assets/img/notrip-leash/hero-standard-grey.jpg","/assets/img/notrip-leash/hero-standard-red.jpg","/assets/img/notrip-leash/hero-standard-orange.jpg","/assets/img/notrip-leash/hero-standard-yellow.jpg","/assets/img/notrip-leash/hero-standard-green.jpg","/assets/img/notrip-leash/hero-standard-teal.jpg","/assets/img/notrip-leash/hero-standard-blue.jpg","/assets/img/notrip-leash/hero-standard-purple.jpg","/assets/img/notrip-leash/hero-standard-pink.jpg"],["/assets/img/notrip-leash/hero-large-black.jpg","/assets/img/notrip-leash/hero-large-white.jpg","/assets/img/notrip-leash/hero-large-grey.jpg","/assets/img/notrip-leash/hero-large-red.jpg","/assets/img/notrip-leash/hero-large-orange.jpg","/assets/img/notrip-leash/hero-large-yellow.jpg","/assets/img/notrip-leash/hero-large-green.jpg","/assets/img/notrip-leash/hero-large-teal.jpg","/assets/img/notrip-leash/hero-large-blue.jpg","/assets/img/notrip-leash/hero-large-purple.jpg","/assets/img/notrip-leash/hero-large-pink.jpg"]];
 (function(){
 var m=document.getElementById('pdp-main-img'),
     t=[].slice.call(document.querySelectorAll('.pdp-thumbs button'));
@@ -319,12 +394,15 @@ function pick(i){
   sizes.forEach(function(b,j){b.setAttribute('aria-checked', j===i?'true':'false')});
   curSize=i;
   boxEl.textContent='In the box: '+SKUS[i].b+'. Ships flat. '+SKUS[i].w
-    +'. Colour: '+COLS[curCol]+'.';
+    +'. Sleeve: '+COLS[curCol]+'.';
   // Hide the pictures that belong to the other size, and open on the dog this
   // size is actually for. -1 means the picture applies to both.
   t.forEach(function(b,k){
     if(b.classList.contains('thumb-spin'))return;
-    b.hidden = (IMGSKU[k]!==-1 && IMGSKU[k]!==i);
+    // and the pictures of the other version: plain black scenes for Plain, colour ones for
+    // Personalised ('' = both). mode is declared further down; before that it is plain.
+    var md=(typeof mode==='string')?mode:'plain';
+    b.hidden = (IMGSKU[k]!==-1 && IMGSKU[k]!==i) || (IMGMODE[k] && IMGMODE[k]!==md);
   });
   if(window.NTSpin){window.NTSpin.sku(i);window.NTSpin.show(false);}
   showHero();
@@ -358,6 +436,151 @@ function pickCol(i){
 }
 sws.forEach(function(b,i){b.addEventListener('click',function(){pickCol(i)})});
 if(sws.length) pickCol(DEFC);
+
+// ---- plain or personalised -------------------------------------------------
+// Plain black is the default: black sleeve, black clips, no name - the ready-to-ship
+// version. Personalised opens the sleeve colour and a row per clip (2 Standard, 3 Large),
+// each with its own text and colour. Text typed in clip 1 fills every clip the buyer has
+// not edited, and a clip's colour follows the sleeve until it is changed, so a one-name
+// buyer types once. Each preview is the blank clip rendered from above in its colour with
+// the text laid over its flat top, sized like the CAD (connector.py name_cut): letters up
+// to 7 mm, shrinking to fit 36 mm; two words go on two lines when that is bigger.
+// 1 mm of clip = 100/44.8 of a preview's width.
+var mode='plain',
+    custBox=document.getElementById('cust'),
+    vers=[].slice.call(document.querySelectorAll('.ver-opt')),
+    clipsEl=document.getElementById('clips'),
+    clipsNote=document.getElementById('clips-note'),
+    sum=document.getElementById('cust-sum'),
+    priceEl=document.getElementById('price-line'),
+    // spelled out so the site checker can see every file the previews load
+    CLIPTOP=["/assets/img/notrip-leash/clip-top/black.webp","/assets/img/notrip-leash/clip-top/white.webp","/assets/img/notrip-leash/clip-top/grey.webp","/assets/img/notrip-leash/clip-top/red.webp","/assets/img/notrip-leash/clip-top/orange.webp","/assets/img/notrip-leash/clip-top/yellow.webp","/assets/img/notrip-leash/clip-top/green.webp","/assets/img/notrip-leash/clip-top/teal.webp","/assets/img/notrip-leash/clip-top/blue.webp","/assets/img/notrip-leash/clip-top/purple.webp","/assets/img/notrip-leash/clip-top/pink.webp"],
+    PLACES=[['collar end','far end'],['collar end','middle, across the join','far end']],
+    clips=[0,1,2].map(function(){return {text:'',edited:false,col:-1}});   // col -1 = sleeve's
+var MM=100/44.8, CAP=0.729,          // DejaVu Sans Bold cap height / em
+    meas=document.createElement('canvas').getContext('2d');
+meas.font='700 100px "DejaVu Sans",Verdana,Geneva,sans-serif';
+function lenMM(s,capMM){return meas.measureText(s).width/100*capMM/CAP*1.02}
+function fitName(s){
+  var one=Math.min(7,7*36/lenMM(s,7)), best={lines:[s],h:one};
+  var w=s.split(' ');
+  if(w.length>1){
+    var cut=1,bd=1e9;
+    for(var k=1;k<w.length;k++){
+      var d=Math.abs(lenMM(w.slice(0,k).join(' '),7)-lenMM(w.slice(k).join(' '),7));
+      if(d<bd){bd=d;cut=k}
+    }
+    var a=w.slice(0,cut).join(' '),b=w.slice(cut).join(' ');
+    var two=Math.min(10.8/2/1.02*CAP, 7*36/Math.max(lenMM(a,7),lenMM(b,7)));
+    if(two>one) best={lines:[a,b],h:two};
+  }
+  return best;
+}
+function clean(v){return v.toUpperCase().replace(/[^A-Z0-9' .-]/g,'').replace(/\s+/g,' ').replace(/^ /,'').slice(0,10)}
+function nClips(){return curSize===1?3:2}
+// Pricing (owner, 2026-10-30): identical clips are included; each clip whose design (text or
+// colour) differs from clip 1 adds $5 - Standard up to +$5, Large +$5 or +$10.
+var EXTRA=5, eachBox=document.getElementById('each'), each=false;
+function basePrice(){return parseFloat(sizes[curSize].querySelector('.pr').textContent.replace(/[^0-9.]/g,''))}
+function colOf(c){return c.col<0?curCol:c.col}
+function differs(i){
+  var c=clips[i], z=clips[0];
+  return i>0 && (c.text.trim()!==z.text.trim() || colOf(c)!==colOf(z));
+}
+function extras(){
+  if(!each) return 0;
+  var k=0; for(var i=1;i<nClips();i++) if(differs(i)) k++;
+  return k;
+}
+function syncSame(){   // one design for every clip
+  for(var i=1;i<3;i++){clips[i].text=clips[0].text;clips[i].col=clips[0].col;clips[i].edited=false}
+}
+function drawPreview(row,c){
+  var k=colOf(c), s=c.text.trim(), img=row.querySelector('img'), nm=row.querySelector('.clip-pv-name');
+  img.src=CLIPTOP[k];
+  nm.className='clip-pv-name'+(/White|Yellow/.test(COLS[k])?' light':/Black|Grey/.test(COLS[k])?' dark':'');
+  nm.textContent='';
+  if(s){
+    var f=fitName(s);
+    f.lines.forEach(function(l){var d=document.createElement('div');d.textContent=l;nm.appendChild(d)});
+    nm.style.fontSize=(f.h/CAP*MM).toFixed(3)+'cqw';
+  }
+  row.querySelector('.clip-pv').setAttribute('aria-label',COLS[k]+' clip, '+(s?'reading '+s:'plain top'));
+}
+function buildRows(){
+  clipsEl.textContent='';
+  var n=nClips(), shown=each?n:1;
+  clipsNote.textContent=n+' clips with '+(n===3?'Large':'Standard');
+  for(var i=0;i<shown;i++)(function(i){
+    var c=clips[i], row=document.createElement('div');
+    row.className='clip-row';
+    var label=each?'Clip '+(i+1)+' <span style="font-weight:500;color:var(--muted)">- '+PLACES[n-2][i]+'</span><span class="clip-extra" hidden>+$'+EXTRA+'</span>'
+                  :'All '+n+' clips';
+    row.innerHTML='<div class="clip-pv" role="img"><img alt="" decoding="async"><div class="clip-pv-name" aria-hidden="true"></div></div>'
+      +'<div class="clip-f"><label class="fld-lbl" for="clip-t'+i+'">'+label+'</label>'
+      +'<div class="row2"><input id="clip-t'+i+'" type="text" maxlength="10" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="'+(i===0?'e.g. Buddy':'Same as clip 1')+'">'
+      +'<select aria-label="'+(each?'Clip '+(i+1):'Clip')+' colour"><option value="-1">Sleeve colour</option>'
+      +COLS.map(function(nm,j){return '<option value="'+j+'">'+nm+'</option>'}).join('')+'</select></div></div>';
+    var inp=row.querySelector('input'), sel=row.querySelector('select');
+    inp.value=c.text; sel.value=String(c.col);
+    inp.addEventListener('input',function(){
+      var v=clean(inp.value);
+      if(v!==inp.value){var p=inp.selectionStart;inp.value=v;try{inp.setSelectionRange(p,p)}catch(e){}}
+      c.text=v;
+      if(!each) syncSame();
+      else if(i>0) c.edited=true;
+      else clips.forEach(function(o,j){if(j>0&&!o.edited){o.text=v}});
+      refresh();
+    });
+    sel.addEventListener('change',function(){
+      c.col=+sel.value;
+      if(!each) syncSame(); else if(i>0) c.edited=true;
+      else clips.forEach(function(o,j){if(j>0&&!o.edited){o.col=c.col}});
+      refresh();
+    });
+    clipsEl.appendChild(row);
+  })(i);
+}
+function refresh(){
+  var rows=[].slice.call(clipsEl.children);
+  rows.forEach(function(row,i){
+    var inp=row.querySelector('input'), sel=row.querySelector('select');
+    if(document.activeElement!==inp) inp.value=clips[i].text;
+    if(document.activeElement!==sel) sel.value=String(clips[i].col);
+    drawPreview(row,clips[i]);
+    var tag=row.querySelector('.clip-extra'); if(tag) tag.hidden=!differs(i);
+  });
+  var base=basePrice(), k=mode==='custom'?extras():0, total=base+k*EXTRA;
+  priceEl.innerHTML='<b>$'+total.toFixed(2)+'</b>'+(k?' <span style="color:var(--muted)">($'+base.toFixed(2)+' + $'+(k*EXTRA)+' for '+k+' clip'+(k>1?'s':'')+' with a different design)</span>':'');
+  if(mode==='plain'){ sum.innerHTML=''; return; }
+  var used=clips.slice(0,nClips()), texts=used.map(function(c){return c.text.trim()});
+  var same=texts.every(function(t){return t===texts[0]});
+  var cols=used.map(function(c){return COLS[colOf(c)].toLowerCase()});
+  var sameCol=cols.every(function(x){return x===cols[0]});
+  var esc=function(t){return t.replace(/[<&]/g,'')};
+  sum.innerHTML='<b>Your sleeve:</b> '+COLS[curCol].toLowerCase()+'. <b>Clips:</b> '
+    +(same?(texts[0]?'all read <b>'+esc(texts[0])+'</b>':'plain tops')
+          :texts.map(function(t,i){return (i+1)+': '+(t?'<b>'+esc(t)+'</b>':'plain')}).join(', '))
+    +', '+(sameCol?cols[0]:cols.join(' / '))+'.';
+}
+eachBox.addEventListener('change',function(){
+  each=eachBox.checked;
+  if(!each) syncSame();
+  buildRows(); refresh();
+});
+function setMode(v){
+  mode=v;
+  vers.forEach(function(b){b.setAttribute('aria-checked',b.dataset.v===v?'true':'false')});
+  custBox.hidden=(v==='plain');
+  if(v==='plain') pickCol(0);    // plain is black on black
+  else pick(curSize);            // re-filter the gallery for this version
+  refresh();
+}
+vers.forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.v)})});
+sws.forEach(function(b){b.addEventListener('click',refresh)});
+sizes.forEach(function(b){b.addEventListener('click',function(){buildRows();refresh()})});
+buildRows();
+setMode('plain');
 
 // The last thumbnail is the rotating view, not a still, so it has no entry in
 // IMGS: it swaps the whole main panel rather than the image inside it.
