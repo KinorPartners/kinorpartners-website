@@ -293,6 +293,11 @@ def main():
         for code, colour in COLOURS.items():
             ba(size, colour).save(OUT / f'KP-NT-{sz}-{code}.MAIN.jpg', **q)
             main_image(f'hero-standard-{colour}.jpg', fill=0.94).save(OUT / f'KP-NT-{sz}-{code}.SWCH.jpg', **q)
+        # Amazon's image check rejected the Large White before/after as "a different product"
+        # (preview 2026-11-01): a white sleeve on white next to a pale dog barely reads. It
+        # gets the white product shot on pure white instead.
+        if sz == 'L':
+            main_image('hero-large-white.jpg').save(OUT / 'KP-NT-L-WHT.MAIN.jpg', **q)
         ba(size, 'black').save(OUT / f'KP-NT-{sz}-BKP.MAIN.jpg', **q)
         main_image_from(named_black, 0.94).save(OUT / f'KP-NT-{sz}-BKP.SWCH.jpg', **q)
     ba('large', 'black').save(OUT / 'KP-NT.MAIN.jpg', **q)
