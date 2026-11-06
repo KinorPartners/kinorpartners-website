@@ -59,6 +59,17 @@ KEEP = (
     "along the leash as the sleeve being replaced. No text, no logos, no watermark anywhere "
     "except the name moulded on the clip. ")
 
+HAPPY = (
+    "Make a NEW photo using the first image as the reference for the {dog} (same breed, coat, colour and "
+    "face), its collar, the leash webbing, the product on the leash, the park and the warm evening light. "
+    "The dog now SITS on the grass facing the camera, head up, mouth open in a relaxed happy smile with "
+    "its tongue out, bright eyes - a visibly happy dog. Its owner kneels beside it on the grass, smiling "
+    "warmly, one hand resting on the dog's back, the other holding the leash loosely; the owner's WHOLE face, "
+    "eyes included, is in frame and both faces are clearly visible. The leash clips to "
+    "the dog's collar; the sleeve hangs from the collar snap down the dog's chest, its lower end resting on "
+    "the grass beside the front paws, and the leash runs slack from there up to the owner's hand. Natural "
+    "candid lifestyle photo, eye level, shallow depth of field. No text, no logos, no watermark anywhere "
+    "except the name moulded on the clips. ")
 # name: (source file, size, colour words, extra instruction, refs)
 COL = 'sleeve BRIGHT BLUE (#2E7FD2), every clip ORANGE (#E2652B)'
 RS = ['real/std-hero.pick.png', 'real/std-side.pick.png', 'real/clip.pick.png']
@@ -67,6 +78,13 @@ TWO = 'This is a two-panel image. The LEFT panel shows no sleeve and must not ch
 # Second pass (2026-10-30): two clips per sleeve, contrasting clip colour. Sources are the
 # first-pass v5.1 masters, whose composition was already approved.
 JOBS = {
+    # PT07 "happy faces" (owner, 2026-11-05): the same dog, now sitting and smiling at the camera
+    # with its owner, the sleeve on the leash. A new pose, so not the KEEP edit: the first image
+    # only fixes the dog, the leash, the park and the light.
+    'happy-doodle': ('lead-slack-small.png', '', '', HAPPY.format(dog='curly apricot doodle') + PART + STD +
+                     'Colour: ' + COL + '. ', RS),
+    'happy-golden': ('lead-slack.png', '', '', HAPPY.format(dog='golden retriever') + PART + LRG +
+                     'Colour: ' + COL + '. ', RL),
     'lifestyle-golden': ('lifestyle-golden.png', LRG, COL, '', RL),
     'lifestyle-doodle': ('lifestyle-doodle.png', STD, COL, '', RS),
     'before-after': ('before-after.png', LRG, COL, TWO, RL),

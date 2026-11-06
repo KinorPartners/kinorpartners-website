@@ -16,6 +16,8 @@ and the Made in the USA flag go only on PT01-PT08, in a band along the bottom.
     py -3 -I tools/notrip-amazon/compose.py
 """
 import pathlib
+import shutil
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -206,13 +208,25 @@ def sizing():
          ['Australian Shepherd  21 in', 'Standard Poodle  21 in', 'Labrador  23 in',
           'Golden Retriever  23 in', 'German Shepherd  24 in', 'Rottweiler / Boxer  24 in'], 'hero-large-black.jpg'),
     ]
+    # one scale for both pieces (owner, 2026-11-05): the hero renders share a camera scale, so
+    # lift each off its backdrop and size both by the factor that fits the Large - the Standard
+    # then shows at its true half length
+    lifted = []
+    for *_, img in cols:
+        im = load(img)
+        mask = cutout(im)
+        box = mask.getbbox()
+        part = Image.new('RGB', im.size, WHITE)
+        part.paste(im, (0, 0), mask)
+        lifted.append(part.crop(box))
+    big = lifted[1]
+    k = min(520 / big.width, 360 / big.height)
     for i, (name, spec, rng, breeds, img) in enumerate(cols):
         x0 = 90 + i * 930
         d.rounded_rectangle([x0, 330, x0 + 890, 1700], radius=36, outline=RULE, width=4)
-        part = main_image(img)
-        part = part.crop(part.convert('L').point(lambda v: 255 if v < 250 else 0).getbbox())
-        part = contain(part, (520, 360))
-        c.paste(part, (x0 + (890 - part.width) // 2, 380))
+        part = lifted[i]
+        part = part.resize((round(part.width * k), round(part.height * k)), Image.LANCZOS)
+        c.paste(part, (x0 + (890 - part.width) // 2, 380 + (360 - part.height) // 2))
         cx = x0 + 445
         d.text((cx, 790), name, font=H(110), fill=NAVY, anchor='mt')
         d.text((cx, 920), spec, font=B(60), fill=NAVY, anchor='mt')
@@ -269,6 +283,7 @@ BA = HERE.parent / 'notrip-v51' / 'build'
 
 
 PLAIN = HERE.parent / 'notrip-v51' / 'build' / 'plain'   # plain_set.py
+BENEFITS = HERE / 'benefits'                               # benefits.py
 
 
 def photo_im(im):
@@ -327,6 +342,17 @@ def main():
     }
     for slot, im in custom.items():
         im.save(OUT / f'KP-NT-CUSTOM.{slot}.jpg', **q)
+
+    # Per-size benefit galleries (owner, 2026-11-05): each size shows only its own piece - the
+    # doodle wears the Standard, the golden the Large. Tiles from benefits.py (run it first);
+    # copied byte for byte so they are not JPEG-compressed twice. Sizing is shared.
+    sizing().save(OUT / 'KP-NT-CUSTOM-S.PT06.jpg', **q)
+    shutil.copy(OUT / 'KP-NT-CUSTOM-S.PT06.jpg', OUT / 'KP-NT-CUSTOM-L.PT06.jpg')
+    for sz in SIZES:
+        for slot, tile in (('PT01', f'B1-tangle-{sz}'), ('PT02', f'B2-mess-{sz}'),
+                           ('PT03', f'B3-easy-on-{sz}'), ('PT04', 'B4-name'),
+                           ('PT05', f'B5-designs-{sz}'), ('PT07', f'B7-happy-{sz}')):
+            shutil.copy(BENEFITS / f'{tile}.jpg', OUT / f'KP-NT-CUSTOM-{sz}.{slot}.jpg')
     print(f'wrote {len(list(OUT.glob("*.jpg")))} images to {OUT}')
 
 
