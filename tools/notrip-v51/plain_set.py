@@ -1,7 +1,9 @@
 """The plain-black versions of the key scenes, ready for compose.py.
 
 ai/plain-*.png are the key scenes re-shot with a black sleeve and black clips on a grey leash
-(one Gemini 2.1 edit each). Here they are paired into BEFORE/AFTER images exactly like the
+(one Gemini 2.1 edit each; plain-detail-clip-1.png then had "BUDDY" inpainted off both clip tops
+locally on 2026-11-05, since the plain variants ship with blank tops - the original is
+ai/plain-detail-clip-1-buddy.png). Here they are paired into BEFORE/AFTER images exactly like the
 colour ones - two 1024 panels, an 8 px white gutter - and labelled with the NoTrip folder's
 own label_pairs.label, so both families' pairs look the same.
 
