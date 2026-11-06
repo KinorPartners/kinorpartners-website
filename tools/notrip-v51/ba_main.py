@@ -6,6 +6,14 @@ white 2000 x 2000 canvas, no text: the coloured sleeve is the only colour, so th
 left-to-right as problem -> fix without labels. Same inset-on-white recipe the Shirt Tucker
 composite MAIN cleared Amazon with.
 
+Tails and leash (owner, 2026-11-06): the composed picture then gets patches/ba-main-<size>-tails.png
+laid over it - the BEFORE dog's tail hangs low (sad), the AFTER dog's is raised mid-wag (happy),
+the BEFORE leash is a short slack across the paws instead of the big floor loop, and it is cut at
+the centre line rather than running off the top. Each patch is one approved Gemini 2.1 edit
+registered onto this script's own output, so it only lines up while compose() stays as it is: if
+you change the layout, remake the patch. Its alpha never covers a sleeve pixel, so every colour
+keeps the sleeve exactly as recolour_main.py made it.
+
     py -3 tools/notrip-v51/ba_main.py <standard|large>   -> build/ba-main-<size>-<colour>.png (all 11)
 """
 import pathlib
@@ -50,7 +58,17 @@ def main():
             ref = Image.open(REPO / 'tools' / 'notrip-amazon' / 'in-use' / f'main-in-use-{size}-blue.jpg')
             after = ground_tip(after, ref)
         after = lift(after)
-        compose(before, after, HERE / 'build' / f'ba-main-{size}-{colour}.png')
+        out = HERE / 'build' / f'ba-main-{size}-{colour}.png'
+        compose(before, after, out)
+        tails(out, size)
+
+
+def tails(out, size):
+    """Lay the sad/happy tail + short-leash patch over a composed MAIN (see the docstring)."""
+    patch = Image.open(HERE / 'patches' / f'ba-main-{size}-tails.png').convert('RGBA')
+    im = Image.open(out).convert('RGBA')
+    assert im.size == patch.size, f'{out.name}: patch is {patch.size}, picture {im.size} - remake the patch'
+    Image.alpha_composite(im, patch).convert('RGB').save(out)
 
 
 COLOURS = 'black white grey red orange yellow green teal blue purple pink'.split()
