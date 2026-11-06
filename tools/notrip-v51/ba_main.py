@@ -43,23 +43,91 @@ def main():
     before_master = 'main-before-master-1.png' if size == 'standard' else 'main-before-large-1.png'
     before = lift(Image.open(HERE / 'ai' / before_master))
     for colour in COLOURS:
-        after = lift(Image.open(REPO / 'tools' / 'notrip-amazon' / 'in-use' / f'main-in-use-{size}-{colour}.jpg'))
+        after = Image.open(REPO / 'tools' / 'notrip-amazon' / 'in-use' / f'main-in-use-{size}-{colour}.jpg')
+        if size == 'standard':
+            # its AI shadow sat ~70 px below the tip, so the sleeve hovered (owner, 2026-11-05)
+            from tip_contact import ground_tip
+            ref = Image.open(REPO / 'tools' / 'notrip-amazon' / 'in-use' / f'main-in-use-{size}-blue.jpg')
+            after = ground_tip(after, ref)
+        after = lift(after)
         compose(before, after, HERE / 'build' / f'ba-main-{size}-{colour}.png')
 
 
 COLOURS = 'black white grey red orange yellow green teal blue purple pink'.split()
 
 
-def compose(before, after, out):
+def dog_rows(part):
+    """Top and bottom row of the dog: rows where the subject is wider than a leash strip."""
+    a = np.asarray(part.getchannel('A')) > 60
+    wide = np.nonzero(a.sum(1) > 0.18 * part.width)[0]
+    return wide.min(), wide.max()
 
+
+def extend_leash(p, up, K=36):
+    """Carry the leash strip at the top of p straight on upward by `up` px, so it leaves the
+    frame instead of ending in mid-air: repeat its top band of webbing along its own slope."""
+    if up <= 0:
+        return p
+    from scipy import ndimage
+    r0 = 10                                          # skip the ragged cut edge
+    p = p.crop((0, r0, p.width, p.height))
+    up += r0
+    A = np.asarray(p.getchannel('A')) > 60
+    lab, n = ndimage.label(A[:K])
+    # the leash is the right-most shape in the band (the dog's head can reach it on the left)
+    lid = max(range(1, n + 1), key=lambda k: np.nonzero(lab == k)[1].mean())
+    keep = lab == lid
+    cx = lambda r: np.nonzero(keep[r])[0].mean()
+    slope = (cx(0) - cx(K - 1)) / (K - 1)            # px right per px up
+    band = p.crop((0, 0, p.width, K))
+    ba = np.asarray(band).copy()
+    ba[..., 3] = np.where(keep, ba[..., 3], 0)
+    band = Image.fromarray(ba)
+    n = int(np.ceil(up / K)) + 1
+    grow = max(0, int(np.ceil(slope * K * n)) + 2)
+    out = Image.new('RGBA', (p.width + grow, p.height + up), (0, 0, 0, 0))
+    out.paste(p, (0, up), p)
+    for i in range(1, n + 1):
+        # behind what is already there, so seams fall under the band below
+        layer = Image.new('RGBA', out.size, (0, 0, 0, 0))
+        layer.paste(band, (round(slope * K * i), up - K * i + 1))
+        out = Image.alpha_composite(layer, out)
+    return out
+
+
+def compose(before, after, out):
+    """Both dogs at the SAME height, as big as the half-width allows; the leash running up
+    past the dog is allowed to leave the top of the frame (owner, 2026-11-05)."""
     canvas = Image.new('RGB', (S, S), (255, 255, 255))
-    half = (S - 2 * M - 40) // 2
-    for i, part in enumerate((before, after)):
-        sc = min(half / part.width, (S - 2 * M) / part.height)
-        p = part.resize((round(part.width * sc), round(part.height * sc)), Image.LANCZOS)
-        x = M + i * (half + 40) + (half - p.width) // 2
-        y = (S + round(min(before.height * half / before.width, after.height * half / after.width))) // 2 - p.height
-        canvas.paste(p, (x, y), p)
+    m, gap, head = 40, 30, 0.14          # side margin, gap, leash kept above the dog (x dog height)
+    parts = []
+    for part in (before, after):
+        t, b = dog_rows(part)
+        dh = b - t
+        # cut the leash a little above the dog: it then runs off the top of the frame
+        part = part.crop((0, max(0, round(t - head * dh)), part.width, part.height))
+        part = part.crop(part.getchannel('A').getbbox())     # re-tighten (the leash's far end is gone)
+        t2, b2 = dog_rows(part)
+        parts.append((part, t2, b2))
+    # each panel is as wide as its dog + the low leash (rows below mid-dog); the leash rising
+    # above that is free to cross the open sky between the dogs and leave the frame
+    def foot(p, t, b):
+        a = np.asarray(p.getchannel('A'))[round(t + 0.45 * (b - t)):] > 60
+        return np.nonzero(a.any(0))[0].max() + 1
+    feet = [foot(*q) for q in parts]
+    ratio = sum(f / (b - t) for f, (p, t, b) in zip(feet, parts))
+    H = (S - 2 * m - gap) / ratio
+    H = min(H, 0.62 * S)
+    sc = [H / (b - t) for p, t, b in parts]
+    widths = [round(f * s) for f, s in zip(feet, sc)]
+    x = (S - sum(widths) - gap) // 2
+    # centre the dogs (top of dog to paws) in the frame; the leash is then carried up to the edge
+    for (part, t, b), s, w in zip(parts, sc, widths):
+        p = part.resize((round(part.width * s), round(part.height * s)), Image.LANCZOS)
+        y = round(0.56 * S - H / 2 - t * s)
+        p = extend_leash(p, y)
+        canvas.paste(p, (x, y - (p.height - round(part.height * s))), p)
+        x += w + gap
     A = np.asarray(canvas)
     edge = np.concatenate([A[0], A[-1], A[:, 0], A[:, -1]])
     canvas.save(out)

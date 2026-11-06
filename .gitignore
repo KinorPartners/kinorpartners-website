@@ -12,3 +12,6 @@ _site/
 tools/notrip-v51/ai/
 tools/notrip-v51/build/
 __pycache__/
+
+# No-Trip benefit tiles: working copies (benefits.py); compose.py installs them under src/
+tools/notrip-amazon/benefits/
