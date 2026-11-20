@@ -135,7 +135,7 @@ noAnalytics: true
         <button type="button" class="ftq-speed" data-speed="normal" aria-pressed="true">🏈 Normal</button>
         <button type="button" class="ftq-speed" data-speed="fast" aria-pressed="false">🐇 Fast</button>
       </div>
-      <span class="ftq-hint">Voices come from this phone or computer, so the list is different on each device. With the clock on, it starts after the question is read.</span>
+      <span class="ftq-hint">Voices come from this phone or computer, so the list is different on each device. On an iPhone, turn off Silent mode to hear it. With the clock on, it starts after the question is read.</span>
     </div>
     <label class="ftq-switch" for="ftq-online" id="ftq-online-row" hidden><span>🌎 Post my score to the online leaderboard (nickname and score only)</span><input type="checkbox" id="ftq-online" checked></label>
 
@@ -308,8 +308,12 @@ noAnalytics: true
       o.textContent = v.name.replace(/^(Microsoft|Google|Apple)\s+/, "").replace(/\s+Online \(Natural\)/, "") + " (" + v.lang + ")";
       sel.appendChild(o);
     });
+    /* default to a voice built into the device: online voices can fail silently */
+    var local = list.filter(function (v) { return v.localService; });
     var pick = list.filter(function (v) { return v.name === tts.name; })[0] ||
-               list.filter(function (v) { return v.default; })[0] || list[0];
+               local.filter(function (v) { return v.default; })[0] ||
+               local.filter(function (v) { return /^en-US/i.test(v.lang); })[0] ||
+               local[0] || list.filter(function (v) { return v.default; })[0] || list[0];
     sel.value = pick.name;
     tts.name = pick.name;
   }
@@ -318,16 +322,25 @@ noAnalytics: true
     function fin() { if (fired) return; fired = true; if (done) done(); }
     if (!TTS || !(tts.on || force)) { fin(); return; }
     var synth = window.speechSynthesis;
-    synth.cancel();
     var u = new window.SpeechSynthesisUtterance(String(text).replace(EMOJI, "").replace(/\s+/g, " ").trim());
     var v = voiceList().filter(function (x) { return x.name === tts.name; })[0];
-    if (v) { u.voice = v; u.lang = v.lang; }
+    if (v) u.voice = v;
+    u.lang = v ? v.lang : "en-US";
     u.rate = SPEEDS[tts.speed];
     u.pitch = PITCH[tts.pitch];
+    u.volume = 1;
     u.onend = fin; u.onerror = fin;
+    /* keep a reference: some browsers drop an utterance that nothing holds, and it never plays or ends */
+    talking.push(u); if (talking.length > 4) talking.shift();
     setTimeout(fin, Math.min(30000, 3000 + u.text.length * 85 / u.rate));
+    /* only cancel when something is playing: on Chrome and Safari, cancel() right before speak() can swallow the new line */
+    if (synth.speaking || synth.pending) synth.cancel();
+    try { synth.resume(); } catch (e) {}
     synth.speak(u);
+    /* Chrome on Android sometimes starts paused */
+    setTimeout(function () { try { if (synth.paused) synth.resume(); } catch (e) {} }, 250);
   }
+  var talking = [];
   function hush() { if (TTS) window.speechSynthesis.cancel(); }
   function readQuestion(force, done) {
     var item = Q[st.order[st.i]];
@@ -656,7 +669,12 @@ noAnalytics: true
     setTts(tts.on);
     pressGroup("data-speed", tts.speed);
     pressGroup("data-pitch", tts.pitch);
-    if ("onvoiceschanged" in window.speechSynthesis) window.speechSynthesis.addEventListener("voiceschanged", function () { if (tts.on) fillVoices(); });
+    if (window.speechSynthesis.addEventListener) window.speechSynthesis.addEventListener("voiceschanged", function () { if (tts.on) fillVoices(); });
+    /* some phones load their voices late and never say so */
+    var tries = 0, poll = setInterval(function () {
+      if (++tries > 20 || $("ftq-voice").options.length) { clearInterval(poll); return; }
+      if (tts.on) fillVoices();
+    }, 500);
     $("ftq-tts").addEventListener("change", function () { setTts($("ftq-tts").checked); if (tts.on) say("Hi! I'll read each question out loud.", null, true); });
     $("ftq-voice").addEventListener("change", function () { tts.name = $("ftq-voice").value; store.set("tts-voice", tts.name); say("Touchdown! This is my voice.", null, true); });
     $("ftq-voice-test").addEventListener("click", function () { say("Which team won Super Bowl 60?", null, true); });
