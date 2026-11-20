@@ -1,0 +1,187 @@
+---
+layout: base.njk
+title: "2026 Football Trivia for Kids | Kinor Partners"
+description: "A quick 10-question football quiz for kids, built only from 2026 facts: Super Bowl LX, the 2026 NFL Draft, the college title game and more."
+canonical: "https://kinorpartners.com/pages/football-trivia-2026/"
+noAnalytics: true
+---
+<style>
+#ftq{max-width:560px;margin:0 auto;padding:20px 16px 40px;color:var(--ink);font-size:18px;line-height:1.5}
+#ftq *{box-sizing:border-box}
+.ftq-card{scroll-margin-top:96px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 18px}
+.ftq-hero{text-align:center}
+.ftq-hero h1{font-size:1.75rem;line-height:1.2;margin:4px 0 8px;color:var(--navy);font-weight:800}
+.ftq-hero p{margin:0 0 18px;color:var(--text)}
+.ftq-ball{font-size:3rem;line-height:1;margin:0}
+.ftq-btn{display:block;width:100%;min-height:52px;padding:14px 18px;border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:1.1rem;cursor:pointer;touch-action:manipulation}
+.ftq-btn:focus-visible,.ftq-opt:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.ftq-btn:active{transform:scale(.98)}
+.ftq-top{display:flex;justify-content:space-between;align-items:center;font-size:.95rem;font-weight:700;color:var(--muted);margin-bottom:8px}
+.ftq-bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.ftq-bar span{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+.ftq-q{font-size:1.25rem;font-weight:800;line-height:1.35;margin:0 0 16px;color:var(--navy)}
+.ftq-opts{display:grid;gap:10px;margin:0 0 16px;padding:0;list-style:none}
+.ftq-opt{display:block;width:100%;min-height:56px;padding:14px 16px;text-align:left;font:inherit;font-weight:700;color:var(--ink);background:var(--soft);border:2px solid var(--line);border-radius:12px;cursor:pointer;touch-action:manipulation}
+.ftq-opt:disabled{cursor:default}
+.ftq-opt.is-right{background:#e7f8ee;border-color:var(--green);color:#0d5c31}
+.ftq-opt.is-wrong{background:#fdecec;border-color:#d93636;color:#8a1c1c}
+.ftq-fb{display:none;border-radius:12px;padding:14px 16px;margin:0 0 16px;background:var(--soft)}
+.ftq-fb.show{display:block}
+.ftq-fb strong{display:block;font-size:1.1rem;margin-bottom:4px}
+.ftq-score{font-size:3rem;font-weight:800;color:var(--blue);margin:6px 0}
+.ftq-note{font-size:.85rem;color:var(--muted);text-align:center;margin:18px 0 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.ftq-bar span{transition:none}.ftq-btn:active{transform:none}}
+</style>
+
+<div id="ftq">
+  <section class="ftq-card ftq-hero" id="ftq-start">
+    <p class="ftq-ball" aria-hidden="true">🏈</p>
+    <h1>2026 Football Trivia</h1>
+    <p>10 quick questions about football in 2026. Tap an answer to see if you got it right!</p>
+    <button class="ftq-btn" type="button" id="ftq-go">Start the quiz</button>
+  </section>
+
+  <section class="ftq-card" id="ftq-play" hidden>
+    <div class="ftq-top"><span id="ftq-count">Question 1 of 10</span><span id="ftq-pts">Score: 0</span></div>
+    <div class="ftq-bar" aria-hidden="true"><span id="ftq-prog"></span></div>
+    <h2 class="ftq-q" id="ftq-q" tabindex="-1"></h2>
+    <ul class="ftq-opts" id="ftq-opts"></ul>
+    <div class="ftq-fb" id="ftq-fb" aria-live="polite"></div>
+    <button class="ftq-btn" type="button" id="ftq-next" hidden>Next question</button>
+  </section>
+
+  <section class="ftq-card ftq-hero" id="ftq-end" hidden>
+    <p class="ftq-ball" aria-hidden="true" id="ftq-emoji">🏆</p>
+    <h2 class="ftq-q" style="text-align:center;margin:0" id="ftq-end-title" tabindex="-1">Final score</h2>
+    <p class="ftq-score" id="ftq-final">0 / 10</p>
+    <p id="ftq-msg"></p>
+    <button class="ftq-btn" type="button" id="ftq-again">Play again</button>
+  </section>
+
+  <p class="ftq-note">Every question is about something that happened in 2026. Facts checked against NFL.com, ESPN, the Associated Press and NPR.</p>
+</div>
+
+<script>
+(function () {
+  var Q = [
+    { q: "Which team won Super Bowl LX in February 2026?",
+      a: ["New England Patriots", "Seattle Seahawks", "Los Angeles Rams", "Denver Broncos"], c: 1,
+      f: "The Seahawks beat the Patriots 29-13. It was Seattle's second Super Bowl title ever." },
+    { q: "Who was named MVP of Super Bowl LX?",
+      a: ["Drake Maye", "Sam Darnold", "Kenneth Walker III", "Jaxon Smith-Njigba"], c: 2,
+      f: "Running back Kenneth Walker III ran for 135 yards on 27 carries." },
+    { q: "Who performed the Super Bowl LX halftime show?",
+      a: ["Bad Bunny", "Taylor Swift", "Bruno Mars", "Olivia Rodrigo"], c: 0,
+      f: "Bad Bunny headlined the halftime show in February 2026." },
+    { q: "Super Bowl LX was played in California. Which stadium hosted it?",
+      a: ["SoFi Stadium", "Rose Bowl", "Levi's Stadium", "Dodger Stadium"], c: 2,
+      f: "Levi's Stadium in Santa Clara, home of the San Francisco 49ers, hosted the big game." },
+    { q: "Which college won the national championship in January 2026 with a perfect 16-0 season?",
+      a: ["Ohio State", "Indiana", "Georgia", "Miami"], c: 1,
+      f: "Indiana beat Miami 27-21 for the Hoosiers' first national title ever." },
+    { q: "At the NFL Honors in February 2026, who was named the league's MVP?",
+      a: ["Matthew Stafford", "Drake Maye", "Josh Allen", "Lamar Jackson"], c: 0,
+      f: "The Rams quarterback won the closest MVP vote in 23 years, edging Drake Maye 366 to 361." },
+    { q: "With the No. 1 pick in the 2026 NFL Draft, the Las Vegas Raiders chose which quarterback?",
+      a: ["Arch Manning", "Fernando Mendoza", "Ty Simpson", "Garrett Nussmeier"], c: 1,
+      f: "Fernando Mendoza went first, just months after leading Indiana to the national title." },
+    { q: "Which famous quarterback was voted into the Pro Football Hall of Fame in 2026?",
+      a: ["Drew Brees", "Tom Brady", "Aaron Rodgers", "Eli Manning"], c: 0,
+      f: "Drew Brees joined Larry Fitzgerald, Luke Kuechly, Adam Vinatieri and Roger Craig in the Class of 2026." },
+    { q: "In September 2026, the NFL played its first regular-season game ever in Australia. Which city hosted it?",
+      a: ["Sydney", "Brisbane", "Perth", "Melbourne"], c: 3,
+      f: "The Rams hosted the 49ers at the Melbourne Cricket Ground, which holds about 100,000 fans." },
+    { q: "The NFL set a record in 2026 for regular-season games played outside the U.S. How many were there?",
+      a: ["5", "7", "9", "12"], c: 2,
+      f: "Nine! Melbourne, Paris and Rio de Janeiro all hosted NFL games for the first time." }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var order = [], i = 0, score = 0;
+
+  function shuffle(list) {
+    for (var k = list.length - 1; k > 0; k--) {
+      var j = Math.floor(Math.random() * (k + 1)), t = list[k]; list[k] = list[j]; list[j] = t;
+    }
+    return list;
+  }
+
+  function show(id) {
+    ["ftq-start", "ftq-play", "ftq-end"].forEach(function (s) { $(s).hidden = s !== id; });
+  }
+
+  function start() {
+    order = shuffle(Q.map(function (_, k) { return k; }));
+    i = 0; score = 0;
+    show("ftq-play");
+    render();
+  }
+
+  function render() {
+    var item = Q[order[i]];
+    $("ftq-count").textContent = "Question " + (i + 1) + " of " + Q.length;
+    $("ftq-pts").textContent = "Score: " + score;
+    $("ftq-prog").style.width = (i / Q.length * 100) + "%";
+    $("ftq-q").textContent = item.q;
+    $("ftq-fb").className = "ftq-fb";
+    $("ftq-fb").innerHTML = "";
+    $("ftq-next").hidden = true;
+    var ul = $("ftq-opts");
+    ul.innerHTML = "";
+    item.a.forEach(function (text, k) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "ftq-opt";
+      b.textContent = text;
+      b.addEventListener("click", function () { pick(k); });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    $("ftq-q").focus({ preventScroll: true });
+    $("ftq-play").scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  function pick(k) {
+    var item = Q[order[i]];
+    var btns = $("ftq-opts").querySelectorAll("button");
+    btns.forEach(function (b) { b.disabled = true; });
+    btns[item.c].classList.add("is-right");
+    var right = k === item.c;
+    if (right) { score++; } else { btns[k].classList.add("is-wrong"); }
+    $("ftq-pts").textContent = "Score: " + score;
+    var fb = $("ftq-fb");
+    fb.innerHTML = "";
+    var head = document.createElement("strong");
+    head.textContent = right ? "✅ Touchdown! That's right." : "❌ Not quite. It's " + item.a[item.c] + ".";
+    var p = document.createElement("span");
+    p.textContent = item.f;
+    fb.appendChild(head); fb.appendChild(p);
+    fb.className = "ftq-fb show";
+    $("ftq-next").textContent = i + 1 < Q.length ? "Next question" : "See my score";
+    $("ftq-next").hidden = false;
+  }
+
+  function next() {
+    i++;
+    if (i < Q.length) { render(); return; }
+    $("ftq-prog").style.width = "100%";
+    $("ftq-final").textContent = score + " / " + Q.length;
+    var msg, emoji;
+    if (score === Q.length) { msg = "Perfect game! You're a true football expert."; emoji = "🏆"; }
+    else if (score >= 7) { msg = "Great job! You really know your 2026 football."; emoji = "🌟"; }
+    else if (score >= 4) { msg = "Nice try! Play again and go for a higher score."; emoji = "👍"; }
+    else { msg = "Every pro starts somewhere. Give it another shot!"; emoji = "💪"; }
+    $("ftq-msg").textContent = msg;
+    $("ftq-emoji").textContent = emoji;
+    show("ftq-end");
+    $("ftq-end-title").focus({ preventScroll: true });
+    $("ftq-end").scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  $("ftq-go").addEventListener("click", start);
+  $("ftq-next").addEventListener("click", next);
+  $("ftq-again").addEventListener("click", start);
+})();
+</script>
