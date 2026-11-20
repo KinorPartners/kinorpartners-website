@@ -37,8 +37,19 @@ jobs:
         if: env.HAS_TOKEN != 'true'
         run: echo "::notice::Add a CLOUDFLARE_API_TOKEN repo secret to deploy the shared leaderboard."
       - uses: cloudflare/wrangler-action@v3
+        id: deploy
         if: env.HAS_TOKEN == 'true'
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: leaderboard
+      # Shows the Worker's address on the run, so the game's API setting can be filled in.
+      - name: Leaderboard address
+        if: env.HAS_TOKEN == 'true'
+        env:
+          URL: ${{ steps.deploy.outputs.deployment-url }}
+          OUT: ${{ steps.deploy.outputs.command-output }}
+        run: |
+          found="$URL"
+          if [ -z "$found" ]; then found=$(printf '%s' "$OUT" | grep -oE 'https://[a-z0-9.-]+\.workers\.dev' | head -1); fi
+          echo "::notice title=Leaderboard URL::${found:-not found, see the deploy step log}"
