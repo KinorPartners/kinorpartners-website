@@ -1,0 +1,18 @@
+# Shared leaderboard for /pages/football-trivia-2026/.
+# Deployed by .github/workflows/leaderboard.yml once the repo has a
+# CLOUDFLARE_API_TOKEN secret. Free plan: one Worker + one SQLite Durable Object.
+name = "kinor-trivia-leaderboard"
+main = "worker.js"
+compatibility_date = "2026-01-15"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://kinorpartners.com,https://www.kinorpartners.com"
+
+[[durable_objects.bindings]]
+name = "BOARD"
+class_name = "Board"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Board"]

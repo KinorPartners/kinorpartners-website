@@ -1,104 +1,225 @@
 ---
 layout: base.njk
 title: "2026 Football Trivia for Kids | Kinor Partners"
-description: "A quick 10-question football quiz for kids, built only from 2026 facts: Super Bowl LX, the 2026 NFL Draft, the college title game and more."
+description: "A free football trivia game for kids, built only from 2026 facts. Pick Easy, Medium or Hard, build a streak, earn badges and chase your best score."
 canonical: "https://kinorpartners.com/pages/football-trivia-2026/"
 noAnalytics: true
 ---
 <style>
-#ftq{max-width:560px;margin:0 auto;padding:20px 16px 40px;color:var(--ink);font-size:18px;line-height:1.5}
+#ftq{max-width:560px;margin:0 auto;padding:16px 14px 40px;color:var(--ink);font-size:18px;line-height:1.5}
 #ftq *{box-sizing:border-box}
-.ftq-card{scroll-margin-top:96px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 18px}
-.ftq-hero{text-align:center}
-.ftq-hero h1{font-size:1.75rem;line-height:1.2;margin:4px 0 8px;color:var(--navy);font-weight:800}
-.ftq-hero p{margin:0 0 18px;color:var(--text)}
+.ftq-card{scroll-margin-top:96px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 16px}
+.ftq-center{text-align:center}
+.ftq-title{font-size:1.75rem;line-height:1.2;margin:4px 0 6px;color:var(--navy);font-weight:800}
+.ftq-sub{margin:0 0 16px;color:var(--text)}
 .ftq-ball{font-size:3rem;line-height:1;margin:0}
-.ftq-btn{display:block;width:100%;min-height:52px;padding:14px 18px;border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:1.1rem;cursor:pointer;touch-action:manipulation}
-.ftq-btn:focus-visible,.ftq-opt:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
-.ftq-btn:active{transform:scale(.98)}
-.ftq-top{display:flex;justify-content:space-between;align-items:center;font-size:.95rem;font-weight:700;color:var(--muted);margin-bottom:8px}
-.ftq-bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.ftq-label{display:block;font-weight:800;color:var(--navy);margin:14px 0 6px;font-size:1rem;text-align:left}
+.ftq-hint{display:block;font-size:.85rem;color:var(--muted);margin-top:4px;text-align:left}
+.ftq-input{width:100%;min-height:52px;padding:12px 14px;font:inherit;font-weight:700;border:2px solid var(--line);border-radius:12px;background:var(--soft);color:var(--ink)}
+.ftq-input:focus{outline:3px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+.ftq-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ftq-level{min-height:76px;padding:10px 6px;border:2px solid var(--line);border-radius:12px;background:var(--soft);font:inherit;font-weight:800;color:var(--ink);cursor:pointer;touch-action:manipulation;line-height:1.2}
+.ftq-level small{display:block;font-weight:600;font-size:.78rem;color:var(--muted);margin-top:4px}
+.ftq-level[aria-pressed="true"]{border-color:var(--blue);background:#e8f1fe;box-shadow:0 0 0 2px var(--blue) inset}
+.ftq-switch{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin-top:14px;padding:10px 14px;border:2px solid var(--line);border-radius:12px;background:var(--soft);font-weight:700;cursor:pointer}
+.ftq-switch input{width:26px;height:26px;accent-color:var(--blue);flex:none}
+.ftq-btn{display:block;width:100%;min-height:54px;padding:14px 18px;margin-top:16px;border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:1.1rem;cursor:pointer;touch-action:manipulation}
+.ftq-btn--ghost{background:var(--soft);color:var(--navy);border:2px solid var(--line)}
+.ftq-btn:focus-visible,.ftq-opt:focus-visible,.ftq-level:focus-visible,.ftq-life:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.ftq-btn:active,.ftq-opt:active,.ftq-level:active{transform:scale(.98)}
+.ftq-best{margin:14px 0 0;font-size:.95rem;color:var(--muted)}
+.ftq-hud{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;font-size:.95rem;font-weight:800;color:var(--muted);margin-bottom:8px}
+.ftq-hud span:nth-child(2){text-align:center}
+.ftq-hud span:last-child{text-align:right;color:var(--blue)}
+.ftq-streak{color:#e2561d}
+.ftq-bar{height:10px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:8px}
 .ftq-bar span{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
-.ftq-q{font-size:1.25rem;font-weight:800;line-height:1.35;margin:0 0 16px;color:var(--navy)}
-.ftq-opts{display:grid;gap:10px;margin:0 0 16px;padding:0;list-style:none}
-.ftq-opt{display:block;width:100%;min-height:56px;padding:14px 16px;text-align:left;font:inherit;font-weight:700;color:var(--ink);background:var(--soft);border:2px solid var(--line);border-radius:12px;cursor:pointer;touch-action:manipulation}
+.ftq-timer{height:6px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.ftq-timer span{display:block;height:100%;width:100%;background:var(--blue)}
+.ftq-timer.low span{background:#d93636}
+.ftq-tag{display:inline-block;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--navy);margin-bottom:8px}
+.ftq-q{font-size:1.22rem;font-weight:800;line-height:1.35;margin:0 0 14px;color:var(--navy)}
+.ftq-q:focus{outline:none}
+.ftq-opts{display:grid;gap:10px;margin:0 0 12px;padding:0;list-style:none}
+.ftq-opt{display:block;width:100%;min-height:56px;padding:13px 16px;text-align:left;font:inherit;font-weight:700;color:var(--ink);background:var(--soft);border:2px solid var(--line);border-radius:12px;cursor:pointer;touch-action:manipulation}
 .ftq-opt:disabled{cursor:default}
+.ftq-opt.is-gone{visibility:hidden}
 .ftq-opt.is-right{background:#e7f8ee;border-color:var(--green);color:#0d5c31}
 .ftq-opt.is-wrong{background:#fdecec;border-color:#d93636;color:#8a1c1c}
-.ftq-fb{display:none;border-radius:12px;padding:14px 16px;margin:0 0 16px;background:var(--soft)}
+.ftq-life{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2px solid var(--line);border-radius:99px;background:var(--white);font:inherit;font-size:.95rem;font-weight:800;color:var(--navy);cursor:pointer}
+.ftq-life:disabled{opacity:.45;cursor:default}
+.ftq-fb{display:none;border-radius:12px;padding:12px 14px;margin:0;background:var(--soft)}
 .ftq-fb.show{display:block}
-.ftq-fb strong{display:block;font-size:1.1rem;margin-bottom:4px}
-.ftq-score{font-size:3rem;font-weight:800;color:var(--blue);margin:6px 0}
-.ftq-note{font-size:.85rem;color:var(--muted);text-align:center;margin:18px 0 0}
+.ftq-fb strong{display:block;font-size:1.05rem;margin-bottom:4px}
+.ftq-pop{display:inline-block;margin-left:6px;color:var(--green);font-weight:800}
+.ftq-score{font-size:3rem;font-weight:800;color:var(--blue);margin:2px 0;line-height:1.1}
+.ftq-rank{font-size:1.25rem;font-weight:800;color:var(--navy);margin:4px 0 2px}
+.ftq-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.ftq-stats div{background:var(--soft);border-radius:12px;padding:10px 4px;font-size:.8rem;color:var(--muted);font-weight:700}
+.ftq-stats b{display:block;font-size:1.3rem;color:var(--ink)}
+.ftq-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:6px 0 4px;padding:0;list-style:none}
+.ftq-badges li{background:#fff7e0;border:1px solid #f3d27a;border-radius:99px;padding:6px 12px;font-size:.9rem;font-weight:800;color:#6b4b00}
+.ftq-board{width:100%;border-collapse:collapse;margin-top:8px;font-size:.95rem;text-align:left}
+.ftq-board th,.ftq-board td{padding:8px 6px;border-bottom:1px solid var(--line)}
+.ftq-board th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.ftq-board td:last-child,.ftq-board th:last-child{text-align:right}
+.ftq-board tr.me td{background:#e8f1fe;font-weight:800}
+.ftq-tabs{display:flex;gap:6px;margin:16px 0 4px}
+.ftq-tabs button{flex:1;min-height:44px;border:2px solid var(--line);border-radius:10px;background:var(--soft);font:inherit;font-size:.9rem;font-weight:800;color:var(--navy);cursor:pointer}
+.ftq-tabs button[aria-selected="true"],.ftq-tabs button[aria-pressed="true"]{border-color:var(--blue);background:#e8f1fe}
+.ftq-empty{color:var(--muted);font-size:.95rem;margin:10px 0}
+.ftq-link{background:none;border:0;padding:10px;margin-top:6px;font:inherit;font-size:.85rem;color:var(--muted);text-decoration:underline;cursor:pointer;min-height:44px}
+.ftq-note{font-size:.82rem;color:var(--muted);text-align:center;margin:16px 0 0}
+.ftq-confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+.ftq-confetti i{position:absolute;top:-30px;font-style:normal;font-size:24px;animation:ftqfall 2.4s ease-in forwards}
+@keyframes ftqfall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+@keyframes ftqshake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ftq-shake{animation:ftqshake .3s}
 [hidden]{display:none!important}
-@media (prefers-reduced-motion:reduce){.ftq-bar span{transition:none}.ftq-btn:active{transform:none}}
+@media (prefers-reduced-motion:reduce){.ftq-bar span{transition:none}.ftq-confetti{display:none}.ftq-shake{animation:none}.ftq-btn:active,.ftq-opt:active,.ftq-level:active{transform:none}}
 </style>
 
 <div id="ftq">
-  <section class="ftq-card ftq-hero" id="ftq-start">
+  <section class="ftq-card ftq-center" id="ftq-start">
     <p class="ftq-ball" aria-hidden="true">🏈</p>
-    <h1>2026 Football Trivia</h1>
-    <p>10 quick questions about football in 2026. Tap an answer to see if you got it right!</p>
-    <button class="ftq-btn" type="button" id="ftq-go">Start the quiz</button>
+    <h1 class="ftq-title">2026 Football Trivia</h1>
+    <p class="ftq-sub">10 questions a round, all about football in 2026. Score points, build a streak and earn badges!</p>
+
+    <label class="ftq-label" for="ftq-name">Nickname, not your real name</label>
+    <input class="ftq-input" id="ftq-name" type="text" maxlength="14" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="e.g. BlitzKing">
+    <span class="ftq-hint">Letters, numbers, spaces, _ or -. Up to 14 characters.</span>
+
+    <span class="ftq-label" id="ftq-lvl-label">Pick your level</span>
+    <div class="ftq-levels" role="group" aria-labelledby="ftq-lvl-label">
+      <button type="button" class="ftq-level" data-level="easy" aria-pressed="true">🟢 Easy<small>Rookie · 100 pts</small></button>
+      <button type="button" class="ftq-level" data-level="medium" aria-pressed="false">🟡 Medium<small>Pro · 200 pts</small></button>
+      <button type="button" class="ftq-level" data-level="hard" aria-pressed="false">🔴 Hard<small>All-Pro · 300 pts</small></button>
+    </div>
+
+    <label class="ftq-switch" for="ftq-clock"><span>⏱️ Beat the clock (20 sec, bonus points)</span><input type="checkbox" id="ftq-clock" checked></label>
+    <label class="ftq-switch" for="ftq-online" id="ftq-online-row" hidden><span>🌎 Post my score to the online leaderboard (nickname and score only)</span><input type="checkbox" id="ftq-online" checked></label>
+
+    <button class="ftq-btn" type="button" id="ftq-go">Kick off!</button>
+    <p class="ftq-best" id="ftq-best"></p>
+    <button class="ftq-link" type="button" id="ftq-show-board">See top scores</button>
   </section>
 
   <section class="ftq-card" id="ftq-play" hidden>
-    <div class="ftq-top"><span id="ftq-count">Question 1 of 10</span><span id="ftq-pts">Score: 0</span></div>
+    <div class="ftq-hud"><span id="ftq-count">Q 1/10</span><span class="ftq-streak" id="ftq-streak" aria-live="polite"></span><span id="ftq-pts">0 pts</span></div>
     <div class="ftq-bar" aria-hidden="true"><span id="ftq-prog"></span></div>
+    <div class="ftq-timer" id="ftq-timer" aria-hidden="true"><span id="ftq-timer-bar"></span></div>
+    <span class="ftq-tag" id="ftq-tag"></span>
     <h2 class="ftq-q" id="ftq-q" tabindex="-1"></h2>
     <ul class="ftq-opts" id="ftq-opts"></ul>
+    <p style="margin:0 0 12px"><button type="button" class="ftq-life" id="ftq-5050" aria-label="Use 50-50: remove two wrong answers, once per round">✂️ 50-50</button></p>
     <div class="ftq-fb" id="ftq-fb" aria-live="polite"></div>
     <button class="ftq-btn" type="button" id="ftq-next" hidden>Next question</button>
   </section>
 
-  <section class="ftq-card ftq-hero" id="ftq-end" hidden>
+  <section class="ftq-card ftq-center" id="ftq-end" hidden>
     <p class="ftq-ball" aria-hidden="true" id="ftq-emoji">🏆</p>
-    <h2 class="ftq-q" style="text-align:center;margin:0" id="ftq-end-title" tabindex="-1">Final score</h2>
-    <p class="ftq-score" id="ftq-final">0 / 10</p>
-    <p id="ftq-msg"></p>
+    <h2 class="ftq-title" id="ftq-end-title" tabindex="-1" style="font-size:1.4rem">Final whistle!</h2>
+    <p class="ftq-score" id="ftq-final">0</p>
+    <p class="ftq-rank" id="ftq-rank"></p>
+    <p class="ftq-sub" id="ftq-msg" style="margin:0"></p>
+    <p class="ftq-best" id="ftq-online-msg" aria-live="polite"></p>
+    <div class="ftq-stats">
+      <div><b id="ftq-s-right">0/10</b>correct</div>
+      <div><b id="ftq-s-streak">0</b>best streak</div>
+      <div><b id="ftq-s-place">-</b>device rank</div>
+    </div>
+    <ul class="ftq-badges" id="ftq-badges" aria-label="Badges earned"></ul>
     <button class="ftq-btn" type="button" id="ftq-again">Play again</button>
+    <button class="ftq-btn ftq-btn--ghost" type="button" id="ftq-end-board">See top scores</button>
+    <button class="ftq-btn ftq-btn--ghost" type="button" id="ftq-menu">Change level</button>
   </section>
 
-  <p class="ftq-note">Every question is about something that happened in 2026. Facts checked against NFL.com, ESPN, the Associated Press and NPR.</p>
+  <section class="ftq-card" id="ftq-boards" aria-labelledby="ftq-board-title" hidden>
+    <h2 class="ftq-title" id="ftq-board-title" style="font-size:1.3rem;text-align:center">🏅 Top 10</h2>
+    <div class="ftq-tabs" id="ftq-scope" hidden>
+      <button type="button" data-scope="world" aria-pressed="true">🌎 Everyone</button>
+      <button type="button" data-scope="device" aria-pressed="false">📱 This device</button>
+    </div>
+    <div class="ftq-tabs" role="tablist">
+      <button type="button" role="tab" data-tab="easy" aria-selected="true">Easy</button>
+      <button type="button" role="tab" data-tab="medium" aria-selected="false">Medium</button>
+      <button type="button" role="tab" data-tab="hard" aria-selected="false">Hard</button>
+    </div>
+    <div id="ftq-board" role="tabpanel"></div>
+    <div class="ftq-center"><button class="ftq-link" type="button" id="ftq-clear">Clear scores on this device</button></div>
+    <button class="ftq-btn ftq-btn--ghost" type="button" id="ftq-board-back">Back to the game</button>
+  </section>
+
+  <p class="ftq-note" id="ftq-pool"></p>
+  <p class="ftq-note">Every question is about something that happened in 2026. Facts checked against NFL.com, ESPN, the Associated Press, NPR and other major sports outlets.</p>
 </div>
 
 <script>
 (function () {
-  var Q = [
-    { q: "Which team won Super Bowl LX in February 2026?",
-      a: ["New England Patriots", "Seattle Seahawks", "Los Angeles Rams", "Denver Broncos"], c: 1,
-      f: "The Seahawks beat the Patriots 29-13. It was Seattle's second Super Bowl title ever." },
-    { q: "Who was named MVP of Super Bowl LX?",
-      a: ["Drake Maye", "Sam Darnold", "Kenneth Walker III", "Jaxon Smith-Njigba"], c: 2,
-      f: "Running back Kenneth Walker III ran for 135 yards on 27 carries." },
-    { q: "Who performed the Super Bowl LX halftime show?",
-      a: ["Bad Bunny", "Taylor Swift", "Bruno Mars", "Olivia Rodrigo"], c: 0,
-      f: "Bad Bunny headlined the halftime show in February 2026." },
-    { q: "Super Bowl LX was played in California. Which stadium hosted it?",
-      a: ["SoFi Stadium", "Rose Bowl", "Levi's Stadium", "Dodger Stadium"], c: 2,
-      f: "Levi's Stadium in Santa Clara, home of the San Francisco 49ers, hosted the big game." },
-    { q: "Which college won the national championship in January 2026 with a perfect 16-0 season?",
-      a: ["Ohio State", "Indiana", "Georgia", "Miami"], c: 1,
-      f: "Indiana beat Miami 27-21 for the Hoosiers' first national title ever." },
-    { q: "At the NFL Honors in February 2026, who was named the league's MVP?",
-      a: ["Matthew Stafford", "Drake Maye", "Josh Allen", "Lamar Jackson"], c: 0,
-      f: "The Rams quarterback won the closest MVP vote in 23 years, edging Drake Maye 366 to 361." },
-    { q: "With the No. 1 pick in the 2026 NFL Draft, the Las Vegas Raiders chose which quarterback?",
-      a: ["Arch Manning", "Fernando Mendoza", "Ty Simpson", "Garrett Nussmeier"], c: 1,
-      f: "Fernando Mendoza went first, just months after leading Indiana to the national title." },
-    { q: "Which famous quarterback was voted into the Pro Football Hall of Fame in 2026?",
-      a: ["Drew Brees", "Tom Brady", "Aaron Rodgers", "Eli Manning"], c: 0,
-      f: "Drew Brees joined Larry Fitzgerald, Luke Kuechly, Adam Vinatieri and Roger Craig in the Class of 2026." },
-    { q: "In September 2026, the NFL played its first regular-season game ever in Australia. Which city hosted it?",
-      a: ["Sydney", "Brisbane", "Perth", "Melbourne"], c: 3,
-      f: "The Rams hosted the 49ers at the Melbourne Cricket Ground, which holds about 100,000 fans." },
-    { q: "The NFL set a record in 2026 for regular-season games played outside the U.S. How many were there?",
-      a: ["5", "7", "9", "12"], c: 2,
-      f: "Nine! Melbourne, Paris and Rio de Janeiro all hosted NFL games for the first time." }
+  /* d: easy|medium|hard, q: question, a: answers, c: index of the right answer, f: fun fact */
+  var Q = /*QUESTIONS*/[{"d":"easy","q":"Which team won Super Bowl LX in February 2026?","a":["Seattle Seahawks","New England Patriots","Los Angeles Rams","Denver Broncos"],"c":0,"f":"The Seahawks beat the Patriots 29-13. It was Seattle's second Super Bowl title ever."},{"d":"medium","q":"Who was named MVP of Super Bowl LX in 2026?","a":["Kenneth Walker III","Drake Maye","Sam Darnold","Jaxon Smith-Njigba"],"c":0,"f":"Running back Kenneth Walker III ran for 135 yards on 27 carries."},{"d":"easy","q":"Who performed the Super Bowl LX halftime show in 2026?","a":["Bad Bunny","Taylor Swift","Bruno Mars","Olivia Rodrigo"],"c":0,"f":"Bad Bunny headlined the halftime show in February 2026."},{"d":"medium","q":"Super Bowl LX was played in California in 2026. Which stadium hosted it?","a":["Levi's Stadium","SoFi Stadium","Rose Bowl","Dodger Stadium"],"c":0,"f":"Levi's Stadium in Santa Clara, home of the San Francisco 49ers, hosted the big game."},{"d":"easy","q":"Which college won the national championship in January 2026 with a perfect 16-0 season?","a":["Indiana","Ohio State","Georgia","Miami"],"c":0,"f":"Indiana beat Miami 27-21 for the Hoosiers' first national title ever."},{"d":"medium","q":"At the NFL Honors in February 2026, who was named the league's MVP?","a":["Matthew Stafford","Drake Maye","Josh Allen","Lamar Jackson"],"c":0,"f":"The Rams quarterback won the closest MVP vote in 23 years, edging Drake Maye 366 to 361."},{"d":"easy","q":"With the No. 1 pick in the 2026 NFL Draft, the Las Vegas Raiders chose which quarterback?","a":["Fernando Mendoza","Arch Manning","Ty Simpson","Garrett Nussmeier"],"c":0,"f":"Fernando Mendoza went first, just months after leading Indiana to the national title."},{"d":"medium","q":"Which famous quarterback was voted into the Pro Football Hall of Fame in 2026?","a":["Drew Brees","Tom Brady","Aaron Rodgers","Eli Manning"],"c":0,"f":"Drew Brees joined Larry Fitzgerald, Luke Kuechly, Adam Vinatieri and Roger Craig in the Class of 2026."},{"d":"easy","q":"In September 2026, the NFL played its first regular-season game ever in Australia. Which city hosted it?","a":["Melbourne","Sydney","Brisbane","Perth"],"c":0,"f":"The Rams hosted the 49ers at the Melbourne Cricket Ground, which holds about 100,000 fans."},{"d":"hard","q":"The NFL set a record in 2026 for regular-season games played outside the U.S. How many were there?","a":["9","5","7","12"],"c":0,"f":"Nine! Melbourne, Paris and Rio de Janeiro all hosted NFL games for the first time."},{"d":"easy","q":"Which city hosted the 2026 NFL Draft?","a":["Pittsburgh","Detroit","Green Bay","Las Vegas"],"c":0,"f":"The main stage was just outside Acrisure Stadium, the Steelers' home, on Pittsburgh's North Shore."},{"d":"easy","q":"Which team made the No. 2 pick in the 2026 NFL Draft?","a":["New York Jets","Arizona Cardinals","Tennessee Titans","New York Giants"],"c":0,"f":"The Jets took Texas Tech pass rusher David Bailey."},{"d":"easy","q":"Jeremiyah Love was picked No. 3 by the Cardinals in 2026. What position does he play?","a":["Running back","Quarterback","Kicker","Safety"],"c":0,"f":"Love played his college football at Notre Dame."},{"d":"medium","q":"Which college had 4 players picked in Round 1 of the 2026 NFL Draft?","a":["Ohio State","Alabama","Georgia","Texas"],"c":0,"f":"All four Buckeyes went in the first 11 picks: Tate, Reese, Styles and Downs."},{"d":"easy","q":"The Steelers' first pick in 2026 was Max Iheanachor. What position does he play?","a":["Offensive tackle","Quarterback","Wide receiver","Kicker"],"c":0,"f":"He went No. 21 out of Arizona State."},{"d":"easy","q":"What nickname was given to the very last player picked in the 2026 NFL Draft?","a":["Mr. Irrelevant","Mr. Touchdown","Mr. Zero","Mr. Last Call"],"c":0,"f":"The Mr. Irrelevant tradition goes all the way back to 1976."},{"d":"easy","q":"Which Steelers legend announced Pittsburgh's first-round pick at the 2026 draft?","a":["Jerome Bettis","Tom Brady","Peyton Manning","Patrick Mahomes"],"c":0,"f":"Another Steelers great, John Stallworth, announced the team's second-round pick."},{"d":"easy","q":"Which Los Angeles team drafted Alabama QB Ty Simpson at No. 13 in 2026?","a":["Rams","Chargers","Raiders","49ers"],"c":0,"f":"Simpson joined a Rams team whose QB, Matthew Stafford, had just been named NFL MVP."},{"d":"medium","q":"About how many fans came to the 2026 NFL Draft over its 3 days, an all-time record?","a":["805,000","80,000","250,000","5 million"],"c":0,"f":"More than 600,000 fans came on the first two days alone."},{"d":"medium","q":"Who was the first wide receiver picked in the 2026 NFL Draft?","a":["Carnell Tate","Makai Lemon","Jordyn Tyson","Omar Cooper Jr."],"c":0,"f":"The Titans took Ohio State's Tate at No. 4."},{"d":"medium","q":"Which team picked 2026's Mr. Irrelevant, linebacker Red Murdock, with the final pick?","a":["Denver Broncos","Las Vegas Raiders","Buffalo Bills","Pittsburgh Steelers"],"c":0,"f":"Murdock played college ball at Buffalo, the school, not the Bills!"},{"d":"medium","q":"The Chargers picked Akheem Mesidor in Round 1 of 2026. Which college did he play for?","a":["Miami","Ohio State","USC","Oregon"],"c":0,"f":"Mesidor, a pass rusher, went No. 22. He was one of three Miami players picked in Round 1."},{"d":"medium","q":"Which team had THREE first-round picks in the 2026 NFL Draft?","a":["New York Jets","Las Vegas Raiders","Pittsburgh Steelers","Los Angeles Rams"],"c":0,"f":"The Jets picked at No. 2, No. 16 and No. 30."},{"d":"medium","q":"Which college had TWO running backs picked in Round 1 of the 2026 draft?","a":["Notre Dame","Alabama","Ohio State","Georgia"],"c":0,"f":"Jeremiyah Love went No. 3 and Jadarian Price went No. 32, the last pick of Round 1."},{"d":"medium","q":"2026 Mr. Irrelevant Red Murdock holds an NCAA record. What is it for?","a":["Forced fumbles","Touchdown catches","Field goals","Punt returns"],"c":0,"f":"Murdock forced 17 fumbles in his college career, the most ever."},{"d":"hard","q":"Jeremiyah Love (No. 3 in 2026) was the highest RB picked since which star went No. 2 in 2018?","a":["Saquon Barkley","Christian McCaffrey","Derrick Henry","Bijan Robinson"],"c":0,"f":"Running backs rarely go in the top 3 anymore, so Love's pick was a big deal."},{"d":"hard","q":"In Round 1 of the 2026 draft, how many minutes did each team get to make its pick?","a":["8","10","15","3"],"c":0,"f":"The limit was cut from 10 minutes, and Round 1 finished in under 3.5 hours."},{"d":"hard","q":"Who was the first offensive lineman picked in the 2026 NFL Draft?","a":["Spencer Fano","Max Iheanachor","Francis Mauigoa","Kadyn Proctor"],"c":0,"f":"The Browns took Utah tackle Fano at No. 9."},{"d":"hard","q":"How many offensive linemen were picked in Round 1 of the 2026 NFL Draft?","a":["9","3","15","1"],"c":0,"f":"Nine tied for the second-most offensive linemen in a first round since 1967."},{"d":"hard","q":"A QB went No. 1 again in 2026. That made how many drafts IN A ROW with a QB as the top pick?","a":["4","2","10","1"],"c":0,"f":"A quarterback has gone No. 1 in 10 of the last 12 drafts."},{"d":"hard","q":"Which team traded up to No. 6 in the 2026 draft to pick LSU cornerback Mansoor Delane?","a":["Kansas City Chiefs","Cleveland Browns","Washington Commanders","New Orleans Saints"],"c":0,"f":"The Chiefs gave the Browns picks No. 9, No. 74 and No. 148 to move up."},{"d":"easy","q":"In January 2026, the Seahawks won the NFC Championship 31-27. Which team did they beat?","a":["Los Angeles Rams","Chicago Bears","San Francisco 49ers","Philadelphia Eagles"],"c":0,"f":"The Rams' last-second fourth-down pass fell incomplete, sending Seattle to Super Bowl LX."},{"d":"easy","q":"The Patriots won a snowy AFC Championship 10-7 in January 2026. Who did they beat?","a":["Denver Broncos","Houston Texans","Buffalo Bills","Kansas City Chiefs"],"c":0,"f":"It was 26 degrees at kickoff in Denver, and only 16 degrees with snow falling by the fourth quarter!"},{"d":"easy","q":"Who sang the national anthem before Super Bowl LX in February 2026?","a":["Charlie Puth","Jon Batiste","Chris Stapleton","Kelly Clarkson"],"c":0,"f":"Brandi Carlile sang America the Beautiful and Coco Jones sang Lift Every Voice and Sing."},{"d":"easy","q":"Which TV network showed Super Bowl LX in February 2026?","a":["NBC","CBS","FOX","ABC"],"c":0,"f":"It also streamed on Peacock and aired in Spanish on Telemundo."},{"d":"easy","q":"Who was the Seahawks' quarterback when they won Super Bowl LX in February 2026?","a":["Sam Darnold","Geno Smith","Russell Wilson","Matthew Stafford"],"c":0,"f":"Darnold had zero turnovers in Seattle's three playoff games."},{"d":"easy","q":"Who coached the Patriots in Super Bowl LX in February 2026?","a":["Mike Vrabel","Bill Belichick","Sean Payton","Mike Macdonald"],"c":0,"f":"Vrabel won 3 Super Bowls as a Patriots player and was named AP Coach of the Year."},{"d":"easy","q":"What was the nickname of Seattle's defense that won Super Bowl LX in 2026?","a":["Dark Side","Legion of Boom","Steel Curtain","No Fly Zone"],"c":0,"f":"Legion of Boom was the name of Seattle's defense when it won its first Super Bowl, years earlier."},{"d":"easy","q":"In the January 2026 divisional round, the Seahawks won 41-6. Which team did they beat?","a":["San Francisco 49ers","Green Bay Packers","Philadelphia Eagles","Chicago Bears"],"c":0,"f":"That 35-point margin tied Seattle's biggest playoff win ever."},{"d":"medium","q":"Which Seahawk ran the opening kickoff back 95 yards for a TD against the 49ers in January 2026?","a":["Rashid Shaheed","Cooper Kupp","Kenneth Walker III","DK Metcalf"],"c":0,"f":"Seattle scored just 13 seconds into the game!"},{"d":"medium","q":"How many field goals did Seahawks kicker Jason Myers make in Super Bowl LX, a new record?","a":["5","3","6","2"],"c":0,"f":"Myers went a perfect 5-for-5, the most field goals ever in a Super Bowl."},{"d":"medium","q":"Which Seahawk ran an interception back 45 yards for a touchdown in Super Bowl LX in 2026?","a":["Uchenna Nwosu","Julian Love","Devon Witherspoon","Tariq Woolen"],"c":0,"f":"Witherspoon hit Drake Maye's arm and Nwosu caught the ball in the air. A pick-six!"},{"d":"medium","q":"Who caught Sam Darnold's touchdown pass in Super Bowl LX in February 2026?","a":["AJ Barner","Cooper Kupp","Jaxon Smith-Njigba","Rashid Shaheed"],"c":0,"f":"The 16-yard TD to the tight end made it 19-0 Seattle."},{"d":"medium","q":"Which team did the Patriots beat 28-16 in the January 2026 divisional round?","a":["Houston Texans","Los Angeles Chargers","Jacksonville Jaguars","Pittsburgh Steelers"],"c":0,"f":"New England's defense forced 5 turnovers."},{"d":"medium","q":"The Broncos beat Buffalo 33-30 in overtime in the January 2026 playoffs. Who was Denver's QB?","a":["Bo Nix","Josh Allen","Russell Wilson","Patrick Mahomes"],"c":0,"f":"Nix threw 3 TD passes in the win."},{"d":"medium","q":"The Bears came back from 21-3 down to win a January 2026 wild-card game 31-27. Who did they beat?","a":["Green Bay Packers","Minnesota Vikings","Detroit Lions","Philadelphia Eagles"],"c":0,"f":"It was Chicago's first playoff win since the 2010 season."},{"d":"medium","q":"Which team beat the Steelers 30-6 in January 2026 for the first road playoff win in its history?","a":["Houston Texans","Buffalo Bills","Los Angeles Chargers","Jacksonville Jaguars"],"c":0,"f":"Before that game, Houston was 0-6 in road playoff games."},{"d":"hard","q":"Kenneth Walker III ran for 3 TDs vs the 49ers in January 2026, tying whose Seahawks playoff record?","a":["Shaun Alexander","Marshawn Lynch","Curt Warner","Chris Carson"],"c":0,"f":"Walker and Alexander are the only Seahawks with 3 rushing TDs in one playoff game."},{"d":"hard","q":"How old was Seahawks coach Mike Macdonald when his team won Super Bowl LX in February 2026?","a":["38","45","52","31"],"c":0,"f":"He was the 3rd-youngest coach to win a Super Bowl."},{"d":"hard","q":"In Super Bowl LX, whose strip-sack of Drake Maye set up Seattle's first touchdown?","a":["Derick Hall","Devon Witherspoon","Byron Murphy II","Julian Love"],"c":0,"f":"Hall and Byron Murphy II each had 2 sacks of Maye."},{"d":"hard","q":"In February 2026, Sam Darnold became the first QB from which NFL Draft class to win a Super Bowl?","a":["2018","2020","2016","2021"],"c":0,"f":"He got there before Josh Allen, Lamar Jackson and Baker Mayfield, drafted the same year."},{"d":"hard","q":"Winning the January 2026 AFC title gave the Patriots how many playoff wins, the most in NFL history?","a":["40","25","52","33"],"c":0,"f":"The same win sent New England to its 12th Super Bowl."},{"d":"hard","q":"Who caught a 35-yard touchdown pass from Drake Maye in Super Bowl LX in February 2026?","a":["Mack Hollins","Stefon Diggs","Hunter Henry","Rhamondre Stevenson"],"c":0,"f":"Hollins led the Patriots with 78 receiving yards."},{"d":"hard","q":"Super Bowl LX set a record for the biggest peak TV audience in US history. About how many viewers?","a":["137.8 million","95.2 million","160.5 million","110.0 million"],"c":0,"f":"On average, 124.9 million people watched the game."},{"d":"hard","q":"Which Rams kicker beat the Bears 20-17 with an overtime field goal in the January 2026 playoffs?","a":["Harrison Mevis","Jason Myers","Wil Lutz","Cairo Santos"],"c":0,"f":"His 42-yard kick was the first game-winner of his career."},{"d":"easy","q":"In Feb 2026, Myles Garrett won Defensive Player of the Year after setting the single-season NFL record for what?","a":["Sacks","Interceptions","Tackles","Fumble recoveries"],"c":0,"f":"Garrett had 23 sacks, passing Michael Strahan and T.J. Watt, who each had 22.5."},{"d":"easy","q":"Which wide receiver, who played all 17 of his seasons for the Arizona Cardinals, joined the Hall of Fame Class of 2026?","a":["Larry Fitzgerald","Mike Evans","DeAndre Hopkins","Julio Jones"],"c":0,"f":"Fitzgerald is 2nd all-time in catches (1,432) and receiving yards (17,492), behind only Jerry Rice."},{"d":"easy","q":"Adam Vinatieri, the NFL's all-time leading scorer, was elected to the Hall of Fame in 2026. What position did he play?","a":["Kicker","Quarterback","Running back","Linebacker"],"c":0,"f":"Vinatieri scored 2,673 career points and won 4 Super Bowls, 3 with the Patriots and 1 with the Colts."},{"d":"easy","q":"In March 2026, star receiver Mike Evans left the Buccaneers after 12 seasons. Which team did he sign with?","a":["San Francisco 49ers","New England Patriots","Kansas City Chiefs","Dallas Cowboys"],"c":0,"f":"Evans is the Bucs' all-time leader in catches, receiving yards and touchdown catches."},{"d":"easy","q":"Which side won the 2026 Pro Bowl Games, played in San Francisco in February 2026?","a":["NFC","AFC","It ended in a tie","The game was canceled"],"c":0,"f":"The NFC won 66-52 after trailing by 16 going into the 4th quarter. It was the NFC's 4th straight win."},{"d":"easy","q":"Quarterback Russell Wilson retired in June 2026. Which TV network did he join as an analyst?","a":["CBS Sports","ESPN","Fox Sports","NBC Sports"],"c":0,"f":"Wilson joined CBS's pregame show The NFL Today, taking over from Matt Ryan."},{"d":"easy","q":"After the Cardinals released him in March 2026, quarterback Kyler Murray signed with which team?","a":["Minnesota Vikings","Pittsburgh Steelers","New York Jets","Las Vegas Raiders"],"c":0,"f":"Murray was the No. 1 overall pick in 2019 and played 7 seasons in Arizona."},{"d":"easy","q":"Mike Vrabel was named Coach of the Year in Feb 2026. Which team does he coach?","a":["New England Patriots","Chicago Bears","Jacksonville Jaguars","Seattle Seahawks"],"c":0,"f":"It was Vrabel's 2nd Coach of the Year award. He also won one with Tennessee in 2021."},{"d":"medium","q":"Who won Offensive Player of the Year in Feb 2026 after leading the NFL in receiving yards?","a":["Jaxon Smith-Njigba","Puka Nacua","Ja'Marr Chase","CeeDee Lamb"],"c":0,"f":"The Seahawks star set a team record with 119 catches and had nine 100-yard games."},{"d":"medium","q":"Tetairoa McMillan became the 2nd Panther to win Offensive Rookie of the Year in Feb 2026. Who was the first?","a":["Cam Newton","Luke Kuechly","Christian McCaffrey","Steve Smith Sr."],"c":0,"f":"Cam Newton won it in 2011. McMillan had 70 catches for 1,014 yards as a rookie."},{"d":"medium","q":"Which Patriots offensive coordinator was named Assistant Coach of the Year at NFL Honors in Feb 2026?","a":["Josh McDaniels","Ben Johnson","Mike Macdonald","Kellen Moore"],"c":0,"f":"New England swept both coaching awards: Vrabel won head coach and McDaniels won assistant coach."},{"d":"medium","q":"Which Commanders linebacker won the Walter Payton NFL Man of the Year award in Feb 2026?","a":["Bobby Wagner","Micah Parsons","Fred Warner","Roquan Smith"],"c":0,"f":"Wagner's fund, named for his mom, helps stroke patients. He's Washington's first winner since 1996."},{"d":"medium","q":"Longtime Ravens coach John Harbaugh got a new head coaching job in early 2026. Which team hired him?","a":["New York Giants","Miami Dolphins","Arizona Cardinals","Pittsburgh Steelers"],"c":0,"f":"Ten teams hired new head coaches in the 2026 offseason. The Steelers hired Mike McCarthy."},{"d":"medium","q":"Which 49ers legend coached Team NFC at the 2026 Pro Bowl Games?","a":["Jerry Rice","Joe Montana","Steve Young","Ronnie Lott"],"c":0,"f":"Another 49ers great, Steve Young, coached Team AFC."},{"d":"medium","q":"In March 2026, NFL owners voted to allow which play at ANY point in a game, not only when a team is losing?","a":["An onside kick","Extra timeouts","Challenging any penalty","A 5-point field goal"],"c":0,"f":"Surprise onside kicks are still banned. The kicking team has to declare it first."},{"d":"medium","q":"Running back Roger Craig, elected to the Hall of Fame in 2026, won 3 Super Bowls with which team?","a":["San Francisco 49ers","Dallas Cowboys","Pittsburgh Steelers","Green Bay Packers"],"c":0,"f":"In 1985, Craig had 1,000 rushing and 1,000 receiving yards in the same season. Only 3 players have done it."},{"d":"medium","q":"Linebacker Luke Kuechly, elected to the Hall of Fame in 2026, played all 8 of his NFL seasons with which team?","a":["Carolina Panthers","Chicago Bears","Seattle Seahawks","Baltimore Ravens"],"c":0,"f":"Kuechly had at least 100 tackles in every one of his 8 seasons."},{"d":"hard","q":"The August 2026 Hall of Fame Game matched the Panthers and Cardinals. How did it end?","a":["Panthers won 33-30 on the last play","Cardinals won in overtime","It ended in a tie","Cardinals won by 20"],"c":0,"f":"Fittingly, those were the teams of new Hall of Famers Luke Kuechly and Larry Fitzgerald."},{"d":"hard","q":"How many of the 50 first-place votes did Myles Garrett get for Defensive Player of the Year in Feb 2026?","a":["50","41","36","47"],"c":0,"f":"The vote was unanimous. Garrett also won the award in 2023 and is the 9th player to win it more than once."},{"d":"hard","q":"Jaxon Smith-Njigba led the NFL in receiving yards on his way to OPOY in Feb 2026. How many yards did he have?","a":["1,793","1,512","1,950","1,388"],"c":0,"f":"He was the first player ever with at least 75 receiving yards in each of his first 11 games of a season."},{"d":"hard","q":"2026 Offensive Rookie of the Year Tetairoa McMillan played college football at which school?","a":["Arizona","Ohio State","Alabama","Texas"],"c":0,"f":"The Panthers picked McMillan 8th overall in 2025. He got 41 of 50 first-place votes."},{"d":"hard","q":"Mike Evans joined the 49ers in 2026. He began his career with how many straight 1,000-yard receiving seasons?","a":["11","8","9","14"],"c":0,"f":"Evans's 11 straight 1,000-yard seasons tie Jerry Rice for the most in a row in NFL history."},{"d":"hard","q":"In a 2026 offseason trade, the Chiefs sent star cornerback Trent McDuffie to which team?","a":["Los Angeles Rams","Buffalo Bills","Detroit Lions","Philadelphia Eagles"],"c":0,"f":"The Rams gave up a 2026 first-round pick plus three more picks to get him."},{"d":"hard","q":"In a 2026 trade, the Giants sent big defensive tackle Dexter Lawrence to which team for the No. 10 draft pick?","a":["Cincinnati Bengals","Pittsburgh Steelers","Washington Commanders","Kansas City Chiefs"],"c":0,"f":"Other big 2026 trades: Jaylen Waddle went to the Broncos and DJ Moore went to the Bills."},{"d":"easy","q":"Which team won the 2026 NFL Kickoff game, beating the Patriots 13-10 in a Super Bowl rematch?","a":["Seattle Seahawks","Kansas City Chiefs","Buffalo Bills","Dallas Cowboys"],"c":0,"f":"Seattle raised its Super Bowl banner before the game, then won on a toe-tap interception in the end zone."},{"d":"easy","q":"Who won the first-ever NFL regular-season game in Australia, played in Melbourne in 2026?","a":["Los Angeles Rams","San Francisco 49ers","Green Bay Packers","Kansas City Chiefs"],"c":1,"f":"San Francisco won 27-7, and the game kicked off at 10:35 in the morning, Melbourne time!"},{"d":"easy","q":"In 2026 the Ravens and Cowboys played a game in Rio de Janeiro. Which country is Rio in?","a":["Argentina","Mexico","Brazil","Portugal"],"c":2,"f":"They played at the famous Maracanã Stadium, and 72,792 fans watched the Ravens win 34-31."},{"d":"easy","q":"Which team won the NFL's first regular-season game in France, played near Paris in 2026?","a":["New Orleans Saints","Chicago Bears","New York Jets","Pittsburgh Steelers"],"c":3,"f":"Pittsburgh beat New Orleans 16-10 at the Stade de France in front of 78,488 fans."},{"d":"easy","q":"Which team beat the Atlanta Falcons 34-17 in Madrid, Spain, in November 2026?","a":["Cincinnati Bengals","Pittsburgh Steelers","Miami Dolphins","New Orleans Saints"],"c":0,"f":"Joe Burrow threw 3 TD passes and ran for another at Madrid's Bernabéu Stadium."},{"d":"easy","q":"Which team crushed the New England Patriots 35-10 in Munich, Germany, in 2026?","a":["Green Bay Packers","Detroit Lions","Chicago Bears","Minnesota Vikings"],"c":1,"f":"Amon-Ra St. Brown caught 2 TD passes and Jahmyr Gibbs ran for 2 more."},{"d":"easy","q":"Which team beat the Washington Commanders 30-13 in London in October 2026?","a":["Jacksonville Jaguars","Houston Texans","Indianapolis Colts","Philadelphia Eagles"],"c":2,"f":"It was the 13th NFL game ever played at London's Tottenham Hotspur Stadium."},{"d":"easy","q":"During the 2026 Bengals-Falcons game in Madrid, what suddenly went out in the final two minutes?","a":["The snack stands","The halftime show","The parking lot","The stadium lights"],"c":3,"f":"The lights went out during a snap, so the referees had the teams replay that down."},{"d":"medium","q":"In the 2026 Kickoff game, how many interceptions did Seattle's defense make against Patriots QB Drake Maye?","a":["1","3","5","0"],"c":1,"f":"Josh Jobe's toe-tap interception in the end zone with 26 seconds left sealed the win."},{"d":"medium","q":"Ravens kicker Tyler Loop won the 2026 Rio game on the final play. How long was his field goal?","a":["36 yards","46 yards","66 yards","56 yards"],"c":3,"f":"Lamar Jackson called a timeout with just 1 second left so Loop could try the kick."},{"d":"medium","q":"Which kicker hit a 57-yard field goal as time ran out to beat the Eagles in London in 2026?","a":["Cam Little","Jake Elliott","Brandon Aubrey","Harrison Butker"],"c":0,"f":"Jacksonville won 19-17 after Ameer Abdullah's 53-yard kickoff return set up the kick with 1 second left."},{"d":"medium","q":"Who kicked a 49-yard field goal as time expired so the Texans could beat the Jaguars at Wembley in 2026?","a":["Cam Little","Ka'imi Fairbairn","Justin Tucker","Jake Elliott"],"c":1,"f":"Jacksonville's Cam Little had tied it 31-31 with a 60-yard field goal less than 2 minutes earlier!"},{"d":"medium","q":"Which coach won his first game leading the New York Giants in Week 1 of 2026?","a":["Jim Harbaugh","Mike Vrabel","John Harbaugh","Bill Belichick"],"c":2,"f":"The Giants beat the Dallas Cowboys 28-20 and held the ball for almost 37 minutes."},{"d":"medium","q":"Colts star Jonathan Taylor ran for 2 TDs in London in 2026. He holds the record for most rushing TDs in which kind of game?","a":["Thanksgiving games","Super Bowl games","Monday night games","International games"],"c":3,"f":"Taylor is also the NFL's all-time leader in rushing yards in games played outside the United States."},{"d":"medium","q":"The Bengals' 2026 win in Madrid was their first-ever win in which kind of NFL game?","a":["An international game","A Super Bowl","A preseason game","A college bowl game"],"c":0,"f":"Cincinnati also scored 30+ points for a 4th straight game, tying a team record."},{"d":"medium","q":"In Week 1 of 2026, how many points did the Chicago Bears score against the Carolina Panthers?","a":["38","59","45","70"],"c":1,"f":"The Bears won 59-37. Those 96 combined points were the most ever scored in a season-opening NFL game."},{"d":"hard","q":"Aaron Rodgers threw his 540th career TD pass in Paris in 2026. Which legend did he pass to move into 3rd all-time?","a":["Tom Brady","Drew Brees","Peyton Manning","Dan Marino"],"c":2,"f":"Only Tom Brady and Drew Brees have thrown more touchdown passes than Rodgers."},{"d":"hard","q":"Who caught Aaron Rodgers' record-setting TD pass in the 2026 Paris game?","a":["DK Metcalf","Jaylen Warren","Pat Freiermuth","Darnell Washington"],"c":3,"f":"Tight end Darnell Washington's 4-yard catch was Pittsburgh's only touchdown in the 16-10 win."},{"d":"hard","q":"Who scored the first-ever NFL points in France, in the 2026 Steelers-Saints game?","a":["Chris Boswell","Aaron Rodgers","Tyler Shough","Daniel Carlson"],"c":0,"f":"Boswell's 28-yard field goal opened the scoring, and he made 3 field goals in the game."},{"d":"hard","q":"Who scored the first NFL touchdown ever in Australia, in the 2026 Rams-49ers game?","a":["Christian McCaffrey","Kyren Williams","Puka Nacua","George Kittle"],"c":1,"f":"Williams scored on a 5-yard run. It was the Rams' only touchdown in Melbourne."},{"d":"hard","q":"About how many fans packed the stadium for the 2026 Rams-49ers game in Melbourne?","a":["50,000","70,000","100,000","130,000"],"c":2,"f":"The crowd of 100,021 was the 7th-largest for a regular-season game in NFL history."},{"d":"hard","q":"In Rio in 2026, Derrick Henry passed Eric Dickerson on the NFL career rushing list. What spot did he move into?","a":["1st","4th","15th","9th"],"c":3,"f":"Henry ran for 89 yards and 2 touchdowns in Baltimore's 34-31 win."},{"d":"hard","q":"At Wembley in 2026, Jaguars star Travis Hunter caught a TD pass. What else did he do in the same game?","a":["Intercepted a pass","Kicked a field goal","Threw a touchdown pass","Punted the ball"],"c":0,"f":"He's only the 5th player in the Super Bowl era to score a TD and grab an interception in one game."},{"d":"hard","q":"In Munich in 2026, Lions RB Jahmyr Gibbs ran for 153 yards. How many receiving yards did he add?","a":["9","99","49","149"],"c":1,"f":"He was the first NFL player since Priest Holmes in 2002 with 150+ rush yards, 2 rush TDs and 95+ catch yards in a game."},{"d":"easy","q":"Who was the Offensive Player of the Game in the January 2026 national title game?","a":["Fernando Mendoza","Carson Beck","Mark Fletcher Jr.","Malachi Toney"],"c":0,"f":"Mendoza grew up just a few miles from Miami's campus, so the title game was a homecoming for him."},{"d":"easy","q":"On Jan 1, 2026, Indiana crushed which team 38-3 in the Rose Bowl?","a":["Alabama","Georgia","Ohio State","USC"],"c":0,"f":"Indiana led 17-0 at halftime in Pasadena and never looked back."},{"d":"easy","q":"Oregon shut out which team 23-0 in the Orange Bowl on Jan 1, 2026?","a":["Texas Tech","Texas A&M","Tulane","James Madison"],"c":0,"f":"It was Oregon's first shutout of an AP-ranked team since 2012. Texas Tech turned it over 4 times."},{"d":"easy","q":"In August 2026, Bill Belichick's North Carolina beat TCU 15-10 in which country?","a":["Ireland","Germany","Mexico","Australia"],"c":0,"f":"The game in Dublin was played in the rain. A wild snap over TCU's punter gave UNC a safety."},{"d":"easy","q":"In Week 1 of 2026, Lane Kiffin's LSU Tigers crushed which team 51-10?","a":["Clemson","Alabama","Florida State","Ole Miss"],"c":0,"f":"QB Sam Leavitt and RB Dilin Jones starred as LSU looked like a title contender."},{"d":"easy","q":"In Sept 2026, how much time did refs put back on the clock so Michigan could try one more Hail Mary vs Western Michigan?","a":["1 second","10 seconds","1 minute","5 seconds"],"c":0,"f":"JJ Buchanan caught a 47-yard Hail Mary on that final play, and Michigan won 13-12 in Kyle Whittingham's debut."},{"d":"easy","q":"Georgia vs. Florida is usually played in Jacksonville. Which city hosted it on Oct 31, 2026?","a":["Atlanta","Miami","Orlando","Nashville"],"c":0,"f":"Jacksonville's stadium was being renovated. Georgia won 27-8 inside Mercedes-Benz Stadium with the roof closed."},{"d":"easy","q":"Arizona State beat Kansas 24-17 in Sept 2026 at which famous stadium in London?","a":["Wembley Stadium","Old Trafford","Croke Park","Camp Nou"],"c":0,"f":"Jaren 'Turbo' Hamilton returned the second-half kickoff 100 yards for a touchdown."},{"d":"medium","q":"How did Indiana's Isaiah Jones score a TD in the January 2026 national title game?","a":["Recovering a blocked punt in the end zone","Catching a long pass","Returning an interception","Returning a kickoff"],"c":0,"f":"The blocked-punt TD in the 3rd quarter put Indiana ahead 17-7."},{"d":"medium","q":"How did Miami beat Ole Miss 31-27 in the Fiesta Bowl on Jan 8, 2026?","a":["Carson Beck ran for a TD with 18 seconds left","A field goal as time ran out","A pick-six in overtime","A safety on the last play"],"c":0,"f":"Beck scrambled 3 yards for the winning score in Glendale, Arizona, in front of 67,928 fans."},{"d":"medium","q":"How many TD passes did Fernando Mendoza throw in Indiana's 56-22 Peach Bowl win over Oregon in January 2026?","a":["5","2","3","7"],"c":0,"f":"Mendoza completed 17 of his 20 passes. Indiana led 35-7 at halftime."},{"d":"medium","q":"Which school won its first-ever FBS game, 33-7 over Jacksonville State, in August 2026?","a":["North Dakota State","South Dakota State","Montana State","Idaho"],"c":0,"f":"Kicker Drew Klein made 4 field goals in front of 18,573 fans at the Fargodome."},{"d":"medium","q":"The rebuilt Pac-12 played football again in 2026. Which two schools stayed from the old Pac-12?","a":["Oregon State & Washington State","USC & UCLA","Oregon & Washington","Utah & Arizona"],"c":0,"f":"Six newcomers joined them, including Boise State, San Diego State and Texas State, for 8 teams."},{"d":"medium","q":"UMass ended a 16-game losing streak in September 2026 by upsetting which Big Ten team 37-21?","a":["Rutgers","Penn State","Maryland","Michigan"],"c":0,"f":"UMass was a 29.5-point underdog. It was the biggest FBS upset since Kansas beat Texas in 2021."},{"d":"medium","q":"In Sept 2026, Arch Manning's Texas came back from 20 points down to beat No. 1 ___ 24-23. Who?","a":["Ohio State","Georgia","Alabama","Michigan"],"c":0,"f":"Hollywood Smothers scored the winning 1-yard TD with 25 seconds left in Austin."},{"d":"medium","q":"Oklahoma upset No. 1 Texas 27-24 in October 2026 on a last-play 47-yard field goal. Who kicked it?","a":["Tate Sandell","Lucas Carneiro","Nicolas Radicic","Drew Klein"],"c":0,"f":"It was Oklahoma's first win over a No. 1 team since beating Missouri in 2007."},{"d":"medium","q":"What happened for the first time ever in a regular season on Oct 17, 2026?","a":["5 of the AP's top 7 teams lost on one day","A game went 10 overtimes","A team scored 100 points","Every game ended in a tie"],"c":0,"f":"Georgia, Notre Dame, Indiana, Alabama and Texas all lost that Saturday."},{"d":"hard","q":"Who was the Defensive Player of the Game in the January 2026 national title game?","a":["Mikail Kamara","Rueben Bain Jr.","Akheem Mesidor","D'Angelo Ponds"],"c":0,"f":"Kamara is a senior defensive lineman for Indiana. Indiana's Jamari Sharpe sealed the win with a late interception."},{"d":"hard","q":"About how many fans watched the Indiana vs. Miami national title game in January 2026?","a":["67,227","45,113","92,500","104,000"],"c":0,"f":"The game at Hard Rock Stadium lasted 3 hours and 28 minutes and ended at 11:21 p.m. ET."},{"d":"hard","q":"Indiana's 16-0 season in 2025-26 matched a perfect-season win total last reached in 1894. By which school?","a":["Yale","Harvard","Notre Dame","Michigan"],"c":0,"f":"Before coach Curt Cignetti arrived, Indiana had the most losses in college football history: 713."},{"d":"hard","q":"Ole Miss kicker Lucas Carneiro set Sugar Bowl records in January 2026 with field goals of how many yards?","a":["55 and 56","40 and 41","60 and 62","50 and 51"],"c":0,"f":"He also kicked the 47-yard game-winner with 6 seconds left as Ole Miss beat Georgia 39-34."},{"d":"hard","q":"Indiana's D'Angelo Ponds returned an interception for a TD how many seconds into the January 2026 Peach Bowl?","a":["11","30","58","75"],"c":0,"f":"It was Oregon's very first offensive play, and Ponds ran it back 25 yards for the pick-six."},{"d":"hard","q":"Oklahoma State shocked No. 6 Oregon 39-31 in Sept 2026, ending a streak of how many straight losses to FBS teams?","a":["21","5","10","30"],"c":0,"f":"QB Drew Mestemaker threw for 317 yards and ran for 109. Oregon had been favored by 23.5 points."},{"d":"hard","q":"Auburn beat No. 1 Georgia 27-24 in Athens in Oct 2026. It was Auburn's first win in Athens since what year?","a":["2005","2012","2019","1998"],"c":0,"f":"Alex McPherson won it with a 34-yard field goal on the final play. Georgia had been a 20.5-point favorite."},{"d":"hard","q":"BYU's QB Bachmeier threw, ran and caught a TD vs Notre Dame in October 2026. Who was the last QB to do that, in 1983?","a":["Steve Young","John Elway","Dan Marino","Joe Montana"],"c":0,"f":"BYU won 28-24, its first win over Notre Dame since 2004. It ended the Irish's 16-game winning streak."}];
+
+  var LEVELS = { easy: { name: "Easy", pts: 100 }, medium: { name: "Medium", pts: 200 }, hard: { name: "Hard", pts: 300 } };
+  var ROUND = 10, TIME = 20;
+  var RANKS = [
+    [0, "Rookie", "🎒"], [800, "Starter", "🏈"], [1600, "Pro Bowler", "⭐"],
+    [2600, "All-Pro", "🌟"], [3800, "MVP", "🏆"], [5200, "Hall of Famer", "👑"]
   ];
+  var KEY = "kp-ftq-2026-";
+  /* Shared leaderboard (Cloudflare Worker in /leaderboard). Empty = on-device scores only. */
+  var API = "";
 
   var $ = function (id) { return document.getElementById(id); };
-  var order = [], i = 0, score = 0;
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(KEY + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(KEY + k); } catch (e) {} }
+  };
+
+  var level = store.get("level", "easy");
+  if (!LEVELS[level]) level = "easy";
+  var st = {};
+  var tick = null;
+  var scope = API ? "world" : "device";
+  var boardLevel = level, backTo = "ftq-start";
+
+  /* ---------- online leaderboard (optional) ---------- */
+  function api(method, path, body) {
+    if (!API) return Promise.reject(new Error("off"));
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, 7000) : null;
+    return fetch(API + path, {
+      method: method,
+      headers: body ? { "Content-Type": "application/json" } : {},
+      body: body ? JSON.stringify(body) : undefined,
+      signal: ctl ? ctl.signal : undefined
+    }).then(function (r) {
+      clearTimeout(timer);
+      return r.json().then(function (j) { return { ok: r.ok, status: r.status, body: j }; });
+    }, function (e) { clearTimeout(timer); throw e; });
+  }
+  function postOnline(run) {
+    var msg = $("ftq-online-msg");
+    if (!run.token) { msg.textContent = ""; return; }
+    msg.textContent = "🌎 Posting your score to the online board…";
+    run.token.then(function (token) {
+      if (!token) throw new Error("no round");
+      return api("POST", "/scores", { token: token, name: run.name, score: run.score, right: run.right });
+    }).then(function (res) {
+      if (res.ok) {
+        run.worldT = res.body.t;
+        msg.textContent = res.body.place <= 10 ? "🌎 You made the online Top 10 at #" + res.body.place + "!" : "🌎 Posted online. You're #" + res.body.place + " on " + LEVELS[run.level].name + ".";
+      } else if (res.status === 422) {
+        msg.textContent = "That nickname can't go on the online board, so your score stayed on this device. Pick a different nickname next time.";
+      } else if (res.status === 429) {
+        msg.textContent = "Lots of games! Your score is saved on this device. Try posting online again a bit later.";
+      } else {
+        msg.textContent = "Your score is saved on this device. It couldn't be posted online this time.";
+      }
+    }).catch(function () {
+      msg.textContent = "Couldn't reach the online board. Your score is saved on this device.";
+    });
+  }
 
   function shuffle(list) {
     for (var k = list.length - 1; k > 0; k--) {
@@ -106,82 +227,311 @@ noAnalytics: true
     }
     return list;
   }
-
+  function cleanName(s) {
+    s = String(s || "").replace(/[^A-Za-z0-9 _\-]/g, "").replace(/\s+/g, " ").trim().slice(0, 14);
+    return s.length >= 2 ? s : "Player";
+  }
   function show(id) {
-    ["ftq-start", "ftq-play", "ftq-end"].forEach(function (s) { $(s).hidden = s !== id; });
+    ["ftq-start", "ftq-play", "ftq-end", "ftq-boards"].forEach(function (s) { $(s).hidden = s !== id; });
+    $(id).scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+  function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+
+  /* ---------- start screen ---------- */
+  function pickLevel(l) {
+    level = l;
+    store.set("level", l);
+    document.querySelectorAll(".ftq-level").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-level") === l)); });
+    var best = (store.get("board-" + l, [])[0] || null);
+    $("ftq-best").textContent = best ? "Best on " + LEVELS[l].name + ": " + best.s.toLocaleString() + " pts by " + best.n : "No scores on " + LEVELS[l].name + " yet. Be the first!";
+  }
+
+  function nextBatch(l) {
+    /* Serve questions you haven't seen yet first, so 100 questions feel fresh. */
+    var pool = Q.map(function (_, k) { return k; }).filter(function (k) { return Q[k].d === l; });
+    var seen = store.get("seen-" + l, []).filter(function (k) { return pool.indexOf(k) > -1; });
+    var fresh = shuffle(pool.filter(function (k) { return seen.indexOf(k) < 0; }));
+    if (fresh.length < ROUND) {
+      var refill = shuffle(pool.filter(function (k) { return fresh.indexOf(k) < 0; }));
+      seen = [];
+      fresh = fresh.concat(refill);
+    }
+    var pick = fresh.slice(0, Math.min(ROUND, pool.length));
+    store.set("seen-" + l, seen.concat(pick));
+    return pick;
   }
 
   function start() {
-    order = shuffle(Q.map(function (_, k) { return k; }));
-    i = 0; score = 0;
+    var name = cleanName($("ftq-name").value);
+    $("ftq-name").value = name === "Player" ? "" : name;
+    store.set("name", name);
+    st = { name: name, level: level, order: nextBatch(level), i: 0, score: 0, right: 0, streak: 0, best: 0,
+           clock: $("ftq-clock").checked, fifty: true, fast: 0, token: null };
+    store.set("clock", st.clock);
+    if (API && $("ftq-online").checked) {
+      st.token = api("POST", "/round", { level: level })
+        .then(function (res) { return res.ok ? res.body.token : null; }, function () { return null; });
+    }
+    if (API) store.set("online", $("ftq-online").checked);
+    $("ftq-timer").hidden = !st.clock;
     show("ftq-play");
     render();
   }
 
+  /* ---------- play ---------- */
   function render() {
-    var item = Q[order[i]];
-    $("ftq-count").textContent = "Question " + (i + 1) + " of " + Q.length;
-    $("ftq-pts").textContent = "Score: " + score;
-    $("ftq-prog").style.width = (i / Q.length * 100) + "%";
+    var item = Q[st.order[st.i]];
+    st.locked = false;
+    $("ftq-count").textContent = "Q " + (st.i + 1) + "/" + st.order.length;
+    $("ftq-pts").textContent = st.score.toLocaleString() + " pts";
+    $("ftq-streak").textContent = st.streak >= 2 ? "🔥 " + st.streak : "";
+    $("ftq-prog").style.width = (st.i / st.order.length * 100) + "%";
+    $("ftq-tag").textContent = LEVELS[item.d].name + " · " + LEVELS[item.d].pts + " pts";
     $("ftq-q").textContent = item.q;
     $("ftq-fb").className = "ftq-fb";
-    $("ftq-fb").innerHTML = "";
+    $("ftq-fb").textContent = "";
     $("ftq-next").hidden = true;
+    $("ftq-5050").disabled = !st.fifty;
+
+    st.map = shuffle([0, 1, 2, 3]);
     var ul = $("ftq-opts");
-    ul.innerHTML = "";
-    item.a.forEach(function (text, k) {
+    ul.textContent = "";
+    st.map.forEach(function (orig) {
       var li = document.createElement("li");
       var b = document.createElement("button");
       b.type = "button";
       b.className = "ftq-opt";
-      b.textContent = text;
-      b.addEventListener("click", function () { pick(k); });
+      b.textContent = item.a[orig];
+      b.setAttribute("data-orig", orig);
+      b.addEventListener("click", function () { answer(orig); });
       li.appendChild(b);
       ul.appendChild(li);
     });
     $("ftq-q").focus({ preventScroll: true });
-    $("ftq-play").scrollIntoView({ block: "start", behavior: "smooth" });
+
+    clearInterval(tick);
+    st.t0 = Date.now();
+    if (st.clock) {
+      $("ftq-timer-bar").style.width = "100%";
+      $("ftq-timer").classList.remove("low");
+      tick = setInterval(function () {
+        var left = TIME - (Date.now() - st.t0) / 1000;
+        $("ftq-timer-bar").style.width = Math.max(0, left / TIME * 100) + "%";
+        $("ftq-timer").classList.toggle("low", left < 6);
+        if (left <= 0) { clearInterval(tick); answer(-1); }
+      }, 100);
+    }
   }
 
-  function pick(k) {
-    var item = Q[order[i]];
-    var btns = $("ftq-opts").querySelectorAll("button");
-    btns.forEach(function (b) { b.disabled = true; });
-    btns[item.c].classList.add("is-right");
+  function fifty() {
+    if (!st.fifty || st.locked) return;
+    st.fifty = false;
+    $("ftq-5050").disabled = true;
+    var item = Q[st.order[st.i]];
+    var wrong = shuffle([0, 1, 2, 3].filter(function (k) { return k !== item.c; })).slice(0, 2);
+    $("ftq-opts").querySelectorAll("button").forEach(function (b) {
+      if (wrong.indexOf(+b.getAttribute("data-orig")) > -1) { b.classList.add("is-gone"); b.disabled = true; }
+    });
+  }
+
+  function answer(k) {
+    if (st.locked) return;
+    st.locked = true;
+    clearInterval(tick);
+    var item = Q[st.order[st.i]];
+    var secs = (Date.now() - st.t0) / 1000;
     var right = k === item.c;
-    if (right) { score++; } else { btns[k].classList.add("is-wrong"); }
-    $("ftq-pts").textContent = "Score: " + score;
-    var fb = $("ftq-fb");
-    fb.innerHTML = "";
+    $("ftq-5050").disabled = true;
+    $("ftq-opts").querySelectorAll("button").forEach(function (b) {
+      var o = +b.getAttribute("data-orig");
+      b.disabled = true;
+      if (o === item.c) b.classList.add("is-right");
+      else if (o === k) b.classList.add("is-wrong");
+    });
+
     var head = document.createElement("strong");
-    head.textContent = right ? "✅ Touchdown! That's right." : "❌ Not quite. It's " + item.a[item.c] + ".";
+    var gained = 0;
+    if (right) {
+      st.right++; st.streak++; st.best = Math.max(st.best, st.streak);
+      var base = LEVELS[item.d].pts;
+      var speed = st.clock ? Math.round(base * 0.5 * Math.max(0, TIME - secs) / TIME) : 0;
+      var mult = st.streak >= 5 ? 2 : st.streak >= 3 ? 1.5 : 1;
+      gained = Math.round((base + speed) * mult);
+      st.score += gained;
+      if (st.clock && secs < 5) st.fast++;
+      head.textContent = st.streak >= 3 ? "🔥 Touchdown! " + st.streak + " in a row" + (mult > 1 ? " (x" + mult + ")" : "") : "✅ Touchdown! That's right.";
+      var pop = document.createElement("span");
+      pop.className = "ftq-pop";
+      pop.textContent = "+" + gained;
+      head.appendChild(pop);
+    } else {
+      st.streak = 0;
+      head.textContent = k === -1 ? "⏰ Time's up! It's " + item.a[item.c] + "." : "❌ Fumble! It's " + item.a[item.c] + ".";
+      $("ftq-play").classList.remove("ftq-shake");
+      void $("ftq-play").offsetWidth;
+      $("ftq-play").classList.add("ftq-shake");
+      buzz(120);
+    }
+    $("ftq-pts").textContent = st.score.toLocaleString() + " pts";
+    $("ftq-streak").textContent = st.streak >= 2 ? "🔥 " + st.streak : "";
     var p = document.createElement("span");
     p.textContent = item.f;
+    var fb = $("ftq-fb");
+    fb.textContent = "";
     fb.appendChild(head); fb.appendChild(p);
     fb.className = "ftq-fb show";
-    $("ftq-next").textContent = i + 1 < Q.length ? "Next question" : "See my score";
+    $("ftq-next").textContent = st.i + 1 < st.order.length ? "Next question" : "See my score";
     $("ftq-next").hidden = false;
   }
 
   function next() {
-    i++;
-    if (i < Q.length) { render(); return; }
-    $("ftq-prog").style.width = "100%";
-    $("ftq-final").textContent = score + " / " + Q.length;
-    var msg, emoji;
-    if (score === Q.length) { msg = "Perfect game! You're a true football expert."; emoji = "🏆"; }
-    else if (score >= 7) { msg = "Great job! You really know your 2026 football."; emoji = "🌟"; }
-    else if (score >= 4) { msg = "Nice try! Play again and go for a higher score."; emoji = "👍"; }
-    else { msg = "Every pro starts somewhere. Give it another shot!"; emoji = "💪"; }
-    $("ftq-msg").textContent = msg;
-    $("ftq-emoji").textContent = emoji;
-    show("ftq-end");
-    $("ftq-end-title").focus({ preventScroll: true });
-    $("ftq-end").scrollIntoView({ block: "start", behavior: "smooth" });
+    st.i++;
+    if (st.i < st.order.length) { render(); return; }
+    finish();
   }
 
+  /* ---------- end ---------- */
+  function rankFor(s) {
+    var r = RANKS[0];
+    RANKS.forEach(function (x) { if (s >= x[0]) r = x; });
+    return r;
+  }
+
+  function finish() {
+    $("ftq-prog").style.width = "100%";
+    var n = st.order.length;
+    var r = rankFor(st.score);
+    $("ftq-final").textContent = st.score.toLocaleString() + " pts";
+    $("ftq-rank").textContent = r[2] + " " + r[1];
+    $("ftq-emoji").textContent = r[2];
+    var msg = st.right === n ? "Perfect game! Every answer right." :
+              st.right >= 7 ? "Great game! You really know 2026 football." :
+              st.right >= 4 ? "Solid effort! Run it back and beat your score." :
+              "Every pro starts somewhere. Try again!";
+    $("ftq-msg").textContent = msg;
+    $("ftq-s-right").textContent = st.right + "/" + n;
+    $("ftq-s-streak").textContent = st.best;
+
+    var badges = [];
+    if (st.right === n) badges.push("💯 Perfect Game");
+    if (st.best >= 5) badges.push("🔥 Hot Streak");
+    if (st.best >= 3 && st.best < 5) badges.push("⚡ On a Roll");
+    if (st.fast >= 5) badges.push("🚀 Quick Hands");
+    if (st.fifty && st.right >= 7) badges.push("🧠 No Help Needed");
+    if (st.level === "hard" && st.right >= 7) badges.push("💪 Hard Hitter");
+    var ul = $("ftq-badges");
+    ul.textContent = "";
+    badges.forEach(function (b) { var li = document.createElement("li"); li.textContent = b; ul.appendChild(li); });
+
+    var board = store.get("board-" + st.level, []);
+    var entry = { n: st.name, s: st.score, r: st.right, t: Date.now() };
+    board.push(entry);
+    board.sort(function (a, b) { return b.s - a.s || a.t - b.t; });
+    var place = board.indexOf(entry) + 1;
+    board = board.slice(0, 10);
+    store.set("board-" + st.level, board);
+    st.lastEntry = entry.t;
+    $("ftq-s-place").textContent = place <= 10 ? "#" + place : "-";
+    postOnline(st);
+
+    show("ftq-end");
+    $("ftq-end-title").focus({ preventScroll: true });
+    if (st.right >= 7 || place === 1) confetti();
+  }
+
+  function confetti() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var box = document.createElement("div");
+    box.className = "ftq-confetti";
+    box.setAttribute("aria-hidden", "true");
+    var bits = ["🏈", "🎉", "⭐", "🏆", "🎊"];
+    for (var k = 0; k < 28; k++) {
+      var i = document.createElement("i");
+      i.textContent = bits[k % bits.length];
+      i.style.left = Math.random() * 100 + "%";
+      i.style.animationDelay = Math.random() * 0.8 + "s";
+      box.appendChild(i);
+    }
+    document.body.appendChild(box);
+    setTimeout(function () { box.remove(); }, 3500);
+  }
+
+  /* ---------- leaderboards ---------- */
+  function boardNote(box, text) {
+    box.textContent = "";
+    var p = document.createElement("p");
+    p.className = "ftq-empty";
+    p.textContent = text;
+    box.appendChild(p);
+  }
+  function drawBoard(l) {
+    boardLevel = l;
+    document.querySelectorAll(".ftq-tabs button[data-tab]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-tab") === l)); });
+    document.querySelectorAll(".ftq-tabs button[data-scope]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-scope") === scope)); });
+    $("ftq-board-title").textContent = scope === "world" ? "🌎 Top 10 everywhere" : "🏅 Top 10 on this device";
+    $("ftq-clear").hidden = scope === "world";
+    var box = $("ftq-board");
+    if (scope === "world") {
+      boardNote(box, "Loading the online board…");
+      api("GET", "/scores?level=" + l).then(function (res) {
+        if (boardLevel !== l || scope !== "world") return;
+        if (!res.ok) throw new Error("bad");
+        if (!res.body.top.length) { boardNote(box, "No online " + LEVELS[l].name + " scores yet. Be the first!"); return; }
+        table(box, res.body.top, st.worldT);
+      }).catch(function () {
+        if (boardLevel === l && scope === "world") boardNote(box, "Couldn't load the online board right now. Tap 📱 This device to see your scores.");
+      });
+      return;
+    }
+    var board = store.get("board-" + l, []);
+    if (!board.length) { boardNote(box, "No " + LEVELS[l].name + " scores yet. Play a round to get on the board!"); return; }
+    table(box, board, st.lastEntry);
+  }
+  function table(box, board, mine) {
+    box.textContent = "";
+    var t = document.createElement("table");
+    t.className = "ftq-board";
+    var h = t.insertRow();
+    ["#", "Player", "Right", "Points"].forEach(function (x) { var th = document.createElement("th"); th.textContent = x; h.appendChild(th); });
+    board.forEach(function (e, k) {
+      var tr = t.insertRow();
+      if (mine && e.t === mine) tr.className = "me";
+      [k === 0 ? "🥇" : k === 1 ? "🥈" : k === 2 ? "🥉" : String(k + 1), e.n, e.r + "/10", e.s.toLocaleString()].forEach(function (x) { tr.insertCell().textContent = x; });
+    });
+    box.appendChild(t);
+  }
+  function openBoards(l, from) { backTo = from; show("ftq-boards"); drawBoard(l); }
+
+  /* ---------- wire up ---------- */
+  document.querySelectorAll(".ftq-level").forEach(function (b) { b.addEventListener("click", function () { pickLevel(b.getAttribute("data-level")); }); });
+  document.querySelectorAll(".ftq-tabs button[data-tab]").forEach(function (b) { b.addEventListener("click", function () { drawBoard(b.getAttribute("data-tab")); }); });
+  document.querySelectorAll(".ftq-tabs button[data-scope]").forEach(function (b) { b.addEventListener("click", function () { scope = b.getAttribute("data-scope"); drawBoard(boardLevel); }); });
   $("ftq-go").addEventListener("click", start);
+  $("ftq-name").addEventListener("keydown", function (e) { if (e.key === "Enter") start(); });
   $("ftq-next").addEventListener("click", next);
+  $("ftq-5050").addEventListener("click", fifty);
   $("ftq-again").addEventListener("click", start);
+  $("ftq-menu").addEventListener("click", function () { show("ftq-start"); pickLevel(level); });
+  $("ftq-show-board").addEventListener("click", function () { openBoards(level, "ftq-start"); });
+  $("ftq-end-board").addEventListener("click", function () { openBoards(st.level, "ftq-end"); });
+  $("ftq-board-back").addEventListener("click", function () { show(backTo); if (backTo === "ftq-start") pickLevel(level); });
+  $("ftq-clear").addEventListener("click", function () {
+    if (!window.confirm("Clear all saved scores on this device?")) return;
+    ["easy", "medium", "hard"].forEach(function (l) { store.del("board-" + l); store.del("seen-" + l); });
+    drawBoard(level); pickLevel(level);
+  });
+
+  var saved = store.get("name", "");
+  if (saved && saved !== "Player") $("ftq-name").value = saved;
+  $("ftq-clock").checked = store.get("clock", true);
+  if (API) {
+    $("ftq-online-row").hidden = false;
+    $("ftq-scope").hidden = false;
+    $("ftq-online").checked = store.get("online", true);
+  }
+  pickLevel(level);
+  var counts = { easy: 0, medium: 0, hard: 0 };
+  Q.forEach(function (x) { counts[x.d]++; });
+  $("ftq-pool").textContent = Q.length + " questions: " + counts.easy + " Easy, " + counts.medium + " Medium, " + counts.hard + " Hard.";
 })();
 </script>
