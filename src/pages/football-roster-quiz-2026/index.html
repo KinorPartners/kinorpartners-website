@@ -1,0 +1,227 @@
+---
+layout: base.njk
+title: "Who Plays Where? 2026 NFL Roster Quiz for Kids | Kinor Partners"
+description: "A quick kids' football quiz: pick which player is the Patriots receiver, the Bills quarterback and more, using 2026 NFL rosters."
+canonical: "https://kinorpartners.com/pages/football-roster-quiz-2026/"
+noAnalytics: true
+---
+<style>
+#ftq{max-width:560px;margin:0 auto;padding:20px 16px 40px;color:var(--ink);font-size:18px;line-height:1.5}
+#ftq *{box-sizing:border-box}
+.ftq-card{scroll-margin-top:96px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 18px}
+.ftq-hero{text-align:center}
+.ftq-hero h1{font-size:1.75rem;line-height:1.2;margin:4px 0 8px;color:var(--navy);font-weight:800}
+.ftq-hero p{margin:0 0 18px;color:var(--text)}
+.ftq-ball{font-size:3rem;line-height:1;margin:0}
+.ftq-btn{display:block;width:100%;min-height:52px;padding:14px 18px;border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:1.1rem;cursor:pointer;touch-action:manipulation}
+.ftq-btn:focus-visible,.ftq-opt:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.ftq-btn:active{transform:scale(.98)}
+.ftq-top{display:flex;justify-content:space-between;align-items:center;font-size:.95rem;font-weight:700;color:var(--muted);margin-bottom:8px}
+.ftq-bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.ftq-bar span{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+.ftq-q{font-size:1.25rem;font-weight:800;line-height:1.35;margin:0 0 16px;color:var(--navy)}
+.ftq-opts{display:grid;gap:10px;margin:0 0 16px;padding:0;list-style:none}
+.ftq-opt{display:block;width:100%;min-height:56px;padding:14px 16px;text-align:left;font:inherit;font-weight:700;color:var(--ink);background:var(--soft);border:2px solid var(--line);border-radius:12px;cursor:pointer;touch-action:manipulation}
+.ftq-opt:disabled{cursor:default}
+.ftq-opt.is-right{background:#e7f8ee;border-color:var(--green);color:#0d5c31}
+.ftq-opt.is-wrong{background:#fdecec;border-color:#d93636;color:#8a1c1c}
+.ftq-fb{display:none;border-radius:12px;padding:14px 16px;margin:0 0 16px;background:var(--soft)}
+.ftq-fb.show{display:block}
+.ftq-fb strong{display:block;font-size:1.1rem;margin-bottom:4px}
+.ftq-score{font-size:3rem;font-weight:800;color:var(--blue);margin:6px 0}
+.ftq-note{font-size:.85rem;color:var(--muted);text-align:center;margin:18px 0 0}
+.ftq-hint{font-size:.9rem;color:var(--muted);margin:-8px 0 14px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.ftq-bar span{transition:none}.ftq-btn:active{transform:none}}
+</style>
+
+<div id="ftq">
+  <section class="ftq-card ftq-hero" id="ftq-start">
+    <p class="ftq-ball" aria-hidden="true">🏈</p>
+    <h1>Who Plays Where?</h1>
+    <p>24 quick questions about this season's NFL teams. Read the team and position, then tap the player who fits!</p>
+    <button class="ftq-btn" type="button" id="ftq-go">Start the quiz</button>
+  </section>
+
+  <section class="ftq-card" id="ftq-play" hidden>
+    <div class="ftq-top"><span id="ftq-count">Question 1 of 24</span><span id="ftq-pts">Score: 0</span></div>
+    <div class="ftq-bar" aria-hidden="true"><span id="ftq-prog"></span></div>
+    <h2 class="ftq-q" id="ftq-q" tabindex="-1"></h2>
+    <p class="ftq-hint" id="ftq-hint"></p>
+    <ul class="ftq-opts" id="ftq-opts"></ul>
+    <div class="ftq-fb" id="ftq-fb" aria-live="polite"></div>
+    <button class="ftq-btn" type="button" id="ftq-next" hidden>Next question</button>
+  </section>
+
+  <section class="ftq-card ftq-hero" id="ftq-end" hidden>
+    <p class="ftq-ball" aria-hidden="true" id="ftq-emoji">🏆</p>
+    <h2 class="ftq-q" style="text-align:center;margin:0" id="ftq-end-title" tabindex="-1">Final score</h2>
+    <p class="ftq-score" id="ftq-final">0 / 24</p>
+    <p id="ftq-msg"></p>
+    <button class="ftq-btn" type="button" id="ftq-again">Play again</button>
+  </section>
+
+  <p class="ftq-note">Players, teams and positions checked against 2026 NFL rosters on NFL.com, ESPN and team websites in November 2026. Rosters change during the season.</p>
+  <p class="ftq-note"><a href="/pages/football-trivia-2026/">Try the 2026 Football Trivia quiz too</a></p>
+</div>
+
+<script>
+(function () {
+  // a[0] is always the right answer; options are shuffled when shown.
+  var H = {
+    "wide receiver": "Wide receivers run down the field and catch passes.",
+    "quarterback": "The quarterback throws the ball and runs the offense.",
+    "running back": "Running backs take the handoff and run with the ball.",
+    "tight end": "Tight ends block for runners and catch passes too.",
+    "kicker": "The kicker kicks field goals and extra points.",
+    "pass rusher": "Pass rushers chase down the other team's quarterback.",
+    "defensive end": "Defensive ends rush the quarterback and stop runners.",
+    "linebacker": "Linebackers tackle runners and rush the quarterback.",
+    "cornerback": "Cornerbacks cover receivers and try to stop passes."
+  };
+  var Q = [
+    { t: "Patriots", p: "wide receiver", a: ["DeMario Douglas", "Drake Maye", "Justin Jefferson", "Saquon Barkley"],
+      f: "DeMario Douglas wears No. 3 and is one of New England's top pass catchers this season. Drake Maye is the Patriots' quarterback." },
+    { t: "Seahawks", p: "wide receiver", a: ["Jaxon Smith-Njigba", "Josh Allen", "George Kittle", "Bijan Robinson"],
+      f: "Jaxon Smith-Njigba wears No. 11 for Seattle and played college football at Ohio State." },
+    { t: "Bills", p: "quarterback", a: ["Josh Allen", "Caleb Williams", "Ja'Marr Chase", "T.J. Watt"],
+      f: "Josh Allen wears No. 17 for Buffalo and played college football at Wyoming." },
+    { t: "Eagles", p: "running back", a: ["Saquon Barkley", "Jonathan Taylor", "Malik Nabers", "Jayden Daniels"],
+      f: "Saquon Barkley wears No. 26 for Philadelphia and played college football at Penn State." },
+    { t: "Vikings", p: "wide receiver", a: ["Justin Jefferson", "Ja'Marr Chase", "Brock Bowers", "Brandon Aubrey"],
+      f: "Justin Jefferson wears No. 18 for Minnesota. Ja'Marr Chase is a receiver too, but he plays for the Bengals." },
+    { t: "49ers", p: "tight end", a: ["George Kittle", "Trey McBride", "Jahmyr Gibbs", "Josh Allen"],
+      f: "George Kittle wears No. 85 for San Francisco and came back this season from a big leg injury." },
+    { t: "Rams", p: "pass rusher", a: ["Myles Garrett", "Will Anderson Jr.", "Malik Nabers", "Caleb Williams"],
+      f: "Myles Garrett played for the Browns for years, then the Rams traded for him in June 2026. He wears No. 95." },
+    { t: "Cowboys", p: "kicker", a: ["Brandon Aubrey", "Bijan Robinson", "Pat Surtain II", "Jaxon Smith-Njigba"],
+      f: "Brandon Aubrey wears No. 17 for Dallas and played college soccer before he became an NFL kicker." },
+    { t: "Lions", p: "running back", a: ["Jahmyr Gibbs", "Bijan Robinson", "Trey McBride", "Drake Maye"],
+      f: "Jahmyr Gibbs runs the ball for Detroit and played college football at Alabama." },
+    { t: "Raiders", p: "tight end", a: ["Brock Bowers", "George Kittle", "Jonathan Taylor", "Will Anderson Jr."],
+      f: "Brock Bowers wears No. 89 for Las Vegas and played college football at Georgia." },
+    { t: "Steelers", p: "linebacker", a: ["T.J. Watt", "Myles Garrett", "Saquon Barkley", "Justin Jefferson"],
+      f: "T.J. Watt wears No. 90 for Pittsburgh and played college football at Wisconsin." },
+    { t: "Bears", p: "quarterback", a: ["Caleb Williams", "Jayden Daniels", "Josh Allen", "Malik Nabers"],
+      f: "Caleb Williams wears No. 18 for Chicago and played college football at USC." },
+    { t: "Falcons", p: "running back", a: ["Bijan Robinson", "Jahmyr Gibbs", "Ja'Marr Chase", "Brandon Aubrey"],
+      f: "Bijan Robinson wears No. 7 for Atlanta and played college football at Texas." },
+    { t: "Bengals", p: "wide receiver", a: ["Ja'Marr Chase", "Justin Jefferson", "Lamar Jackson", "George Kittle"],
+      f: "Ja'Marr Chase wears No. 1 for Cincinnati. He and Justin Jefferson were teammates in college at LSU." },
+    { t: "Broncos", p: "cornerback", a: ["Pat Surtain II", "T.J. Watt", "Brock Bowers", "Caleb Williams"],
+      f: "Pat Surtain II wears No. 2 for Denver and played college football at Alabama." },
+    { t: "Commanders", p: "quarterback", a: ["Jayden Daniels", "Caleb Williams", "Jonathan Taylor", "DeMario Douglas"],
+      f: "Jayden Daniels wears No. 5 for Washington and played college football at LSU." },
+    { t: "Cardinals", p: "tight end", a: ["Trey McBride", "Brock Bowers", "Jaxon Smith-Njigba", "Pat Surtain II"],
+      f: "Trey McBride wears No. 85 for Arizona and played college football at Colorado State." },
+    { t: "Giants", p: "wide receiver", a: ["Malik Nabers", "DeMario Douglas", "Jayden Daniels", "Myles Garrett"],
+      f: "Malik Nabers wears No. 1 for the Giants and played college football at LSU." },
+    { t: "Colts", p: "running back", a: ["Jonathan Taylor", "Bijan Robinson", "Josh Allen", "Trey McBride"],
+      f: "Jonathan Taylor wears No. 28 for Indianapolis and played college football at Wisconsin." },
+    { t: "Texans", p: "defensive end", a: ["Will Anderson Jr.", "Myles Garrett", "Jahmyr Gibbs", "Malik Nabers"],
+      f: "Will Anderson Jr. wears No. 51 for Houston and played college football at Alabama." },
+    { t: "Chiefs", p: "quarterback", a: ["Patrick Mahomes", "Matthew Stafford", "Bryce Young", "Travis Kelce"],
+      f: "Patrick Mahomes wears No. 15 and came back this season from a knee injury. Travis Kelce is his tight end." },
+    { t: "Chiefs", p: "tight end", a: ["Travis Kelce", "George Kittle", "Patrick Mahomes", "CeeDee Lamb"],
+      f: "Travis Kelce wears No. 87 and is playing his 14th season, all with Kansas City." },
+    { t: "Chiefs", p: "running back", a: ["Kenneth Walker III", "Derrick Henry", "Saquon Barkley", "Jaxon Smith-Njigba"],
+      f: "Kenneth Walker III was the Super Bowl LX MVP with Seattle, then joined the Chiefs in 2026." },
+    { t: "Cowboys", p: "wide receiver", a: ["CeeDee Lamb", "Brandon Aubrey", "Chris Olave", "Cam Ward"],
+      f: "CeeDee Lamb wears No. 88 for Dallas. Brandon Aubrey plays for the Cowboys too, but he's their kicker." }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var order = [], opts = [], i = 0, score = 0;
+
+  function shuffle(list) {
+    for (var k = list.length - 1; k > 0; k--) {
+      var j = Math.floor(Math.random() * (k + 1)), t = list[k]; list[k] = list[j]; list[j] = t;
+    }
+    return list;
+  }
+
+  function article(word) { return /^[aeiou]/i.test(word) ? "an " : "a "; }
+
+  function show(id) {
+    ["ftq-start", "ftq-play", "ftq-end"].forEach(function (s) { $(s).hidden = s !== id; });
+  }
+
+  function start() {
+    order = shuffle(Q.map(function (_, k) { return k; }));
+    i = 0; score = 0;
+    show("ftq-play");
+    render();
+  }
+
+  function render() {
+    var item = Q[order[i]];
+    opts = shuffle(item.a.slice());
+    $("ftq-count").textContent = "Question " + (i + 1) + " of " + Q.length;
+    $("ftq-pts").textContent = "Score: " + score;
+    $("ftq-prog").style.width = (i / Q.length * 100) + "%";
+    $("ftq-q").textContent = "Which player is " + article(item.p) + item.p + " for the " + item.t + "?";
+    $("ftq-hint").textContent = H[item.p] || "";
+    $("ftq-fb").className = "ftq-fb";
+    $("ftq-fb").innerHTML = "";
+    $("ftq-next").hidden = true;
+    var ul = $("ftq-opts");
+    ul.innerHTML = "";
+    opts.forEach(function (text) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "ftq-opt";
+      b.textContent = text;
+      b.addEventListener("click", function () { pick(text); });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    $("ftq-q").focus({ preventScroll: true });
+    $("ftq-play").scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  function pick(text) {
+    var item = Q[order[i]], answer = item.a[0];
+    var btns = $("ftq-opts").querySelectorAll("button");
+    var right = text === answer;
+    btns.forEach(function (b) {
+      b.disabled = true;
+      if (b.textContent === answer) { b.classList.add("is-right"); }
+      else if (b.textContent === text) { b.classList.add("is-wrong"); }
+    });
+    if (right) { score++; }
+    $("ftq-pts").textContent = "Score: " + score;
+    var fb = $("ftq-fb");
+    fb.innerHTML = "";
+    var head = document.createElement("strong");
+    head.textContent = right ? "✅ Touchdown! That's right." : "❌ Not quite. It's " + answer + ".";
+    var p = document.createElement("span");
+    p.textContent = item.f;
+    fb.appendChild(head); fb.appendChild(p);
+    fb.className = "ftq-fb show";
+    $("ftq-next").textContent = i + 1 < Q.length ? "Next question" : "See my score";
+    $("ftq-next").hidden = false;
+  }
+
+  function next() {
+    i++;
+    if (i < Q.length) { render(); return; }
+    $("ftq-prog").style.width = "100%";
+    $("ftq-final").textContent = score + " / " + Q.length;
+    var pct = score / Q.length, msg, emoji;
+    if (score === Q.length) { msg = "Perfect game! You know every team's players."; emoji = "🏆"; }
+    else if (pct >= 0.7) { msg = "Great job! You really know who plays where."; emoji = "🌟"; }
+    else if (pct >= 0.4) { msg = "Nice try! Play again and go for a higher score."; emoji = "👍"; }
+    else { msg = "Every pro starts somewhere. Give it another shot!"; emoji = "💪"; }
+    $("ftq-msg").textContent = msg;
+    $("ftq-emoji").textContent = emoji;
+    show("ftq-end");
+    $("ftq-end-title").focus({ preventScroll: true });
+    $("ftq-end").scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  $("ftq-go").addEventListener("click", start);
+  $("ftq-next").addEventListener("click", next);
+  $("ftq-again").addEventListener("click", start);
+})();
+</script>
