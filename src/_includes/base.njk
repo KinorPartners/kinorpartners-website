@@ -23,7 +23,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0767dd">
 <link rel="stylesheet" href="/assets/site.css">
-<script>
+{% if not noAnalytics %}<script>
 (function () {
   var id = 'G-H6T60VVJ27';
   window.dataLayer = window.dataLayer || [];
@@ -39,7 +39,7 @@
   window.gtag('js', new Date());
   window.gtag('config', id);
 })();
-</script>
+</script>{% endif %}
 {% for block in jsonld %}<script type="application/ld+json">{{ block | safe }}</script>
 {% endfor %}</head>
 <body>{% include "header.njk" %}<main>{{ content | safe }}</main>{% include "footer.njk" %}
