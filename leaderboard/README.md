@@ -13,7 +13,7 @@ date and used only to rate-limit, and those hashes are deleted after a day.
 2. In this repo's settings, under Secrets and variables > Actions, add:
    - `CLOUDFLARE_API_TOKEN` (the token)
    - `CLOUDFLARE_ACCOUNT_ID` (optional, if the token can see more than one account)
-3. Run the **Leaderboard** workflow (or push a change under `leaderboard/`).
+3. Run the **Deploy trivia leaderboard** workflow (or push a change under `leaderboard/`).
    The deploy log prints the Worker's `https://...workers.dev` address.
 4. Put that address in `var API = "";` in
    `src/pages/football-trivia-2026/index.html` and merge. The game then shows
