@@ -1,0 +1,44 @@
+name: Deploy trivia leaderboard
+
+# Deploys the small Cloudflare Worker in leaderboard/ that stores the shared
+# top scores for /pages/football-trivia-2026/. It only runs once the repo has
+# a CLOUDFLARE_API_TOKEN secret (Workers Scripts: Edit). Without it the job is
+# skipped and the game keeps working with on-device scores only.
+
+on:
+  push:
+    branches: [main]
+    paths: ['leaderboard/**', '.github/workflows/leaderboard.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Score and nickname rules
+        run: node leaderboard/test.mjs
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      HAS_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: No Cloudflare token yet
+        if: env.HAS_TOKEN != 'true'
+        run: echo "::notice::Add a CLOUDFLARE_API_TOKEN repo secret to deploy the shared leaderboard."
+      - uses: cloudflare/wrangler-action@v3
+        if: env.HAS_TOKEN == 'true'
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: leaderboard
