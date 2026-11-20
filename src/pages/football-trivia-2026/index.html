@@ -25,7 +25,13 @@ noAnalytics: true
 .ftq-topic small{display:block;font-weight:600;font-size:.75rem;color:var(--muted);margin-top:2px}
 .ftq-topic[data-topic="all"]{grid-column:1/-1;text-align:center}
 .ftq-qhint{margin:-6px 0 12px;font-size:.9rem}
-.ftq-topic[aria-pressed="true"],.ftq-level[aria-pressed="true"]{border-color:var(--blue);background:#e8f1fe;box-shadow:0 0 0 2px var(--blue) inset}
+.ftq-voice-row{display:flex;gap:8px;align-items:stretch}
+.ftq-voice-row select{flex:1;min-width:0}
+.ftq-speeds{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ftq-speed{min-height:48px;padding:8px 6px;border:2px solid var(--line);border-radius:12px;background:var(--soft);font:inherit;font-size:.95rem;font-weight:800;color:var(--ink);cursor:pointer;touch-action:manipulation}
+.ftq-speed:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.ftq-lifes{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.ftq-speed[aria-pressed="true"],.ftq-topic[aria-pressed="true"],.ftq-level[aria-pressed="true"]{border-color:var(--blue);background:#e8f1fe;box-shadow:0 0 0 2px var(--blue) inset}
 .ftq-switch{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin-top:14px;padding:10px 14px;border:2px solid var(--line);border-radius:12px;background:var(--soft);font-weight:700;cursor:pointer}
 .ftq-switch input{width:26px;height:26px;accent-color:var(--blue);flex:none}
 .ftq-btn{display:block;width:100%;min-height:54px;padding:14px 18px;margin-top:16px;border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:1.1rem;cursor:pointer;touch-action:manipulation}
@@ -113,6 +119,24 @@ noAnalytics: true
     </div>
 
     <label class="ftq-switch" for="ftq-clock"><span>⏱️ Beat the clock (20 sec, bonus points)</span><input type="checkbox" id="ftq-clock" checked></label>
+    <label class="ftq-switch" for="ftq-tts" id="ftq-tts-row" hidden><span>🔊 Read questions out loud</span><input type="checkbox" id="ftq-tts"></label>
+    <div id="ftq-tts-opts" hidden>
+      <label class="ftq-label" for="ftq-voice">Voice</label>
+      <div class="ftq-voice-row"><select class="ftq-input" id="ftq-voice"></select><button type="button" class="ftq-life" id="ftq-voice-test">▶️ Test</button></div>
+      <span class="ftq-label" id="ftq-style-label">Voice type</span>
+      <div class="ftq-speeds" role="group" aria-labelledby="ftq-style-label">
+        <button type="button" class="ftq-speed" data-pitch="normal" aria-pressed="true">🎙️ Normal</button>
+        <button type="button" class="ftq-speed" data-pitch="deep" aria-pressed="false">🐻 Deep</button>
+        <button type="button" class="ftq-speed" data-pitch="high" aria-pressed="false">🐿️ Squeaky</button>
+      </div>
+      <span class="ftq-label" id="ftq-speed-label">Speed</span>
+      <div class="ftq-speeds" role="group" aria-labelledby="ftq-speed-label">
+        <button type="button" class="ftq-speed" data-speed="slow" aria-pressed="false">🐢 Slow</button>
+        <button type="button" class="ftq-speed" data-speed="normal" aria-pressed="true">🏈 Normal</button>
+        <button type="button" class="ftq-speed" data-speed="fast" aria-pressed="false">🐇 Fast</button>
+      </div>
+      <span class="ftq-hint">Voices come from this phone or computer, so the list is different on each device. With the clock on, it starts after the question is read.</span>
+    </div>
     <label class="ftq-switch" for="ftq-online" id="ftq-online-row" hidden><span>🌎 Post my score to the online leaderboard (nickname and score only)</span><input type="checkbox" id="ftq-online" checked></label>
 
     <button class="ftq-btn" type="button" id="ftq-go">Kick off!</button>
@@ -128,7 +152,7 @@ noAnalytics: true
     <h2 class="ftq-q" id="ftq-q" tabindex="-1"></h2>
     <p class="ftq-hint ftq-qhint" id="ftq-qhint" hidden></p>
     <ul class="ftq-opts" id="ftq-opts"></ul>
-    <p style="margin:0 0 12px"><button type="button" class="ftq-life" id="ftq-5050" aria-label="Use 50-50: remove two wrong answers, once per round">✂️ 50-50</button></p>
+    <p class="ftq-lifes"><button type="button" class="ftq-life" id="ftq-5050" aria-label="Use 50-50: remove two wrong answers, once per round">✂️ 50-50</button><button type="button" class="ftq-life" id="ftq-say" hidden aria-label="Read the question out loud">🔊 Read it</button></p>
     <div class="ftq-fb" id="ftq-fb" aria-live="polite"></div>
     <button class="ftq-btn" type="button" id="ftq-next" hidden>Next question</button>
   </section>
@@ -255,10 +279,72 @@ noAnalytics: true
     return s.length >= 2 ? s : "Player";
   }
   function show(id) {
+    hush();
     ["ftq-start", "ftq-play", "ftq-end", "ftq-boards"].forEach(function (s) { $(s).hidden = s !== id; });
     $(id).scrollIntoView({ block: "start", behavior: "smooth" });
   }
   function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+
+  /* ---------- read aloud (the device's own voices; nothing is sent anywhere by this page) ---------- */
+  var TTS = !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
+  var SPEEDS = { slow: 0.75, normal: 1, fast: 1.3 };
+  var PITCH = { normal: 1, deep: 0.6, high: 1.7 };
+  var EMOJI = /[\u{1F000}-\u{1FAFF}\u2600-\u27BF\uFE0F\u200D]/gu;
+  var tts = { on: store.get("tts", false), name: store.get("tts-voice", ""), speed: store.get("tts-speed", "normal"), pitch: store.get("tts-pitch", "normal") };
+  if (!SPEEDS[tts.speed]) tts.speed = "normal";
+  if (!PITCH[tts.pitch]) tts.pitch = "normal";
+  function voiceList() {
+    var all = TTS ? (window.speechSynthesis.getVoices() || []) : [];
+    var en = all.filter(function (v) { return /^en/i.test(v.lang); });
+    return en.length ? en : all;
+  }
+  function fillVoices() {
+    var list = voiceList(), sel = $("ftq-voice");
+    if (!list.length) return;
+    sel.textContent = "";
+    list.forEach(function (v) {
+      var o = document.createElement("option");
+      o.value = v.name;
+      o.textContent = v.name.replace(/^(Microsoft|Google|Apple)\s+/, "").replace(/\s+Online \(Natural\)/, "") + " (" + v.lang + ")";
+      sel.appendChild(o);
+    });
+    var pick = list.filter(function (v) { return v.name === tts.name; })[0] ||
+               list.filter(function (v) { return v.default; })[0] || list[0];
+    sel.value = pick.name;
+    tts.name = pick.name;
+  }
+  function say(text, done, force) {
+    var fired = false;
+    function fin() { if (fired) return; fired = true; if (done) done(); }
+    if (!TTS || !(tts.on || force)) { fin(); return; }
+    var synth = window.speechSynthesis;
+    synth.cancel();
+    var u = new window.SpeechSynthesisUtterance(String(text).replace(EMOJI, "").replace(/\s+/g, " ").trim());
+    var v = voiceList().filter(function (x) { return x.name === tts.name; })[0];
+    if (v) { u.voice = v; u.lang = v.lang; }
+    u.rate = SPEEDS[tts.speed];
+    u.pitch = PITCH[tts.pitch];
+    u.onend = fin; u.onerror = fin;
+    setTimeout(fin, Math.min(30000, 3000 + u.text.length * 85 / u.rate));
+    synth.speak(u);
+  }
+  function hush() { if (TTS) window.speechSynthesis.cancel(); }
+  function readQuestion(force, done) {
+    var item = Q[st.order[st.i]];
+    var opts = [];
+    $("ftq-opts").querySelectorAll("button").forEach(function (b) { if (!b.disabled) opts.push(b.textContent); });
+    var list = opts.length > 1 ? opts.slice(0, -1).join(", ") + ", or " + opts[opts.length - 1] : opts.join("");
+    say(item.q + (item.h ? " Hint: " + item.h : "") + " Is it " + list + "?", done, force);
+  }
+  function setTts(on) {
+    tts.on = on;
+    store.set("tts", on);
+    $("ftq-tts-opts").hidden = !on;
+    if (on) fillVoices();
+  }
+  function pressGroup(attr, val) {
+    document.querySelectorAll(".ftq-speed[" + attr + "]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute(attr) === val)); });
+  }
 
   /* ---------- start screen ---------- */
   function pickLevel(l) {
@@ -329,6 +415,7 @@ noAnalytics: true
     $("ftq-fb").textContent = "";
     $("ftq-next").hidden = true;
     $("ftq-5050").disabled = !st.fifty;
+    $("ftq-say").hidden = !TTS;
 
     st.map = shuffle([0, 1, 2, 3]);
     var ul = $("ftq-opts");
@@ -348,9 +435,17 @@ noAnalytics: true
 
     clearInterval(tick);
     st.t0 = Date.now();
+    $("ftq-timer-bar").style.width = "100%";
+    $("ftq-timer").classList.remove("low");
+    var me = st.qid = (st.qid || 0) + 1;
+    if (tts.on) readQuestion(false, function () { if (st.qid === me && !st.locked) startClock(); });
+    else startClock();
+  }
+
+  function startClock() {
+    clearInterval(tick);
+    st.t0 = Date.now();
     if (st.clock) {
-      $("ftq-timer-bar").style.width = "100%";
-      $("ftq-timer").classList.remove("low");
       tick = setInterval(function () {
         var left = TIME - (Date.now() - st.t0) / 1000;
         $("ftq-timer-bar").style.width = Math.max(0, left / TIME * 100) + "%";
@@ -387,6 +482,7 @@ noAnalytics: true
     });
 
     var head = document.createElement("strong");
+    var headText = "";
     var gained = 0;
     if (right) {
       st.right++; st.streak++; st.best = Math.max(st.best, st.streak);
@@ -397,6 +493,7 @@ noAnalytics: true
       st.score += gained;
       if (st.clock && secs < 5) st.fast++;
       head.textContent = st.streak >= 3 ? "🔥 Touchdown! " + st.streak + " in a row" + (mult > 1 ? " (x" + mult + ")" : "") : "✅ Touchdown! That's right.";
+      headText = head.textContent;
       var pop = document.createElement("span");
       pop.className = "ftq-pop";
       pop.textContent = "+" + gained;
@@ -404,6 +501,7 @@ noAnalytics: true
     } else {
       st.streak = 0;
       head.textContent = k === -1 ? "⏰ Time's up! It's " + item.a[item.c] + "." : "❌ Fumble! It's " + item.a[item.c] + ".";
+      headText = head.textContent;
       $("ftq-play").classList.remove("ftq-shake");
       void $("ftq-play").offsetWidth;
       $("ftq-play").classList.add("ftq-shake");
@@ -419,6 +517,8 @@ noAnalytics: true
     fb.className = "ftq-fb show";
     $("ftq-next").textContent = st.i + 1 < st.order.length ? "Next question" : "See my score";
     $("ftq-next").hidden = false;
+    $("ftq-say").hidden = true;
+    say(headText + " " + item.f);
   }
 
   function next() {
@@ -472,6 +572,7 @@ noAnalytics: true
     postOnline(st);
 
     show("ftq-end");
+    say("Final whistle! You scored " + st.score + " points and got " + st.right + " out of " + n + " right. Your rank is " + r[1] + ".");
     $("ftq-end-title").focus({ preventScroll: true });
     if (st.right >= 7 || place === 1) confetti();
   }
@@ -548,6 +649,22 @@ noAnalytics: true
   $("ftq-name").addEventListener("keydown", function (e) { if (e.key === "Enter") start(); });
   $("ftq-next").addEventListener("click", next);
   $("ftq-5050").addEventListener("click", fifty);
+  $("ftq-say").addEventListener("click", function () { if (!st.locked) readQuestion(true); });
+  if (TTS) {
+    $("ftq-tts-row").hidden = false;
+    $("ftq-tts").checked = tts.on;
+    setTts(tts.on);
+    pressGroup("data-speed", tts.speed);
+    pressGroup("data-pitch", tts.pitch);
+    if ("onvoiceschanged" in window.speechSynthesis) window.speechSynthesis.addEventListener("voiceschanged", function () { if (tts.on) fillVoices(); });
+    $("ftq-tts").addEventListener("change", function () { setTts($("ftq-tts").checked); if (tts.on) say("Hi! I'll read each question out loud.", null, true); });
+    $("ftq-voice").addEventListener("change", function () { tts.name = $("ftq-voice").value; store.set("tts-voice", tts.name); say("Touchdown! This is my voice.", null, true); });
+    $("ftq-voice-test").addEventListener("click", function () { say("Which team won Super Bowl 60?", null, true); });
+    document.querySelectorAll(".ftq-speed[data-speed]").forEach(function (b) { b.addEventListener("click", function () {
+      tts.speed = b.getAttribute("data-speed"); store.set("tts-speed", tts.speed); pressGroup("data-speed", tts.speed); say("This is how fast I talk.", null, true); }); });
+    document.querySelectorAll(".ftq-speed[data-pitch]").forEach(function (b) { b.addEventListener("click", function () {
+      tts.pitch = b.getAttribute("data-pitch"); store.set("tts-pitch", tts.pitch); pressGroup("data-pitch", tts.pitch); say("This is my voice. Ready for kickoff!", null, true); }); });
+  }
   $("ftq-again").addEventListener("click", start);
   $("ftq-menu").addEventListener("click", function () { show("ftq-start"); pickLevel(level); });
   $("ftq-show-board").addEventListener("click", function () { openBoards(level, "ftq-start"); });
