@@ -384,11 +384,17 @@ noAnalytics: true
     document.querySelectorAll(".ftq-topic").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-topic") === tp)); });
   }
 
+  /* Order of questions this device has shown, oldest first. Kept in memory too,
+     so rounds don't repeat even where the browser won't save (private mode). */
+  var seenList = store.get("seen", []);
+  if (!Array.isArray(seenList)) seenList = [];
+  function topicPool(tp) { return Q.map(function (_, k) { return k; }).filter(function (k) { return tp === "all" || Q[k].t === tp; }); }
+  function freshLeft(tp) { return topicPool(tp).filter(function (k) { return seenList.indexOf(k) < 0; }).length; }
   function nextBatch(tp, l) {
-    /* Always 10 questions. Questions you haven't seen come first, at your level,
-       then the nearest level if this topic runs short at your level. */
-    var all = Q.map(function (_, k) { return k; }).filter(function (k) { return tp === "all" || Q[k].t === tp; });
-    var seen = store.get("seen", []);
+    /* Always 10 questions. Never-seen questions come first, at your level, then the
+       nearest level. Once a topic runs out, the questions you saw longest ago come
+       back, never the ones from your last round. */
+    var all = topicPool(tp);
     var pick = [];
     function fill(from) {
       TIERS[l].forEach(function (lv) {
@@ -396,12 +402,17 @@ noAnalytics: true
           .forEach(function (k) { if (pick.length < ROUND) pick.push(k); });
       });
     }
-    fill(all.filter(function (k) { return seen.indexOf(k) < 0; }));
+    fill(all.filter(function (k) { return seenList.indexOf(k) < 0; }));
     if (pick.length < ROUND) {
-      seen = seen.filter(function (k) { return all.indexOf(k) < 0; });
-      fill(all);
+      var old = seenList.filter(function (k) { return all.indexOf(k) >= 0 && pick.indexOf(k) < 0; });
+      var recent = old.slice(-ROUND);
+      var older = old.length - recent.length >= ROUND - pick.length ? old.slice(0, old.length - recent.length) : old;
+      /* only the oldest ones, so a replay feels new */
+      fill(older.slice(0, Math.max(ROUND - pick.length, Math.ceil(older.length / 2))));
+      fill(older);
     }
-    store.set("seen", seen.concat(pick));
+    seenList = seenList.filter(function (k) { return pick.indexOf(k) < 0; }).concat(pick);
+    store.set("seen", seenList);
     return shuffle(pick);
   }
 
@@ -568,6 +579,8 @@ noAnalytics: true
               st.right >= 7 ? "Great game! You really know 2026 football." :
               st.right >= 4 ? "Solid effort! Run it back and beat your score." :
               "Every pro starts somewhere. Try again!";
+    var left = freshLeft(st.topic);
+    if (st.topic !== "all" && left < ROUND) msg += left ? " Only " + left + " new questions left in this topic, so try another one next!" : " You've played every question in this topic. Try another one for new questions!";
     $("ftq-msg").textContent = msg;
     $("ftq-s-right").textContent = st.right + "/" + n;
     $("ftq-s-streak").textContent = st.best;
