@@ -404,7 +404,7 @@ h3 > .kp-i,h4 > .kp-i,p > .kp-i{margin-right:.4em}
      short white box with the page showing through underneath it. Header
      is 69px (44px logo + 2x12px padding + 1px border). */
   .nav__links{
-    height:calc(100vh - 69px);height:calc(100dvh - 69px);max-height:none;
+    height:calc(100vh - 66px);height:calc(100dvh - 66px);max-height:none;
     overflow-y:auto;overscroll-behavior:contain;
     padding:8px 0 calc(24px + env(safe-area-inset-bottom));
     border-bottom:0;box-shadow:none;
