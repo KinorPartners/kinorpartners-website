@@ -7,5 +7,5 @@ var q=new URLSearchParams(location.search);var p=q.get('p')||'/';var base=q.get(
 var h=+(q.get('h')||2400);var ws=(q.get('w')||'360,390,430').split(',');
 ws.forEach(function(w){var d=document.createElement('div');d.className='f';d.innerHTML='<b>'+w+'px '+p+'</b>';
 var f=document.createElement('iframe');f.width=w;f.height=h;f.src=base+p;d.appendChild(f);document.getElementById('row').appendChild(d);
-f.onload=function(){try{var doc=f.contentDocument;var sw=doc.documentElement.scrollWidth;d.querySelector('b').textContent=w+'px sw='+sw+' h='+doc.documentElement.scrollHeight}catch(e){}}});
+f.onload=function(){try{var doc=f.contentDocument;var st=doc.createElement('style');st.textContent='html{scrollbar-width:none}::-webkit-scrollbar{display:none;width:0}';doc.head.appendChild(st);var sw=doc.documentElement.scrollWidth;d.querySelector('b').textContent=w+'px sw='+sw+' h='+doc.documentElement.scrollHeight}catch(e){}}});
 </script></body></html>
