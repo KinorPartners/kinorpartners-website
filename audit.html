@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><title>audit</title>
+<style>body{margin:0;font:12px monospace}#fr{border:0;display:block}pre{white-space:pre-wrap;margin:4px}</style></head><body>
+<pre id="st">starting</pre><iframe id="fr" width="360" height="800"></iframe><pre id="sum"></pre><pre id="out"></pre>
+<script>
+var q=new URLSearchParams(location.search);var base=q.get('base');var ws=(q.get('w')||'360,390,430').split(',').map(Number);
+var only=q.get('only');var fr=document.getElementById('fr');var results=[];
+function desc(el){var s=el.tagName.toLowerCase();if(el.id)s+='#'+el.id;if(el.className&&typeof el.className=='string')s+='.'+el.className.trim().split(/\s+/).slice(0,2).join('.');var t=(el.innerText||el.value||el.getAttribute('aria-label')||'').trim().replace(/\s+/g,' ').slice(0,30);return s+(t?' "'+t+'"':'')}
+function clipped(el,win,W){for(var a=el.parentElement;a&&a!==a.ownerDocument.documentElement;a=a.parentElement){var cs=win.getComputedStyle(a);if(/(hidden|auto|scroll|clip)/.test(cs.overflowX)){var b=a.getBoundingClientRect();if(b.right<=W+1&&b.left>=-1)return true}}return false}
+function audit(doc,win,W,H){var r={sw:doc.documentElement.scrollWidth,wide:[],small:{},smallEx:[],taps:[],fixed:[]};
+ var all=doc.body.querySelectorAll('*');var wideSet=new Set();
+ for(var i=0;i<all.length;i++){var el=all[i];if(el.closest('svg')&&el.tagName!=='svg')continue;var cs=win.getComputedStyle(el);if(cs.display==='none'||cs.visibility==='hidden'||+cs.opacity===0)continue;
+  var b=el.getBoundingClientRect();if(b.width===0&&b.height===0)continue;
+  if((b.right>W+1||b.left<-1)&&cs.position!=='fixed'&&!clipped(el,win,W)){wideSet.add(el);if(!wideSet.has(el.parentElement))r.wide.push(desc(el)+' ['+Math.round(b.left)+','+Math.round(b.right)+']')}
+  var own='';for(var c=el.firstChild;c;c=c.nextSibling)if(c.nodeType===3)own+=c.nodeValue;own=own.trim();
+  var fs=parseFloat(cs.fontSize);if(own.length>1&&fs<12.5&&!clipped(el,win,W)||own.length>1&&fs<12.5){var k=Math.round(fs*2)/2;r.small[k]=(r.small[k]||0)+1;if(r.smallEx.length<8)r.smallEx.push(k+'px '+desc(el))}
+  var tag=el.tagName;var inter=(tag==='A'&&el.hasAttribute('href'))||tag==='BUTTON'||tag==='SELECT'||tag==='TEXTAREA'||(tag==='INPUT'&&el.type!=='hidden')||el.getAttribute('role')==='button'||tag==='SUMMARY';
+  if(inter){var inline=cs.display==='inline'&&el.parentElement&&(el.parentElement.innerText||'').length>(el.innerText||'').length+15;
+   if(!inline&&(b.height<40||b.width<40)&&r.taps.length<25)r.taps.push(desc(el)+' '+Math.round(b.width)+'x'+Math.round(b.height));
+   if((tag==='INPUT'||tag==='SELECT'||tag==='TEXTAREA')&&fs<16&&el.type!=='checkbox'&&el.type!=='radio')r.taps.push('ZOOM '+desc(el)+' '+fs+'px')}
+  if((cs.position==='fixed'||cs.position==='sticky')&&b.height>0&&b.width>0&&b.bottom>0&&b.top<H)r.fixed.push(desc(el)+' '+cs.position+' h='+Math.round(b.height))}
+ r.docH=doc.documentElement.scrollHeight;return r}
+var jobs=[];
+fetch(base+'/pages.txt').then(function(x){return x.text()}).then(function(t){var ps=t.split('\n').filter(Boolean);if(only)ps=ps.filter(function(p){return p.indexOf(only)>=0});
+ ps.forEach(function(p){ws.forEach(function(w){jobs.push([p,w])})});next()});
+function next(){var j=jobs.shift();if(!j){done();return}var p=j[0],w=j[1];document.getElementById('st').textContent='running '+p+' '+w+' left '+jobs.length;
+ fr.width=w;fr.onload=function(){setTimeout(function(){var r;try{r=audit(fr.contentDocument,fr.contentWindow,w,800)}catch(e){r={err:''+e}}r.p=p;r.w=w;results.push(r);next()},1800)};fr.src=base+p+'index.html'}
+function done(){document.getElementById('st').textContent='DONE '+results.length;var lines=[];results.forEach(function(r){var bad=[];if(r.err)bad.push('ERR '+r.err);if(r.sw>r.w)bad.push('OVERFLOW sw='+r.sw);if(r.wide&&r.wide.length)bad.push('WIDE '+r.wide.slice(0,4).join(' | '));
+ var sm=r.small?Object.keys(r.small).map(function(k){return k+':'+r.small[k]}).join(','):'';if(sm)bad.push('SMALL '+sm+' e.g. '+r.smallEx.slice(0,3).join(' | '));
+ if(r.taps&&r.taps.length)bad.push('TAPS('+r.taps.length+') '+r.taps.slice(0,6).join(' | '));if(r.fixed&&r.fixed.length)bad.push('FIXED '+r.fixed.join(' | '));
+ lines.push(r.w+' '+r.p+(bad.length?'\n   '+bad.join('\n   '):' OK'))});document.getElementById('sum').textContent=lines.join('\n');document.getElementById('out').textContent=JSON.stringify(results)}
+</script></body></html>
