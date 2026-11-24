@@ -1,0 +1,11 @@
+<!doctype html><html><head><meta charset="utf-8"><title>phone check</title>
+<style>body{margin:0;font:12px sans-serif;background:#ccc}.row{display:flex;gap:12px;padding:8px;align-items:flex-start}
+.f{background:#fff}.f b{display:block;padding:2px}iframe{border:0;display:block;background:#fff}</style></head><body>
+<div class="row" id="row"></div>
+<script>
+var q=new URLSearchParams(location.search);var p=q.get('p')||'/';var base=q.get('base')||'https://kinorpartners.com';
+var h=+(q.get('h')||2400);var ws=(q.get('w')||'360,390,430').split(',');
+ws.forEach(function(w){var d=document.createElement('div');d.className='f';d.innerHTML='<b>'+w+'px '+p+'</b>';
+var f=document.createElement('iframe');f.width=w;f.height=h;f.src=base+p;d.appendChild(f);document.getElementById('row').appendChild(d);
+f.onload=function(){try{var doc=f.contentDocument;var sw=doc.documentElement.scrollWidth;d.querySelector('b').textContent=w+'px sw='+sw+' h='+doc.documentElement.scrollHeight}catch(e){}}});
+</script></body></html>
