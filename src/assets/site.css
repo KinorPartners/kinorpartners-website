@@ -286,6 +286,10 @@ main{display:block}
   /* Stacked mobile menu: drop the fixed circle and show the label again, so the
      row reads as a normal full-width CTA rather than a lone floating icon. */
   .nav__links a.nav__cta--icon{
+    /* display:flex keeps the phone icon beside the word. `.nav__links a`
+       (display:block, same media query) outranked the inline-flex above,
+       so the icon sat on its own line over "Contact". */
+    display:flex;align-items:center;
     width:auto;height:auto;padding:12px 20px;border-radius:50px;
     justify-content:center;box-shadow:none;
   }
@@ -388,4 +392,60 @@ h3 > .kp-i,h4 > .kp-i,p > .kp-i{margin-right:.4em}
   .site-footer li{margin:0}
   .site-footer li a{display:inline-block;padding:10px 0;line-height:1.35}
   .footer__bottom{flex-direction:column;gap:8px;margin-top:24px}
+}
+
+/* ======================================================================
+   Phone pass 2. Again, every rule sits inside a phone/tablet media query,
+   so the desktop layout is unchanged.
+   ====================================================================== */
+
+@media(max-width:860px){
+  /* The open menu is a full-height sheet under the header. Before, it was a
+     short white box with the page showing through underneath it. Header
+     is 69px (44px logo + 2x12px padding + 1px border). */
+  .nav__links{
+    height:calc(100vh - 69px);height:calc(100dvh - 69px);max-height:none;
+    overflow-y:auto;overscroll-behavior:contain;
+    padding:8px 0 calc(24px + env(safe-area-inset-bottom));
+    border-bottom:0;box-shadow:none;
+  }
+  /* rows keep their own height instead of being squeezed by the column */
+  .nav__links li{flex:none}
+  .nav__links a{padding:14px 0;font-size:17px;-webkit-tap-highlight-color:transparent}
+  .nav__links a.nav__cta{margin:18px 0 0}
+  .nav__links a.nav__cta--icon{gap:10px;padding:14px 20px}
+  /* stop the page behind the open menu from scrolling */
+  html.nav-open,html.nav-open body{overflow:hidden}
+  /* The X stays fully inside the screen edge (it sat 10px into the gutter),
+     and keeps a ring that fits inside the header when focused. */
+  .nav__toggle{margin-right:0;border-radius:10px;-webkit-tap-highlight-color:transparent}
+  .nav__toggle:focus{outline:none}
+  .nav__toggle:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+}
+
+/* PatchDesign embed: its chat box is 14.4px, which makes iPhone Safari zoom
+   the whole page in on focus. */
+@media(max-width:980px){
+  patch-designer textarea{font-size:16px !important}
+}
+
+@media(max-width:600px){
+  /* Small links that stand alone get a finger-sized hit area. */
+  .footer__bottom a{display:inline-block;padding:10px 0}
+  .page-head .crumbs a{display:inline-block;padding:10px 0}
+  .more-info-link{display:block;padding:10px 0}
+  .rh-toc li a{display:inline-block;padding:8px 0}
+  .kpl-body li > a[href^="#"]:only-child{display:inline-block;padding:7px 0}
+  .kpl-body li:has(> a[href^="#"]:only-child){margin:0}
+  p > a:only-child[href="/#contact"]{display:inline-block;padding:10px 0}
+  .ftq-note a{display:inline-block;padding:10px 0}
+
+  /* Small uppercase labels and badges: nothing under 12px on a phone. */
+  .kpl-badge,.rh-card-badge,.stw-badge,.stw-tag,.cs-sbo-label,.pp-section h2 .pp-tag,
+  :is(.cs-hero-badge,.fc-hero-badge,.pd-hero-badge,.st-hero-badge,.pp-hero-badge,.yd-hero-badge),
+  :is(.cs-stat-label,.fc-stat-label,.pd-stat-label,.st-stat-label,.pp-stat-label,.yd-stat-label),
+  .contact-hero .hero-badge,.card-label,.strip dt{font-size:12px !important}
+  /* the same labels written as inline styles on two pages */
+  main [style*="font-size: 0.7rem"],main [style*="font-size: 0.72rem"]{font-size:12px !important}
+  .thumb-spin .badge{font-size:11px}
 }
