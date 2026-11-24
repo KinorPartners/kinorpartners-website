@@ -449,3 +449,7 @@ h3 > .kp-i,h4 > .kp-i,p > .kp-i{margin-right:.4em}
   main [style*="font-size: 0.7rem"],main [style*="font-size: 0.72rem"]{font-size:12px !important}
   .thumb-spin .badge{font-size:11px}
 }
+@media(max-width:600px){
+  .yd-flow-step small,.yd-metric-label{font-size:12px !important}
+  .pdp-thumbs .thumb-spin .badge{font-size:11px}
+}
