@@ -6,7 +6,14 @@
   function setOpen(open){
     links.classList.toggle('open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    // the menu fills the screen, so the page behind it should not scroll
+    document.documentElement.classList.toggle('nav-open', open);
   }
+  // close it if the window grows past the phone layout while it is open
+  var wide = window.matchMedia('(min-width: 861px)');
+  (wide.addEventListener ? wide.addEventListener.bind(wide, 'change') : wide.addListener.bind(wide))(function(e){
+    if(e.matches) setOpen(false);
+  });
   btn.addEventListener('click', function(){
     setOpen(!links.classList.contains('open'));
   });
